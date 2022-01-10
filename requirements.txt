@@ -1,8 +1,5 @@
 streamlit
-streamlit_folium
 pandas 
 numpy
 datetime
 plotly
-bson
-folium
