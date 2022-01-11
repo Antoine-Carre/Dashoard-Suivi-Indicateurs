@@ -464,7 +464,7 @@ if categorie_2 == 'Tous':
         st.plotly_chart(fig5, use_container_width=True)
         
      
-        st.markdown('### **Nombre de fiches mises à jour en autonomie par les comptes**')
+        st.markdown('### **Nombre de fiches mises à jour en autonomie par les comptes professionnels**')
 
         df_history_data_grp = df_history_data.groupby(['monthly'], as_index=False).agg({'status_PRO':'sum'})
 
