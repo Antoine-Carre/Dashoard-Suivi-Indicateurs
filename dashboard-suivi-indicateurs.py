@@ -60,11 +60,11 @@ categorie_2 = st.sidebar.radio("Cercles", ("Tous","Ile-de-France", "Lancement",'
 ##########
 
 # modifier selon la localisation de la BD
-df_users_pro_roles = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/df_users_pro_roles.csv')
-df_users_pro_roles_test = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/df_users_pro_roles_test.csv')
-df_orga_ceated = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/df_orga_ceated.csv')
-df_orga_2 = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/df_orga_2.csv')
-df_orga_3 = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/df_orga_3.csv')
+df_users_pro_roles = pd.read_csv('./ressource/df_users_pro_roles.csv')
+df_users_pro_roles_test = pd.read_csv('./ressource/df_users_pro_roles_test.csv')
+df_orga_ceated = pd.read_csv('./ressource/df_orga_ceated.csv')
+df_orga_2 = pd.read_csv('./ressource/df_orga_2.csv')
+df_orga_3 = pd.read_csv('./ressource/df_orga_3.csv')
 df_orga_auto = df_orga_3.copy()
 
 
