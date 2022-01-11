@@ -68,6 +68,12 @@ df_orga_3 = pd.read_csv('./ressource/df_orga_3.csv')
 df_orga_auto = df_orga_3.copy()
 df_history_data = pd.read_csv('./ressource/df_history_data.csv')
 
+s = pd.read_csv("./ressource/searchWithDatePresentation3.csv")
+s = s.iloc[:-1,:]
+
+df_search_users = pd.read_csv("./ressource/df_search_users.csv")
+
+
 
 
 today = date.today()
@@ -96,7 +102,6 @@ if categorie_2 == 'Tous':
 
     st.title("Autonomiser les acteurs dans l'utilisation de nos outils")
 
-
     ## Compte pro invité et validé ##
 
     if categorie == "France":
@@ -106,6 +111,14 @@ if categorie_2 == 'Tous':
         df_orga_2 = df_orga_2
         df_orga_auto = df_orga_auto
         df_history_data = df_history_data
+        s1 = s.filter(regex='général')
+        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+
+        s1_cum = s1[['datePresentation','Recherches général']]
+        s1_cum['Recherches général cumulé'] = s1_cum['Recherches général'].cumsum()
+
+        df_search_users = df_search_users
+
 
     elif categorie == "Région SUD":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "06") | (df_users_pro_roles.territories == "13")].dropna()
@@ -115,6 +128,22 @@ if categorie_2 == 'Tous':
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 6) | (df_orga_auto.territory == 13)].dropna()
         df_history_data = df_history_data[(df_history_data.territoire== 6) | (df_history_data.territoire == 13)].dropna()
 
+        s1 = pd.concat([s.filter(regex="06"), s.filter(regex="13")], axis=0)
+        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+        s1 = s1.groupby(s1['datePresentation']).sum()
+        s1 = s1.T
+        s1.index = s1.iloc[:, :].index.str[:-8].tolist()
+        s1 = s1.groupby(s1.index).sum()
+        s1 = s1.T.reset_index()
+        s1.replace({0:np.nan}, inplace=True)
+
+        s1_cum = s1[['datePresentation','Recherches']]
+        s1_cum['Recherches cumulé'] = s1_cum['Recherches'].cumsum()
+
+        df_search_users = df_search_users[(df_search_users.Territoire == 6) | (df_search_users.Territoire == 13)]
+
+
+
     elif categorie == "Auvergne-Rhône-Alpes":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "07") | (df_users_pro_roles.territories == "15") | (df_users_pro_roles.territories == "63")].dropna()
         df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 7) | (df_users_pro_roles_test.territory == 15) | (df_users_pro_roles_test.territory == 63)].dropna()
@@ -123,6 +152,21 @@ if categorie_2 == 'Tous':
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 7) | (df_orga_auto.territory == 15) | (df_orga_auto.territory == 63)].dropna()
         df_history_data = df_history_data[(df_history_data.territoire == 7) | (df_history_data.territoire == 15) | (df_history_data.territoire == 63)].dropna()
 
+        s1 = pd.concat([s.filter(regex="07"), s.filter(regex="15"), s.filter(regex="63")], axis=0)
+        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+        s1 = s1.groupby(s1['datePresentation']).sum()
+        s1 = s1.T
+        s1.index = s1.iloc[:, :].index.str[:-8].tolist()
+        s1 = s1.groupby(s1.index).sum()
+        s1 = s1.T.reset_index()
+        s1.replace({0:np.nan}, inplace=True)
+
+        s1_cum = s1[['datePresentation','Recherches']]
+        s1_cum['Recherches cumulé'] = s1_cum['Recherches'].cumsum()
+
+        df_search_users = df_search_users[(df_search_users.Territoire == 7) | (df_search_users.Territoire == 15) | (df_search_users.Territoire == 63)]
+
+
     elif categorie == "Occitanie":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "34")].dropna()
         df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 34)].dropna()
@@ -130,6 +174,14 @@ if categorie_2 == 'Tous':
         df_orga_2 = df_orga_2[(df_orga_2.territory == 34)].dropna()
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 34)].dropna()
         df_history_data = df_history_data[(df_history_data.territoire == 34)].dropna()
+
+        s1 = s.filter(regex="34")
+        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+        #s1.replace({np.nan:0}, inplace=True)
+        df1 = s1.iloc[:, 1:]
+
+        df_search_users = df_search_users[(df_search_users.Territoire == 34)]
+
 
     elif categorie == "Nouvelle-Aquitaine":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "33") | (df_users_pro_roles.territories == "87") | (df_users_pro_roles.territories == "16") | 
@@ -140,7 +192,22 @@ if categorie_2 == 'Tous':
 
         df_orga_2 = df_orga_2[(df_orga_2.territory == 33) | (df_orga_2.territory == 87) | (df_orga_2.territory == 16) | (df_orga_2.territory == 24)].dropna()
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 33) | (df_orga_auto.territory == 87) | (df_orga_auto.territory == 16) | (df_orga_auto.territory == 24)].dropna()
-        df_history_data = df_history_data[(df_history_data.territoire == 33) | (df_history_data.territoire == 87) | (df_history_data.terrterritoireitory == 16) | (df_history_data.territoire == 24)].dropna()
+        df_history_data = df_history_data[(df_history_data.territoire == 33) | (df_history_data.territoire == 87) | (df_history_data.territoire == 16) | (df_history_data.territoire == 24)].dropna()
+
+        s1 = pd.concat([s.filter(regex="33"), s.filter(regex="87"), s.filter(regex="16"), s.filter(regex="24")], axis=0)
+        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+        s1 = s1.groupby(s1['datePresentation']).sum()
+        s1 = s1.T
+        s1.index = s1.iloc[:, :].index.str[:-8].tolist()
+        s1 = s1.groupby(s1.index).sum()
+        s1 = s1.T.reset_index()
+        s1.replace({0:np.nan}, inplace=True)
+
+        s1_cum = s1[['datePresentation','Recherches']]
+        s1_cum['Recherches cumulé'] = s1_cum['Recherches'].cumsum()
+
+        df_search_users = df_search_users[(df_search_users.Territoire == 33) | (df_search_users.Territoire == 87) | (df_search_users.Territoire == 16) | (df_search_users.Territoire == 24)]
+
 
     elif categorie == "Centre-Val-de-Loire":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "36")].dropna()
@@ -151,6 +218,13 @@ if categorie_2 == 'Tous':
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 36)].dropna()
         df_history_data = df_history_data[(df_history_data.territoire == 36)].dropna()
 
+        s1 = s.filter(regex="34")
+        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+        #s1.replace({np.nan:0}, inplace=True)
+        df1 = s1.iloc[:, 1:]
+
+        df_search_users = df_search_users[(df_search_users.Territoire == 36)]
+
     elif categorie == "Pays-de-la-Loire":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "44")].dropna()
 
@@ -160,6 +234,13 @@ if categorie_2 == 'Tous':
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 44)].dropna()
         df_history_data = df_history_data[(df_history_data.territoire == 44)].dropna()
 
+        s1 = s.filter(regex="44")
+        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+        #s1.replace({np.nan:0}, inplace=True)
+        df1 = s1.iloc[:, 1:]
+
+        df_search_users = df_search_users[(df_search_users.Territoire == 44)]
+
     elif categorie == "Normandie":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "76")].dropna()
 
@@ -168,6 +249,13 @@ if categorie_2 == 'Tous':
         df_orga_2 = df_orga_2[(df_orga_2.territory == 76)].dropna()
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 76)].dropna()
         df_history_data = df_history_data[(df_history_data.territoire == 76)].dropna()
+
+        s1 = s.filter(regex="76")
+        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+        #s1.replace({np.nan:0}, inplace=True)
+        df1 = s1.iloc[:, 1:]
+
+        df_search_users = df_search_users[(df_search_users.Territoire == 76)]
 
     elif categorie == "Ile-de-France":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "75") | (df_users_pro_roles.territories == "77") | (df_users_pro_roles.territories == "78")
@@ -190,6 +278,22 @@ if categorie_2 == 'Tous':
         df_history_data = df_history_data[(df_history_data.territoire == 75) | (df_history_data.territoire == 77) | (df_history_data.territoire == 78) | (df_history_data.territoire == 91)
         | (df_history_data.territoire == 92) |(df_history_data.territoire == 93) | (df_history_data.territoire == 94) | (df_history_data.territoire == 95)].dropna()
 
+        s1 = pd.concat([s.filter(regex="75"), s.filter(regex="77"), s.filter(regex="78"), s.filter(regex="91"), s.filter(regex="92"), s.filter(regex="93"), s.filter(regex="94"), s.filter(regex="95")], axis=0)
+        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+        s1 = s1.groupby(s1['datePresentation']).sum()
+        s1 = s1.T
+        s1.index = s1.iloc[:, :].index.str[:-8].tolist()
+        s1 = s1.groupby(s1.index).sum()
+        s1 = s1.T.reset_index()
+        s1.replace({0:np.nan}, inplace=True)
+
+        s1_cum = s1[['datePresentation','Recherches']]
+        s1_cum['Recherches cumulé'] = s1_cum['Recherches'].cumsum()
+
+        df_search_users = df_search_users[(df_search_users.Territoire == 75) | (df_search_users.Territoire == 77) | (df_search_users.Territoire == 78) | (df_search_users.Territoire == 91)
+        | (df_search_users.Territoire == 92) | (df_search_users.Territoire == 93) | (df_search_users.Territoire == 93) | (df_search_users.Territoire == 95)]
+
+
     elif categorie == "Hauts-de-France":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "59")].dropna()
 
@@ -198,6 +302,14 @@ if categorie_2 == 'Tous':
         df_orga_2 = df_orga_2[(df_orga_2.territory == 59)].dropna()
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 59)].dropna()
         df_history_data = df_history_data[(df_history_data.territoire == 59)].dropna()
+
+        s1 = s.filter(regex="59")
+        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+        #s1.replace({np.nan:0}, inplace=True)
+        df1 = s1.iloc[:, 1:]
+
+        df_search_users = df_search_users[(df_search_users.Territoire == 59)]
+
 
     elif categorie == "Grand-Est":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "67")].dropna()
@@ -208,6 +320,13 @@ if categorie_2 == 'Tous':
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 67)].dropna()
         df_history_data = df_history_data[(df_history_data.territoire == 67)].dropna()
 
+        s1 = s.filter(regex="67")
+        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+        #s1.replace({np.nan:0}, inplace=True)
+        df1 = s1.iloc[:, 1:]
+
+        df_search_users = df_search_users[(df_search_users.Territoire == 67)]
+
     elif categorie == "Bourgogne-Franche-Comté":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "21")].dropna()
 
@@ -217,6 +336,14 @@ if categorie_2 == 'Tous':
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 21)].dropna()
         df_history_data = df_history_data[(df_history_data.territoire == 21)].dropna()
 
+        s1 = s.filter(regex="21")
+        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+        #s1.replace({np.nan:0}, inplace=True)
+        df1 = s1.iloc[:, 1:]
+
+        df_search_users = df_search_users[(df_search_users.Territoire == 21)]
+
+
     elif categorie.startswith("-"):
         df_users_pro_roles = df_users_pro_roles[df_users_pro_roles.territories == cat_dict[categorie]].dropna()
         df_users_pro_roles_test = df_users_pro_roles_test[df_users_pro_roles_test.territory == int(cat_dict[categorie])].dropna()
@@ -224,7 +351,15 @@ if categorie_2 == 'Tous':
         df_orga_2 = df_orga_2[df_orga_2.territory == int(cat_dict[categorie])].dropna()
         df_orga_auto = df_orga_auto[df_orga_auto.territory == int(cat_dict[categorie])].dropna()
         df_history_data = df_history_data[df_history_data.territoire == int(cat_dict[categorie])].dropna()
-        
+
+        s1 = s.filter(regex=cat_dict[categorie])
+        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+        #s1.replace({np.nan:0}, inplace=True)
+        df1 = s1.iloc[:, 1:]
+
+        df_search_users = df_search_users[(df_search_users.Territoire == int(cat_dict[categorie]))]
+
+
         
     df_users_pro_roles_2 = df_users_pro_roles[df_users_pro_roles.typeAccount == 'INVITATION']
 
@@ -478,4 +613,115 @@ if categorie_2 == 'Tous':
         st.plotly_chart(fig6, use_container_width=True)
 
 
+    st.markdown('### **Nombre de recherches**')
+    st.markdown('#### *-par catégorie : *')
+
+    figSearch = px.line(s1,x='datePresentation', y=s1.columns.values.tolist()[1:])
+    figSearch.update_xaxes(title_text="Date des recherches", title_standoff=0.6, title_font_family="Times New Roman")
+    figSearch.update_yaxes(title_text="Nombre de recherches (non cumulé)", title_font_family="Times New Roman")
+
+    annotationsSearch = dict(xref='paper', yref='paper', x=0.055, y=1,
+                                xanchor='center', yanchor='top',
+                                text='Fait le: ' + str("1 janvier 2022"),
+                                font=dict(family='Arial',
+                                        size=12,
+                                        color='rgb(150,150,150)'),
+                                showarrow=False)
+    figSearch.update_traces( mode='lines+markers', hovertemplate=None)
+                            
+    figSearch.update_layout(xaxis=dict(tickformat="%B %Y"))
+    figSearch.update_layout(hovermode="x", title_font_family="Times New Roman", annotations=[annotationsSearch])
+
+
+    st.plotly_chart(figSearch, use_container_width=True)
+
+    st.markdown('#### *-par type d\'utilisateur : *')
+
+    df_search_users['createdAt'] = pd.to_datetime(df_search_users['createdAt'])
+    df_search_users = df_search_users[df_search_users.createdAt < "2022-01-01"]
+    df_search_users['createdAt'] = df_search_users.createdAt.dt.strftime('%Y-%m')
+    df_search_users.fillna('inconnu', inplace=True)
+
+    df_search_users = df_search_users.join(pd.get_dummies(df_search_users['status']))
+    df_search_users.drop(columns=['categorie','status'], inplace=True)
+    df_search_users_month = df_search_users.groupby('createdAt').sum()
+    df_search_users_month.reset_index(inplace=True)
+
+    if len(df_search_users_month.columns.to_list()) == 9 or categorie == "France":
+
+        figSearch_user = go.Figure(data=[
+            go.Line(name='Equipe Soliguide', x=df_search_users_month.createdAt, y=df_search_users_month.ADMIN_SOLIGUIDE, marker_color='#7201a8'),
+            go.Line(name='Equipe Territoriale', x=df_search_users_month.createdAt, y=df_search_users_month.ADMIN_TERRITORY, marker_color='#bd3786'),
+            go.Line(name='Utilisateurs API', x=df_search_users_month.createdAt, y=df_search_users_month.API_USER, marker_color='#bd3786'),
+            go.Line(name='Acteurs', x=df_search_users_month.createdAt, y=df_search_users_month.PRO,),
+            go.Line(name='Inconnu', x=df_search_users_month.createdAt, y=df_search_users_month.inconnu,
+
+                mode='lines+markers')   
+        ])
+
+    if len(df_search_users_month.columns.to_list()) == 4:
+
+        figSearch_user = go.Figure(data=[
+            go.Line(name='Inconnu', x=df_search_users_month.createdAt, y=df_search_users_month.inconnu,
+
+                mode='lines+markers')   
+        ])
+    elif "PRO" not in df_search_users_month.columns.to_list() and "API_USER" not in df_search_users_month.columns.to_list():
+
+        figSearch_user = go.Figure(data=[
+            go.Line(name='Equipe Soliguide', x=df_search_users_month.createdAt, y=df_search_users_month.ADMIN_SOLIGUIDE, marker_color='#7201a8'),
+            go.Line(name='Inconnu', x=df_search_users_month.createdAt, y=df_search_users_month.inconnu,
+
+                mode='lines+markers')   
+        ])
+
+    elif "API_USER" not in df_search_users_month.columns.to_list() and "ADMIN_TERRITORY" in df_search_users_month.columns.to_list():
+
+        figSearch_user = go.Figure(data=[
+            go.Line(name='Equipe Soliguide', x=df_search_users_month.createdAt, y=df_search_users_month.ADMIN_SOLIGUIDE, marker_color='#7201a8'),
+            go.Line(name='Equipe Territoriale', x=df_search_users_month.createdAt, y=df_search_users_month.ADMIN_TERRITORY, marker_color='#bd3786'),
+            go.Line(name='Acteurs', x=df_search_users_month.createdAt, y=df_search_users_month.PRO,),
+            go.Line(name='Inconnu', x=df_search_users_month.createdAt, y=df_search_users_month.inconnu,
+
+                mode='lines+markers')   
+        ])
+
+    elif "ADMIN_TERRITORY" not in df_search_users_month.columns.to_list() and "API_USER" not in df_search_users_month.columns.to_list():
+
+        figSearch_user = go.Figure(data=[
+            go.Line(name='Equipe Soliguide', x=df_search_users_month.createdAt, y=df_search_users_month.ADMIN_SOLIGUIDE, marker_color='#7201a8'),
+            go.Line(name='Acteurs', x=df_search_users_month.createdAt, y=df_search_users_month.PRO,),
+            go.Line(name='Inconnu', x=df_search_users_month.createdAt, y=df_search_users_month.inconnu,
+
+                mode='lines+markers')   
+        ])
+
+    elif "ADMIN_TERRITORY" not in df_search_users_month.columns.to_list():
+
+        figSearch_user = go.Figure(data=[
+            go.Line(name='Equipe Soliguide', x=df_search_users_month.createdAt, y=df_search_users_month.ADMIN_SOLIGUIDE, marker_color='#7201a8'),
+            go.Line(name='Utilisateurs API', x=df_search_users_month.createdAt, y=df_search_users_month.API_USER, marker_color='#bd3786'),
+            go.Line(name='Acteurs', x=df_search_users_month.createdAt, y=df_search_users_month.PRO,),
+            go.Line(name='Inconnu', x=df_search_users_month.createdAt, y=df_search_users_month.inconnu,
+
+                mode='lines+markers')   
+        ])
+
+    figSearch_user.update_xaxes(title_text="Date des recherches", title_standoff=0.6, title_font_family="Times New Roman")
+    figSearch_user.update_yaxes(title_text="Nombre de recherches (non cumulé)", title_font_family="Times New Roman")
+
+    annotationsSearch_user = dict(xref='paper', yref='paper', x=0.055, y=1,
+                                xanchor='center', yanchor='top',
+                                text='Fait le: ' + str("1 janvier 2022"),
+                                font=dict(family='Arial',
+                                        size=12,
+                                        color='rgb(150,150,150)'),
+                                showarrow=False)
+    figSearch_user.update_traces( mode='lines+markers', hovertemplate=None)
+                            
+    figSearch_user.update_layout(xaxis=dict(tickformat="%B %Y"))
+    figSearch_user.update_layout(hovermode="x", title_font_family="Times New Roman", annotations=[annotationsSearch_user])
+
+    st.plotly_chart(figSearch_user, use_container_width=True)
+        
 
