@@ -66,6 +66,8 @@ df_orga_ceated = pd.read_csv('./ressource/df_orga_ceated.csv')
 df_orga_2 = pd.read_csv('./ressource/df_orga_2.csv')
 df_orga_3 = pd.read_csv('./ressource/df_orga_3.csv')
 df_orga_auto = df_orga_3.copy()
+df_history_data = pd.read_csv('./ressource/df_history_data.csv')
+
 
 
 today = date.today()
@@ -103,6 +105,7 @@ if categorie_2 == 'Tous':
         df_orga_ceated = df_orga_ceated
         df_orga_2 = df_orga_2
         df_orga_auto = df_orga_auto
+        df_history_data = df_history_data
 
     elif categorie == "Région SUD":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "06") | (df_users_pro_roles.territories == "13")].dropna()
@@ -110,6 +113,7 @@ if categorie_2 == 'Tous':
         df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "06") | (df_orga_ceated.territories == "13")].dropna()
         df_orga_2 = df_orga_2[(df_orga_2.territory == 6) | (df_orga_2.territory == 13)].dropna()
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 6) | (df_orga_auto.territory == 13)].dropna()
+        df_history_data = df_history_data[(df_history_data.territoire== 6) | (df_history_data.territoire == 13)].dropna()
 
     elif categorie == "Auvergne-Rhône-Alpes":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "07") | (df_users_pro_roles.territories == "15") | (df_users_pro_roles.territories == "63")].dropna()
@@ -117,6 +121,7 @@ if categorie_2 == 'Tous':
         df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "07") | (df_orga_ceated.territories == "15") | (df_orga_ceated.territories == "63")].dropna()
         df_orga_2 = df_orga_2[(df_orga_2.territory == 7) | (df_orga_2.territory == 15) | (df_orga_2.territory == 63)].dropna()
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 7) | (df_orga_auto.territory == 15) | (df_orga_auto.territory == 63)].dropna()
+        df_history_data = df_history_data[(df_history_data.territoire == 7) | (df_history_data.territoire == 15) | (df_history_data.territoire == 63)].dropna()
 
     elif categorie == "Occitanie":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "34")].dropna()
@@ -124,6 +129,7 @@ if categorie_2 == 'Tous':
         df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "34")].dropna()
         df_orga_2 = df_orga_2[(df_orga_2.territory == 34)].dropna()
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 34)].dropna()
+        df_history_data = df_history_data[(df_history_data.territoire == 34)].dropna()
 
     elif categorie == "Nouvelle-Aquitaine":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "33") | (df_users_pro_roles.territories == "87") | (df_users_pro_roles.territories == "16") | 
@@ -134,6 +140,7 @@ if categorie_2 == 'Tous':
 
         df_orga_2 = df_orga_2[(df_orga_2.territory == 33) | (df_orga_2.territory == 87) | (df_orga_2.territory == 16) | (df_orga_2.territory == 24)].dropna()
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 33) | (df_orga_auto.territory == 87) | (df_orga_auto.territory == 16) | (df_orga_auto.territory == 24)].dropna()
+        df_history_data = df_history_data[(df_history_data.territoire == 33) | (df_history_data.territoire == 87) | (df_history_data.terrterritoireitory == 16) | (df_history_data.territoire == 24)].dropna()
 
     elif categorie == "Centre-Val-de-Loire":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "36")].dropna()
@@ -142,6 +149,7 @@ if categorie_2 == 'Tous':
         df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "36")].dropna()
         df_orga_2 = df_orga_2[(df_orga_2.territory == 36)].dropna()
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 36)].dropna()
+        df_history_data = df_history_data[(df_history_data.territoire == 36)].dropna()
 
     elif categorie == "Pays-de-la-Loire":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "44")].dropna()
@@ -150,6 +158,7 @@ if categorie_2 == 'Tous':
         df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "44")].dropna()
         df_orga_2 = df_orga_2[(df_orga_2.territory == 44)].dropna()
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 44)].dropna()
+        df_history_data = df_history_data[(df_history_data.territoire == 44)].dropna()
 
     elif categorie == "Normandie":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "76")].dropna()
@@ -158,6 +167,7 @@ if categorie_2 == 'Tous':
         df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "76")].dropna()
         df_orga_2 = df_orga_2[(df_orga_2.territory == 76)].dropna()
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 76)].dropna()
+        df_history_data = df_history_data[(df_history_data.territoire == 76)].dropna()
 
     elif categorie == "Ile-de-France":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "75") | (df_users_pro_roles.territories == "77") | (df_users_pro_roles.territories == "78")
@@ -177,6 +187,9 @@ if categorie_2 == 'Tous':
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 75) | (df_orga_auto.territory == 77) | (df_orga_auto.territory == 78) | (df_orga_auto.territory == 91)
         | (df_orga_auto.territory == 92) |(df_orga_auto.territory == 93) | (df_orga_auto.territory == 94) | (df_orga_auto.territory == 95)].dropna()
 
+        df_history_data = df_history_data[(df_history_data.territoire == 75) | (df_history_data.territoire == 77) | (df_history_data.territoire == 78) | (df_history_data.territoire == 91)
+        | (df_history_data.territoire == 92) |(df_history_data.territoire == 93) | (df_history_data.territoire == 94) | (df_history_data.territoire == 95)].dropna()
+
     elif categorie == "Hauts-de-France":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "59")].dropna()
 
@@ -184,6 +197,7 @@ if categorie_2 == 'Tous':
         df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "59")].dropna()
         df_orga_2 = df_orga_2[(df_orga_2.territory == 59)].dropna()
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 59)].dropna()
+        df_history_data = df_history_data[(df_history_data.territoire == 59)].dropna()
 
     elif categorie == "Grand-Est":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "67")].dropna()
@@ -192,6 +206,7 @@ if categorie_2 == 'Tous':
         df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "67")].dropna()
         df_orga_2 = df_orga_2[(df_orga_2.territory == 67)].dropna()
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 67)].dropna()
+        df_history_data = df_history_data[(df_history_data.territoire == 67)].dropna()
 
     elif categorie == "Bourgogne-Franche-Comté":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "21")].dropna()
@@ -200,6 +215,7 @@ if categorie_2 == 'Tous':
         df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "21")].dropna()
         df_orga_2 = df_orga_2[(df_orga_2.territory == 21)].dropna()
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 21)].dropna()
+        df_history_data = df_history_data[(df_history_data.territoire == 21)].dropna()
 
     elif categorie.startswith("-"):
         df_users_pro_roles = df_users_pro_roles[df_users_pro_roles.territories == cat_dict[categorie]].dropna()
@@ -207,8 +223,9 @@ if categorie_2 == 'Tous':
         df_orga_ceated = df_orga_ceated[df_orga_ceated.territories == cat_dict[categorie]].dropna()
         df_orga_2 = df_orga_2[df_orga_2.territory == int(cat_dict[categorie])].dropna()
         df_orga_auto = df_orga_auto[df_orga_auto.territory == int(cat_dict[categorie])].dropna()
-
-
+        df_history_data = df_history_data[df_history_data.territoire == int(cat_dict[categorie])].dropna()
+        
+        
     df_users_pro_roles_2 = df_users_pro_roles[df_users_pro_roles.typeAccount == 'INVITATION']
 
 
@@ -445,4 +462,20 @@ if categorie_2 == 'Tous':
         fig5 = px.pie(values=df_seasoned['Nbre d\'orga'], names=df_seasoned['Type d\'orga'], color_discrete_sequence= [ '#7201a8', '#d8576b'],)
 
         st.plotly_chart(fig5, use_container_width=True)
+        
+     
+        st.markdown('### **Nombre de fiches mises à jour en autonomie par les comptes**')
+
+        df_history_data_grp = df_history_data.groupby(['monthly'], as_index=False).agg({'status_PRO':'sum'})
+
+        df_history_data_grp.rename(columns={"status_PRO":'Nbre de fiches'}, inplace=True)
+
+        fig6 = px.line(df_history_data_grp, x="monthly", y=["Nbre de fiches"], custom_data=['variable'], color_discrete_sequence= [ '#7201a8', '#bd3786', '#2896A0']) 
+        fig6.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de fiches mises à jour par les pro",)
+        fig6.update_traces(hovertemplate = "Date de la création du compte pro : %{x}<br>Nbre de fiches mises à jour par les pro: %{y}")
+        fig6.update_layout(legend={'title_text':''})
+
+        st.plotly_chart(fig6, use_container_width=True)
+
+
 
