@@ -83,6 +83,10 @@ df_users_API_vf.drop(columns='Unnamed: 0', inplace=True)
 
 df4 = pd.read_csv("./ressource/GAdata.csv")
 
+df_diff = pd.read_csv('./ressource/Diffusion-allDep.csv')
+df_diff = df_diff[['Date','Territoire','Nb de pros','Nb de bénéficiaires']]
+df_diff = df_diff.fillna(0)
+
 
 today = date.today()
 lastMonth = today - pd.Timedelta(days=183)
@@ -126,6 +130,8 @@ if categorie_2 == 'Tous':
 
         df4 = df4.groupby('Unnamed: 0').sum().reset_index()
 
+        df_diff = df_diff
+
 
 
 
@@ -157,6 +163,8 @@ if categorie_2 == 'Tous':
 
         df4 = df4[(df4['territoire'].str.contains("06")) | (df4['territoire'].str.contains("13"))]
         df4 = df4.groupby('Unnamed: 0').sum().reset_index()
+
+        df_diff = df_diff[(df_diff.Territoire.str.contains('06')) | (df_diff.Territoire.str.contains('13'))]
 
 
 
@@ -190,6 +198,7 @@ if categorie_2 == 'Tous':
         df4 = df4[(df4['territoire'].str.contains("07")) | (df4['territoire'].str.contains("15")) | (df4['territoire'].str.contains("63"))]
         df4 = df4.groupby('Unnamed: 0').sum().reset_index()
 
+        df_diff = df_diff[(df_diff.Territoire.str.contains('07')) | (df_diff.Territoire.str.contains('15')) | (df_diff.Territoire.str.contains('63'))]
 
     elif categorie == "Occitanie":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "34")].dropna()
@@ -211,6 +220,8 @@ if categorie_2 == 'Tous':
         df_users_API = df_users_API[(df_users_API['territories'] == "34")]
 
         df4 = df4[(df4['territoire'].str.contains("34"))]
+
+        df_diff = df_diff[(df_diff.Territoire.str.contains('34', na=False))]
 
 
     elif categorie == "Nouvelle-Aquitaine":
@@ -247,6 +258,8 @@ if categorie_2 == 'Tous':
         df4 = df4[(df4['territoire'].str.contains("33")) | (df4['territoire'].str.contains("87")) | (df4['territoire'].str.contains("16")) | (df4['territoire'].str.contains("24"))]
         df4 = df4.groupby('Unnamed: 0').sum().reset_index()
 
+        df_diff = df_diff[(df_diff.Territoire.str.contains('33')) | (df_diff.Territoire.str.contains('87')) | (df_diff.Territoire.str.contains('16'))| (df_diff.Territoire.str.contains('24'))]
+
 
     elif categorie == "Centre-Val-de-Loire":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "36")].dropna()
@@ -270,6 +283,8 @@ if categorie_2 == 'Tous':
 
         df4 = df4[(df4['territoire'].str.contains("36"))]
 
+        df_diff = df_diff[(df_diff.Territoire.str.contains('36', na=False))]
+
     elif categorie == "Pays-de-la-Loire":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "44")].dropna()
 
@@ -292,6 +307,8 @@ if categorie_2 == 'Tous':
 
         df4 = df4[(df4['territoire'].str.contains("44"))]
 
+        df_diff = df_diff[(df_diff.Territoire.str.contains('44', na=False))]
+
     elif categorie == "Normandie":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "76")].dropna()
 
@@ -313,6 +330,8 @@ if categorie_2 == 'Tous':
         df_users_API = df_users_API[(df_users_API['territories'] == "76")]
 
         df4 = df4[(df4['territoire'].str.contains("76"))]
+
+        df_diff = df_diff[(df_diff.Territoire.str.contains('76', na=False))]
 
     elif categorie == "Ile-de-France":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "75") | (df_users_pro_roles.territories == "77") | (df_users_pro_roles.territories == "78")
@@ -362,6 +381,9 @@ if categorie_2 == 'Tous':
         | (df4['territoire'].str.contains("92")) | (df4['territoire'].str.contains("93")) | (df4['territoire'].str.contains("94")) | (df4['territoire'].str.contains("95"))]
         df4 = df4.groupby('Unnamed: 0').sum().reset_index()
 
+        df_diff = df_diff[(df_diff.Territoire.str.contains('75')) | (df_diff.Territoire.str.contains('77')) | (df_diff.Territoire.str.contains('78'))
+        | (df_diff.Territoire.str.contains('91')) | (df_diff.Territoire.str.contains('92')) | (df_diff.Territoire.str.contains('93')) | (df_diff.Territoire.str.contains('94'))
+        | (df_diff.Territoire.str.contains('95'))]
 
 
 
@@ -387,6 +409,8 @@ if categorie_2 == 'Tous':
 
         df4 = df4[(df4['territoire'].str.contains("59"))]
 
+        df_diff = df_diff[(df_diff.Territoire.str.contains('59', na=False))]
+
 
     elif categorie == "Grand-Est":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "67")].dropna()
@@ -410,6 +434,8 @@ if categorie_2 == 'Tous':
 
         df4 = df4[(df4['territoire'].str.contains("67"))]
 
+        df_diff = df_diff[(df_diff.Territoire.str.contains('67', na=False))]
+
     elif categorie == "Bourgogne-Franche-Comté":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "21")].dropna()
 
@@ -431,6 +457,8 @@ if categorie_2 == 'Tous':
         df_users_API = df_users_API[(df_users_API['territories'] == "21")]
 
         df4 = df4[(df4['territoire'].str.contains("21"))]
+
+        df_diff = df_diff[(df_diff.Territoire.str.contains('21', na=False))]
 
 
     elif categorie.startswith("-"):
@@ -454,6 +482,7 @@ if categorie_2 == 'Tous':
 
         df4 = df4[(df4['territoire'].str.contains(cat_dict[categorie]))]
 
+        df_diff = df_diff[(df_diff.Territoire.str.contains(cat_dict[categorie], na=False))]
 
         
     df_users_pro_roles_2 = df_users_pro_roles[df_users_pro_roles.typeAccount == 'INVITATION']
@@ -877,5 +906,104 @@ if categorie_2 == 'Tous':
 
     st.plotly_chart(fig4, use_container_width=True)
 
+
+
+    st.plotly_chart(fig4, use_container_width=True)
+
+    st.markdown("### **Nombre de professionnels et bénévoles de l’action sociale touchés par une action de diffusion**")
+
+    if len(df_diff['Date']) < 1:
+        st.markdown('Aucune action de diffusion n\'a été enregistrée su rce territoire')
+    else:
+        df_diff_pro_benef = df_diff[['Date','Territoire','Nb de pros','Nb de bénéficiaires']]
+        df_diff_pro_benef['Date'] = pd.to_datetime(df_diff_pro_benef.Date)
+
+        df_diff_pro_benef = df_diff_pro_benef[df_diff_pro_benef['Date'] > "2017-01-01"]
+
+        df_diff_pro_benef['Date'] = df_diff_pro_benef.Date.dt.strftime('%Y-%m')
+
+        df_diff_pro = pd.DataFrame(df_diff_pro_benef.groupby('Date')['Nb de pros'].sum())
+        df_diff_pro.reset_index(inplace=True)
+
+        df_diff_pro_cum = df_diff_pro.copy()
+        df_diff_pro_cum['Nb de pros'] = df_diff_pro_cum['Nb de pros'].cumsum()
+
+        figProDifCum = go.Figure(data=[
+        go.Bar(name="Pro", x=df_diff_pro_cum['Date'], y=df_diff_pro_cum["Nb de pros"], marker_color='#7201a8'),
+        ])
+
+        figProDifCum.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de comptes professionnels",)
+        figProDifCum.update_traces(hovertemplate = "Date de la mise à jour : le %{x}<br>Nbre de comptes professionnels: %{value}")
+
+        dt_all = pd.date_range(start=df_diff_pro_cum['Date'].iloc[0],end=df_diff_pro_cum['Date'].iloc[-1])
+        dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_pro_cum['Date'])]
+        dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+        figProDifCum.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+
+        st.plotly_chart(figProDifCum, use_container_width=True)
+
+
+        expander = st.expander("Nombre de professionnels touchés (par mois)")
+
+        figProDif = go.Figure(data=[
+        go.Bar(name="Pro", x=df_diff_pro['Date'], y=df_diff_pro["Nb de pros"], marker_color='#7201a8'),
+        ])
+
+        figProDif.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de comptes professionnels",)
+        figProDif.update_traces(hovertemplate = "Date de la mise à jour : le %{x}<br>Nbre de comptes professionnels: %{value}")
+
+        dt_all = pd.date_range(start=df_diff_pro['Date'].iloc[0],end=df_diff_pro['Date'].iloc[-1])
+        dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_pro['Date'])]
+        dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+        figProDif.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+
+        expander.plotly_chart(figProDif, use_container_width=True)
+
+
+        ### Nombre de bénéficiaires
+
+        st.markdown("### **Nombre de bénéficiaires de l’action sociale touchés par une action de diffusion**")
+
+        df_diff_bénéf = pd.DataFrame(df_diff_pro_benef.groupby('Date')['Nb de bénéficiaires'].sum())
+        df_diff_bénéf.reset_index(inplace=True)
+
+        df_diff_bénéf_cum = df_diff_bénéf.copy()
+        df_diff_bénéf_cum['Nb de bénéficiaires'] = df_diff_bénéf_cum['Nb de bénéficiaires'].cumsum()
+
+        figDiffBenefCum = go.Figure(data=[
+            go.Bar(name="Nb de bénéficiaires", x=df_diff_bénéf_cum['Date'], y=df_diff_bénéf_cum["Nb de bénéficiaires"], marker_color='#d8576b'),
+        ])
+
+        figDiffBenefCum.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de bénéficiaires",)
+        figDiffBenefCum.update_traces(hovertemplate = "Date de la mise à jour : le %{x}<br>Nbre de bénéficiaires: %{value}")
+
+        dt_all = pd.date_range(start=df_diff_bénéf_cum['Date'].iloc[0],end=df_diff_bénéf_cum['Date'].iloc[-1])
+        dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_bénéf_cum['Date'])]
+        dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+        figDiffBenefCum.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+
+        st.plotly_chart(figDiffBenefCum, use_container_width=True)
+
+
+        expander = st.expander("Nombre de bénéficiaires touchés (par mois)")
+
+        figDiffBenef = go.Figure(data=[
+            go.Bar(name="Pro", x=df_diff_bénéf['Date'], y=df_diff_bénéf["Nb de bénéficiaires"], marker_color='#d8576b'),
+        ])
+
+        figDiffBenef.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de bénéficiaires",)
+        figDiffBenef.update_traces(hovertemplate = "Date de la mise à jour : le %{x}<br>Nbre de bénéficiaires: %{value}")
+
+        dt_all = pd.date_range(start=df_diff_bénéf_cum['Date'].iloc[0],end=df_diff_bénéf_cum['Date'].iloc[-1])
+        dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_bénéf_cum['Date'])]
+        dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+        figDiffBenef.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+
+
+        expander.plotly_chart(figDiffBenef, use_container_width=True)
 
 
