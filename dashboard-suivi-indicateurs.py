@@ -102,6 +102,7 @@ cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":
             "- Hauts-de-Seine (92)":"92","- Seine-Saint-Denis (93)": "93","- Val-de-Marne (94)": "94", 
             "- Val-d'Oise (95)":"95"}
             
+            
 ##########
 ## Tous ##
 ##########
@@ -516,7 +517,7 @@ if categorie_2 == 'Tous':
         df_fiches_total = df_fiches_total[(df_fiches_total.territory == int(cat_dict[categorie]))]
 
 
-        
+
     df_users_pro_roles_2 = df_users_pro_roles[df_users_pro_roles.typeAccount == 'INVITATION']
 
 
@@ -530,18 +531,18 @@ if categorie_2 == 'Tous':
     if "OWNER" in pd.DataFrame(df_users_pro_roles_n.role.value_counts()).T.columns.to_list():
         html_string_1 = f"""<br>
         <center><font face='Helvetica' size='7'>{pd.DataFrame(df_users_pro_roles_n.role.value_counts()).loc["OWNER","role"]}</font>
-        <br/><font size='3'>comptes "OWNER"<br></font></center>
+        <br/><font size='3'>comptes "Adminstrateurs"<br></font></center>
         """
     if "OWNER" in pd.DataFrame(df_users_pro_roles_2.role.value_counts()).T.columns.to_list():
         html_string_4 = f"""<br>
         <center><font face='Helvetica' size='7'>{pd.DataFrame(df_users_pro_roles_2.role.value_counts()).loc["OWNER","role"]}</font>
-        <br/><font size='3'>comptes "OWNER"<br></font></center>
+        <br/><font size='3'>comptes "Adminstrateurs"<br></font></center>
         """
 
     if not "OWNER" in pd.DataFrame(df_users_pro_roles_n.role.value_counts()).T.columns.to_list():
         html_string_1 = f"""<br>
         <center><font face='Helvetica' size='7'>{0}</font>
-        <br/><font size='3'>comptes "OWNER"<br></font></center>
+        <br/><font size='3'>comptes "Adminstrateurs"<br></font></center>
         """
     if not "OWNER" in pd.DataFrame(df_users_pro_roles_2.role.value_counts()).T.columns.to_list():
         html_string_4 = html_string_1
@@ -549,18 +550,18 @@ if categorie_2 == 'Tous':
     if "EDITOR" in pd.DataFrame(df_users_pro_roles_n.role.value_counts()).T.columns.to_list():
         html_string_2 = f"""<br>
         <center><font face='Helvetica' size='7'>{pd.DataFrame(df_users_pro_roles_n.role.value_counts()).loc["EDITOR","role"]}</font>
-        <br/><font size='3'>comptes "EDITEUR"<br></font></center>
+        <br/><font size='3'>comptes "Editeurs"<br></font></center>
         """
     if "EDITOR" in pd.DataFrame(df_users_pro_roles_2.role.value_counts()).T.columns.to_list():
         html_string_5 = f"""<br>
         <center><font face='Helvetica' size='7'>{pd.DataFrame(df_users_pro_roles_2.role.value_counts()).loc["EDITOR","role"]}</font>
-        <br/><font size='3'>comptes "EDITEUR"<br></font></center>
+        <br/><font size='3'>comptes "Editeurs"<br></font></center>
         """
 
     if not "EDITOR" in pd.DataFrame(df_users_pro_roles_n.role.value_counts()).T.columns.to_list():
         html_string_2 = f"""<br>
         <center><font face='Helvetica' size='7'>{0}</font>
-        <br/><font size='3'>comptes "EDITEUR"<br></font></center>
+        <br/><font size='3'>comptes "Editeurs"<br></font></center>
         """
     if not "EDITOR" in pd.DataFrame(df_users_pro_roles_2.role.value_counts()).T.columns.to_list():
         html_string_5 = html_string_2
@@ -569,18 +570,18 @@ if categorie_2 == 'Tous':
     if "READER" in pd.DataFrame(df_users_pro_roles_n.role.value_counts()).T.columns.to_list():
         html_string_3 = f"""<br>
         <center><font face='Helvetica' size='7'>{pd.DataFrame(df_users_pro_roles_n.role.value_counts()).loc["READER","role"]}</font>
-        <br/><font size='3'>comptes "LECTEUR"<br></font></center>
+        <br/><font size='3'>comptes "Lecteurs"<br></font></center>
         """
     if "READER" in pd.DataFrame(df_users_pro_roles_2.role.value_counts()).T.columns.to_list():
         html_string_6 = f"""<br>
         <center><font face='Helvetica' size='7'>{pd.DataFrame(df_users_pro_roles_2.role.value_counts()).loc["READER","role"]}</font>
-        <br/><font size='3'>comptes "LECTEUR"<br></font></center>
+        <br/><font size='3'>comptes "Lecteurs"<br></font></center>
         """
 
     if not "READER" in pd.DataFrame(df_users_pro_roles_n.role.value_counts()).T.columns.to_list():
         html_string_3 = f"""<br>
         <center><font face='Helvetica' size='7'>{0}</font>
-        <br/><font size='3'>comptes "LECTEUR"<br></font></center>
+        <br/><font size='3'>comptes "Lecteurs"<br></font></center>
         """
     if not "READER" in pd.DataFrame(df_users_pro_roles_2.role.value_counts()).T.columns.to_list():
         html_string_6 = html_string_3
@@ -618,6 +619,7 @@ if categorie_2 == 'Tous':
     elif not "EDITOR" in pd.DataFrame(df_users_pro_roles_test.role_x.value_counts()).T.columns.to_list() and len(pd.DataFrame(df_users_pro_roles_test.role_x.value_counts()).T.columns.to_list()) > 1:
 
         st.markdown("## **Nombre de comptes professionnels *actifs* par mois (administrateur, éditeur, lecteur)**")
+        st.markdown("( compte actif = compte ayant fait au moins une recherche / une mise à jour dans le mois)")
 
         fig = go.Figure(data=[
         go.Bar(name="Owners", x=df_users_pro_roles_final['createdAt'], y=df_users_pro_roles_final["OWNER"], marker_color='#7201a8'),
@@ -627,6 +629,7 @@ if categorie_2 == 'Tous':
     elif not "READER" in pd.DataFrame(df_users_pro_roles_test.role_x.value_counts()).T.columns.to_list() and len(pd.DataFrame(df_users_pro_roles_test.role_x.value_counts()).T.columns.to_list()) > 1:
 
         st.markdown("## **Nombre de comptes professionnels *actifs* par mois (administrateur, éditeur, lecteur)**")
+        st.markdown("( compte actif = compte ayant fait au moins une recherche / une mise à jour dans le mois)")
 
         fig = go.Figure(data=[
         go.Bar(name="Owners", x=df_users_pro_roles_final['createdAt'], y=df_users_pro_roles_final["OWNER"], marker_color='#7201a8'),
@@ -636,13 +639,15 @@ if categorie_2 == 'Tous':
     elif len(pd.DataFrame(df_users_pro_roles_test.role_x.value_counts()).T.columns.to_list()) == 1:
 
         st.markdown("## **Nombre de comptes professionnels *actifs* par mois (administrateur, éditeur, lecteur)**")
+        st.markdown("( compte actif = compte ayant fait au moins une recherche / une mise à jour dans le mois)")
 
         fig = go.Figure(data=[
             go.Bar(name="Owners", x=df_users_pro_roles_final['createdAt'], y=df_users_pro_roles_final["OWNER"], marker_color='#7201a8'),
         ])
 
     else:
-        st.markdown("### **Nombre de comptes professionnels *actifs* par mois (administrateur, éditeur, lecteur)**")
+        st.markdown("## **Nombre de comptes professionnels *actifs* par mois (administrateur, éditeur, lecteur)**")
+        st.markdown("( compte actif = compte ayant fait au moins une recherche / une mise à jour dans le mois)")
 
         fig = go.Figure(data=[
         go.Bar(name="Owners", x=df_users_pro_roles_final['createdAt'], y=df_users_pro_roles_final["OWNER"], marker_color='#7201a8'),
@@ -654,7 +659,7 @@ if categorie_2 == 'Tous':
         # Change the bar mode
         fig.update_layout(barmode='stack')
 
-        fig.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de comptes professionnels",)
+        fig.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de comptes professionnefig6ls",)
         fig.update_traces(hovertemplate = "Date de la création du compte pro : %{x}<br>Nbre de comptes professionnels: %{value}")
 
         dt_all = pd.date_range(start=df_users_pro_roles['createdAt'].iloc[0],end=df_users_pro_roles['createdAt'].iloc[-1])
@@ -735,7 +740,7 @@ if categorie_2 == 'Tous':
         fig4 = px.pie(values=df.Nbre_orga, names=df.cat, color_discrete_sequence= [ '#7201a8', '#d8576b'],)
         fig4.update_traces(textinfo='percent + value')
         fig4.update_traces(hovertemplate = "%{label}: <br>Nbre d'organisations: %{value}")
-
+        #fig4.update_layout(legend=dict(orientation="h"))
 
         st.plotly_chart(fig4, use_container_width=True)
 
@@ -753,8 +758,8 @@ if categorie_2 == 'Tous':
         fig5 = px.pie(values=df_seasoned['Nbre d\'orga'], names=df_seasoned['Type d\'orga'], color_discrete_sequence= [ '#7201a8', '#d8576b'],)
 
         st.plotly_chart(fig5, use_container_width=True)
-        
-     
+
+
         st.markdown('### **Nombre de fiches mises à jour en autonomie par les comptes professionnels**')
 
         df_history_data_grp = df_history_data.groupby(['monthly'], as_index=False).agg({'status_PRO':'sum'})
@@ -768,7 +773,6 @@ if categorie_2 == 'Tous':
 
         st.plotly_chart(fig6, use_container_width=True)
 
-        
 # Diffuser nos dispositifs sur les territoires
 
     st.title("Diffuser nos dispositifs sur les territoires")
@@ -883,6 +887,7 @@ if categorie_2 == 'Tous':
     figSearch_user.update_layout(hovermode="x", title_font_family="Times New Roman", annotations=[annotationsSearch_user])
 
     st.plotly_chart(figSearch_user, use_container_width=True)
+
     # ## Nombre d'organismes "relais de diffusion"
 
     st.markdown('### **Nombre d\'organismes "relais de diffusion & de partenaires API**"')
@@ -914,7 +919,7 @@ if categorie_2 == 'Tous':
     col2.markdown(html_string_b, unsafe_allow_html=True)
     
     st.markdown("### **Nombre d'utilisateurs* **")
-    st.markdown("* *ne sont comptabilisé ici que les utilisateurs qui ont accepter l'utilisation de cookies*")
+    st.markdown("* ne sont comptabilisé ici que les utilisateurs qui ont accepter l'utilisation de cookies")
 
     df4 = df4.iloc[:-1,:]
 
@@ -933,11 +938,7 @@ if categorie_2 == 'Tous':
     fig4.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotations])
     fig4.update_layout(xaxis=dict(tickformat="%B-%Y"))
     fig4.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotations],
-                      legend={'title_text':''})
-
-
-    st.plotly_chart(fig4, use_container_width=True)
-
+    legend={'title_text':''})
 
 
     st.plotly_chart(fig4, use_container_width=True)
@@ -1047,29 +1048,13 @@ if categorie_2 == 'Tous':
         df_diff_action['Date'] = df_diff_action.Date.dt.strftime('%Y-%m')
         df_diff_action = df_diff_action[df_diff_action['Date'] > "2017-01-01"]
 
-        df_diff_action = df_diff_action.join(pd.get_dummies(df_diff_action.Type))
+        df_diff_action = df_diff_action.groupby(by=[pd.Grouper(key="Date"), "Type"])["Diffusion_name"]
+        df_diff_action = df_diff_action.count().reset_index()
 
-        df_diff_action = pd.DataFrame(df_diff_action.groupby('Date').sum())
-        df_diff_action.reset_index(inplace=True)
-
-        figAction = go.Figure(data=[
-            go.Bar(name="Coop", x=df_diff_action['Date'], y=df_diff_action["Coop"], marker_color='#7201a8'),
-            go.Bar(name="Copil", x=df_diff_action['Date'], y=df_diff_action["Copil"], marker_color='#d8576b'),
-            go.Bar(name="Double-écoute 115", x=df_diff_action['Date'], y=df_diff_action["Double-écoute 115"],marker_color='#3E3A71'),
-            go.Bar(name="Maraude", x=df_diff_action['Date'], y=df_diff_action["Maraude"],marker_color='#E65A46'),
-            go.Bar(name="Permanence", x=df_diff_action['Date'], y=df_diff_action["Permanence"],marker_color='#2896A0'),
-            go.Bar(name="Prospection", x=df_diff_action['Date'], y=df_diff_action["Prospection"],marker_color='#F5EBE1'),
-            go.Bar(name="Présentation publique", x=df_diff_action['Date'], y=df_diff_action["Présentation publique"],marker_color='#231E3C'),
-            go.Bar(name="Refus de sensibilisation", x=df_diff_action['Date'], y=df_diff_action["Refus de sensibilisation"],marker_color='#ff0921'),
-            go.Bar(name="Rencontre structure", x=df_diff_action['Date'], y=df_diff_action["Rencontre structure"],marker_color='#2e006c'),
-            go.Bar(name="Rendez-vous", x=df_diff_action['Date'], y=df_diff_action["Rendez-vous"],marker_color='#ffe4c4'),
-            go.Bar(name="Réunion de coordination", x=df_diff_action['Date'], y=df_diff_action["Réunion de coordination"],marker_color='#c8f4d5'),
-            go.Bar(name="Réunion de service", x=df_diff_action['Date'], y=df_diff_action["Réunion de service"],marker_color='#1b019b'),
-            go.Bar(name="Soli-citation", x=df_diff_action['Date'], y=df_diff_action["Soli-citation"],marker_color='#856d4d'),
-        ])
-
-        # Change the bar mode
-        figAction.update_layout(barmode='stack')
+        df_diff_action_cum=df_diff_action.sort_values(['Date']).reset_index(drop=True)
+        df_diff_action_cum["cum_sale"]=df_diff_action_cum.groupby(['Type'])['Diffusion_name'].cumsum(axis=0)
+    
+        figAction = px.bar(df_diff_action, x="Date", y="Diffusion_name", color="Type", color_discrete_sequence= px.colors.qualitative.Dark24)
 
         figAction.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre d'actions réalisées",)
         figAction.update_traces(hovertemplate = "Mois de la réalisation de l'action : en %{x}<br>Nbre d'actions réalisées: %{value}")
@@ -1085,27 +1070,8 @@ if categorie_2 == 'Tous':
 
         expander = st.expander("Nombre d'actions de diffusion (en cumulé)")
 
-        df_diff_action_cum = df_diff_action[['Date']].join(df_diff_action.iloc[:,1:].cumsum())
+        figActionCum = px.bar(df_diff_action_cum, x="Date", y="cum_sale", color="Type", color_discrete_sequence= px.colors.qualitative.Dark24)
 
-
-        figActionCum = go.Figure(data=[
-            go.Bar(name="Coop", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Coop"], marker_color='#7201a8'),
-            go.Bar(name="Copil", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Copil"], marker_color='#d8576b'),
-            go.Bar(name="Double-écoute 115", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Double-écoute 115"],marker_color='#3E3A71'),
-            go.Bar(name="Maraude", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Maraude"],marker_color='#E65A46'),
-            go.Bar(name="Permanence", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Permanence"],marker_color='#2896A0'),
-            go.Bar(name="Prospection", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Prospection"],marker_color='#F5EBE1'),
-            go.Bar(name="Présentation publique", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Présentation publique"],marker_color='#231E3C'),
-            go.Bar(name="Refus de sensibilisation", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Refus de sensibilisation"],marker_color='#ff0921'),
-            go.Bar(name="Rencontre structure", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Rencontre structure"],marker_color='#2e006c'),
-            go.Bar(name="Rendez-vous", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Rendez-vous"],marker_color='#ffe4c4'),
-            go.Bar(name="Réunion de coordination", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Réunion de coordination"],marker_color='#c8f4d5'),
-            go.Bar(name="Réunion de service", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Réunion de service"],marker_color='#1b019b'),
-            go.Bar(name="Soli-citation", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Soli-citation"],marker_color='#856d4d'),
-        ])
-
-        # Change the bar mode
-        figActionCum.update_layout(barmode='stack')
 
         figActionCum.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre d'actions réalisées",)
         figActionCum.update_traces(hovertemplate = "Mois de la réalisation de l'action : en %{x}<br>Nbre d'actions réalisées: %{value}")
@@ -1155,6 +1121,4 @@ if categorie_2 == 'Tous':
 
         if not df_fiches_total.empty:
             col2.markdown(html_string_d, unsafe_allow_html=True)
-
-
 
