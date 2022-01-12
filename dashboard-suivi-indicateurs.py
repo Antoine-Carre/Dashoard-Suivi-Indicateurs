@@ -76,7 +76,7 @@ df_search_users = pd.read_csv("./ressource/df_search_users.csv")
 df_relais = pd.read_csv('./ressource/Organisme-allDep pas locked.csv')
 df_relais_clean = df_relais[['Territoire Rollup','Relation']].dropna(subset=['Territoire Rollup'])
 
-df_users_API = pd.read_csv("./ressource/Dashboard_indicateurs/df_users_API.csv")
+df_users_API = pd.read_csv("./ressource/df_users_API.csv")
 df_users_API_vf = pd.DataFrame(df_users_API.value_counts()).reset_index()
 df_users_API_vf = df_users_API_vf[df_users_API_vf.status.str.contains('API')].reset_index()
 df_users_API_vf.drop(columns='Unnamed: 0', inplace=True)
