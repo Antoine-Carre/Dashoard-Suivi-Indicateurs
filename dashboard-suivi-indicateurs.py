@@ -94,7 +94,6 @@ today = date.today()
 lastMonth = today - pd.Timedelta(days=183)
 
 
-
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
             "- Bouche-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
             "- Loire-Atlantique (44)" : "44","- Nord (59)":"59" , "- Puy-de-Dôme (63)":"63","- Haute-Vienne (87)":"87",
@@ -102,47 +101,6 @@ cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":
             "- Seine-et-Marne (77)":'77', "- Yvelines (78)":"78", "- Essonne (91)" :"91", 
             "- Hauts-de-Seine (92)":"92","- Seine-Saint-Denis (93)": "93","- Val-de-Marne (94)": "94", 
             "- Val-d'Oise (95)":"95"}
-
-            
-##########
-## Tous ##
-##########
-
-if categorie_2 == 'Tous':
-
-df_relais = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/Organisme-allDep pas locked.csv')
-df_relais_clean = df_relais[['Territoire Rollup','Relation']].dropna(subset=['Territoire Rollup'])
-
-df_users_API = pd.read_csv("/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/df_users_API.csv")
-df_users_API_vf = pd.DataFrame(df_users_API.value_counts()).reset_index()
-df_users_API_vf = df_users_API_vf[df_users_API_vf.status.str.contains('API')].reset_index()
-df_users_API_vf.drop(columns='Unnamed: 0', inplace=True)
-
-df4 = pd.read_csv("/home/antoine/Bureau/BDD_python/BDD_python/data_csv/GAdata.csv")
-
-df_diff = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/Diffusion-allDep.csv')
-df_diff = df_diff[['Date','Territoire','Nb de pros','Nb de bénéficiaires','Diffusion_name','Type','Fiches']]
-df_diff = df_diff.fillna(0)
-
-df_fiches_total = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/df_fiches_total.csv')
-
-today = date.today()
-lastMonth = today - pd.Timedelta(days=183)
-
-
-
-
-
-
-
-cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
-            "- Bouche-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
-            "- Loire-Atlantique (44)" : "44","- Nord (59)":"59" , "- Puy-de-Dôme (63)":"63","- Haute-Vienne (87)":"87",
-            "- Bas-Rhin (67)":"67", "- Paris (75)" : "75", "- Seine-Maritime (76)":"76",
-            "- Seine-et-Marne (77)":'77', "- Yvelines (78)":"78", "- Essonne (91)" :"91", 
-            "- Hauts-de-Seine (92)":"92","- Seine-Saint-Denis (93)": "93","- Val-de-Marne (94)": "94", 
-            "- Val-d'Oise (95)":"95"}
-
             
 ##########
 ## Tous ##
