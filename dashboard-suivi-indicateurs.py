@@ -72,16 +72,22 @@ s = pd.read_csv("./ressource/searchWithDatePresentation3.csv")
 s = s.iloc[:-1,:]
 
 df_search_users = pd.read_csv("./ressource/df_search_users.csv")
+s = pd.read_csv("/home/antoine/Bureau/BDD_python/BDD_python/data_csv/searchWithDatePresentation3.csv")
+s = s.iloc[:-1,:]
 
+df_relais = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/Organisme-allDep pas locked.csv')
+df_relais_clean = df_relais[['Territoire Rollup','Relation']].dropna(subset=['Territoire Rollup'])
 
+df_users_API = pd.read_csv("/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/df_users_API.csv")
+df_users_API_vf = pd.DataFrame(df_users_API.value_counts()).reset_index()
+df_users_API_vf = df_users_API_vf[df_users_API_vf.status.str.contains('API')].reset_index()
+df_users_API_vf.drop(columns='Unnamed: 0', inplace=True)
+
+df4 = pd.read_csv("/home/antoine/Bureau/BDD_python/BDD_python/data_csv/GAdata.csv")
 
 
 today = date.today()
 lastMonth = today - pd.Timedelta(days=183)
-
-
-
-
 
 
 
@@ -100,7 +106,6 @@ cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":
 
 if categorie_2 == 'Tous':
 
-    st.title("Autonomiser les acteurs dans l'utilisation de nos outils")
 
     ## Compte pro invité et validé ##
 
@@ -118,6 +123,12 @@ if categorie_2 == 'Tous':
         s1_cum['Recherches général cumulé'] = s1_cum['Recherches général'].cumsum()
 
         df_search_users = df_search_users
+
+        df_relais_clean = df_relais_clean
+
+        df4 = df4.groupby('Unnamed: 0').sum().reset_index()
+
+
 
 
     elif categorie == "Région SUD":
@@ -141,6 +152,13 @@ if categorie_2 == 'Tous':
         s1_cum['Recherches cumulé'] = s1_cum['Recherches'].cumsum()
 
         df_search_users = df_search_users[(df_search_users.Territoire == 6) | (df_search_users.Territoire == 13)]
+
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('06')) | (df_relais_clean['Territoire Rollup'].str.contains('13'))]
+
+        df_users_API = df_users_API[(df_users_API['territories'] == "06") | (df_users_API['territories'] == "13")]
+
+        df4 = df4[(df4['territoire'].str.contains("06")) | (df4['territoire'].str.contains("13"))]
+        df4 = df4.groupby('Unnamed: 0').sum().reset_index()
 
 
 
@@ -166,6 +184,14 @@ if categorie_2 == 'Tous':
 
         df_search_users = df_search_users[(df_search_users.Territoire == 7) | (df_search_users.Territoire == 15) | (df_search_users.Territoire == 63)]
 
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('07')) | (df_relais_clean['Territoire Rollup'].str.contains('15'))
+        | (df_relais_clean['Territoire Rollup'].str.contains('63'))]
+
+        df_users_API = df_users_API[(df_users_API['territories'] == "07") | (df_users_API['territories'] == "15") | (df_users_API['territories'] == "63")]
+
+        df4 = df4[(df4['territoire'].str.contains("07")) | (df4['territoire'].str.contains("15")) | (df4['territoire'].str.contains("63"))]
+        df4 = df4.groupby('Unnamed: 0').sum().reset_index()
+
 
     elif categorie == "Occitanie":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "34")].dropna()
@@ -181,6 +207,12 @@ if categorie_2 == 'Tous':
         df1 = s1.iloc[:, 1:]
 
         df_search_users = df_search_users[(df_search_users.Territoire == 34)]
+
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('34'))]
+
+        df_users_API = df_users_API[(df_users_API['territories'] == "34")]
+
+        df4 = df4[(df4['territoire'].str.contains("34"))]
 
 
     elif categorie == "Nouvelle-Aquitaine":
@@ -208,6 +240,15 @@ if categorie_2 == 'Tous':
 
         df_search_users = df_search_users[(df_search_users.Territoire == 33) | (df_search_users.Territoire == 87) | (df_search_users.Territoire == 16) | (df_search_users.Territoire == 24)]
 
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('33')) | (df_relais_clean['Territoire Rollup'].str.contains('87'))
+        | (df_relais_clean['Territoire Rollup'].str.contains('16')) | (df_relais_clean['Territoire Rollup'].str.contains('24'))]
+
+        df_users_API = df_users_API[(df_users_API['territories'] == "33") | (df_users_API['territories'] == "87") | (df_users_API['territories'] == "16")
+        | (df_users_API['territories'] == "24")]
+
+        df4 = df4[(df4['territoire'].str.contains("33")) | (df4['territoire'].str.contains("87")) | (df4['territoire'].str.contains("16")) | (df4['territoire'].str.contains("24"))]
+        df4 = df4.groupby('Unnamed: 0').sum().reset_index()
+
 
     elif categorie == "Centre-Val-de-Loire":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "36")].dropna()
@@ -225,6 +266,12 @@ if categorie_2 == 'Tous':
 
         df_search_users = df_search_users[(df_search_users.Territoire == 36)]
 
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('36'))]
+
+        df_users_API = df_users_API[(df_users_API['territories'] == "36")]
+
+        df4 = df4[(df4['territoire'].str.contains("36"))]
+
     elif categorie == "Pays-de-la-Loire":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "44")].dropna()
 
@@ -241,6 +288,12 @@ if categorie_2 == 'Tous':
 
         df_search_users = df_search_users[(df_search_users.Territoire == 44)]
 
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('44'))]
+
+        df_users_API = df_users_API[(df_users_API['territories'] == "44")]
+
+        df4 = df4[(df4['territoire'].str.contains("44"))]
+
     elif categorie == "Normandie":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "76")].dropna()
 
@@ -256,6 +309,12 @@ if categorie_2 == 'Tous':
         df1 = s1.iloc[:, 1:]
 
         df_search_users = df_search_users[(df_search_users.Territoire == 76)]
+
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('76'))]
+
+        df_users_API = df_users_API[(df_users_API['territories'] == "76")]
+
+        df4 = df4[(df4['territoire'].str.contains("76"))]
 
     elif categorie == "Ile-de-France":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "75") | (df_users_pro_roles.territories == "77") | (df_users_pro_roles.territories == "78")
@@ -293,6 +352,20 @@ if categorie_2 == 'Tous':
         df_search_users = df_search_users[(df_search_users.Territoire == 75) | (df_search_users.Territoire == 77) | (df_search_users.Territoire == 78) | (df_search_users.Territoire == 91)
         | (df_search_users.Territoire == 92) | (df_search_users.Territoire == 93) | (df_search_users.Territoire == 93) | (df_search_users.Territoire == 95)]
 
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('75')) | (df_relais_clean['Territoire Rollup'].str.contains('77'))
+        | (df_relais_clean['Territoire Rollup'].str.contains('78')) | (df_relais_clean['Territoire Rollup'].str.contains('91')) | (df_relais_clean['Territoire Rollup'].str.contains('92'))
+        | (df_relais_clean['Territoire Rollup'].str.contains('93'))| (df_relais_clean['Territoire Rollup'].str.contains('94'))| (df_relais_clean['Territoire Rollup'].str.contains('95'))]
+
+        df_users_API = df_users_API[(df_users_API['territories'] == "75") | (df_users_API['territories'] == "77") | (df_users_API['territories'] == "78")
+        | (df_users_API['territories'] == "91") | (df_users_API['territories'] == "92") | (df_users_API['territories'] == "93") | (df_users_API['territories'] == "94")
+        | (df_users_API['territories'] == "95")]
+
+        df4 = df4[(df4['territoire'].str.contains("75")) | (df4['territoire'].str.contains("77")) | (df4['territoire'].str.contains("78")) | (df4['territoire'].str.contains("91"))
+        | (df4['territoire'].str.contains("92")) | (df4['territoire'].str.contains("93")) | (df4['territoire'].str.contains("94")) | (df4['territoire'].str.contains("95"))]
+        df4 = df4.groupby('Unnamed: 0').sum().reset_index()
+
+
+
 
     elif categorie == "Hauts-de-France":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "59")].dropna()
@@ -309,6 +382,12 @@ if categorie_2 == 'Tous':
         df1 = s1.iloc[:, 1:]
 
         df_search_users = df_search_users[(df_search_users.Territoire == 59)]
+
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('59'))]
+
+        df_users_API = df_users_API[(df_users_API['territories'] == "59")]
+
+        df4 = df4[(df4['territoire'].str.contains("59"))]
 
 
     elif categorie == "Grand-Est":
@@ -327,6 +406,12 @@ if categorie_2 == 'Tous':
 
         df_search_users = df_search_users[(df_search_users.Territoire == 67)]
 
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('67'))]
+
+        df_users_API = df_users_API[(df_users_API['territories'] == "67")]
+
+        df4 = df4[(df4['territoire'].str.contains("67"))]
+
     elif categorie == "Bourgogne-Franche-Comté":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "21")].dropna()
 
@@ -343,6 +428,12 @@ if categorie_2 == 'Tous':
 
         df_search_users = df_search_users[(df_search_users.Territoire == 21)]
 
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('21'))]
+
+        df_users_API = df_users_API[(df_users_API['territories'] == "21")]
+
+        df4 = df4[(df4['territoire'].str.contains("21"))]
+
 
     elif categorie.startswith("-"):
         df_users_pro_roles = df_users_pro_roles[df_users_pro_roles.territories == cat_dict[categorie]].dropna()
@@ -358,6 +449,12 @@ if categorie_2 == 'Tous':
         df1 = s1.iloc[:, 1:]
 
         df_search_users = df_search_users[(df_search_users.Territoire == int(cat_dict[categorie]))]
+
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains(cat_dict[categorie]))]
+
+        df_users_API = df_users_API[df_users_API['territories'] == cat_dict[categorie]]
+
+        df4 = df4[(df4['territoire'].str.contains(cat_dict[categorie]))]
 
 
         
@@ -612,6 +709,10 @@ if categorie_2 == 'Tous':
 
         st.plotly_chart(fig6, use_container_width=True)
 
+        
+# Diffuser nos dispositifs sur les territoires
+
+    st.title("Diffuser nos dispositifs sur les territoires")
 
     st.markdown('### **Nombre de recherches**')
     st.markdown('#### *-par catégorie : *')
@@ -723,5 +824,59 @@ if categorie_2 == 'Tous':
     figSearch_user.update_layout(hovermode="x", title_font_family="Times New Roman", annotations=[annotationsSearch_user])
 
     st.plotly_chart(figSearch_user, use_container_width=True)
-        
+    # ## Nombre d'organismes "relais de diffusion"
+
+    st.markdown('### **Nombre d\'organismes "relais de diffusion & de partenaires API**"')
+
+    df_relais_clean['Relais'] = df_relais_clean.Relation.str.contains('elais')
+
+    df_relais_vf = pd.DataFrame(df_relais_clean.Relais.value_counts())
+
+    # Nombre de compte API
+
+    col1, col2 = st.columns(2)
+
+    if not df_relais_vf.empty and True in df_relais_vf.index.to_list():
+        html_string_a = f"""<br>
+        <center><font face='Helvetica' size='7'>{df_relais_vf.loc[True,'Relais']}</font>
+        <br/><font size='3'>Organismes relais de "Diffusion"<br></font></center>
+        """
+        col1.markdown(html_string_a, unsafe_allow_html=True)
+
+    df_users_API_vf = pd.DataFrame(df_users_API.value_counts()).reset_index()
+    df_users_API_vf = df_users_API_vf[df_users_API_vf.status.str.contains('API')].reset_index()
+
+
+    html_string_b = f"""<br>
+    <center><font face='Helvetica' size='7'>{df_users_API_vf[0].sum()}</font>
+    <br/><font size='3'>partenaires API*<br></font></center>
+    """
+
+    col2.markdown(html_string_b, unsafe_allow_html=True)
+    
+    st.markdown("### **Nombre d'utilisateurs* **")
+    st.markdown("* ne sont comptabilisé ici que les utilisateurs qui ont accepter l'utilisation de cookies")
+
+    df4 = df4.iloc[:-1,:]
+
+    fig4 = px.line(df4, x='Unnamed: 0', y=['Utilisateurs','Sessions','Pages vues']) 
+
+    fig4.update_xaxes(title_text="Intervalle de temps en mois", title_standoff=0.6, title_font_family="Times New Roman")
+    fig4.update_yaxes(title_text="Nombre d'utilisateurs/sessions/pages vues", title_font_family="Times New Roman")
+    annotations = dict(xref='paper', yref='paper', x=0.055, y=1,
+                                 xanchor='center', yanchor='top',
+                                 text='Fait le: ' + str("1 janvier 2022"),
+                                 font=dict(family='Arial',
+                                           size=12,
+                                           color='rgb(150,150,150)'),
+                                 showarrow=False)
+    fig4.update_traces( mode='lines+markers', hovertemplate=None)
+    fig4.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotations])
+    fig4.update_layout(xaxis=dict(tickformat="%B-%Y"))
+    fig4.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotations])
+
+
+    st.plotly_chart(fig4, use_container_width=True)
+
+
 
