@@ -87,6 +87,8 @@ df_diff = pd.read_csv('./ressource/Diffusion-allDep.csv')
 df_diff = df_diff[['Date','Territoire','Nb de pros','Nb de bénéficiaires','Diffusion_name','Type']]
 df_diff = df_diff.fillna(0)
 
+df_fiches_total = pd.read_csv('./ressource/df_fiches_total.csv')
+
 
 today = date.today()
 lastMonth = today - pd.Timedelta(days=183)
@@ -107,6 +109,48 @@ cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":
 ##########
 
 if categorie_2 == 'Tous':
+
+df_relais = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/Organisme-allDep pas locked.csv')
+df_relais_clean = df_relais[['Territoire Rollup','Relation']].dropna(subset=['Territoire Rollup'])
+
+df_users_API = pd.read_csv("/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/df_users_API.csv")
+df_users_API_vf = pd.DataFrame(df_users_API.value_counts()).reset_index()
+df_users_API_vf = df_users_API_vf[df_users_API_vf.status.str.contains('API')].reset_index()
+df_users_API_vf.drop(columns='Unnamed: 0', inplace=True)
+
+df4 = pd.read_csv("/home/antoine/Bureau/BDD_python/BDD_python/data_csv/GAdata.csv")
+
+df_diff = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/Diffusion-allDep.csv')
+df_diff = df_diff[['Date','Territoire','Nb de pros','Nb de bénéficiaires','Diffusion_name','Type','Fiches']]
+df_diff = df_diff.fillna(0)
+
+df_fiches_total = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/df_fiches_total.csv')
+
+today = date.today()
+lastMonth = today - pd.Timedelta(days=183)
+
+
+
+
+
+
+
+cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
+            "- Bouche-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
+            "- Loire-Atlantique (44)" : "44","- Nord (59)":"59" , "- Puy-de-Dôme (63)":"63","- Haute-Vienne (87)":"87",
+            "- Bas-Rhin (67)":"67", "- Paris (75)" : "75", "- Seine-Maritime (76)":"76",
+            "- Seine-et-Marne (77)":'77', "- Yvelines (78)":"78", "- Essonne (91)" :"91", 
+            "- Hauts-de-Seine (92)":"92","- Seine-Saint-Denis (93)": "93","- Val-de-Marne (94)": "94", 
+            "- Val-d'Oise (95)":"95"}
+
+            
+##########
+## Tous ##
+##########
+
+if categorie_2 == 'Tous':
+
+    st.title("Autonomiser les acteurs dans l'utilisation de nos outils")
 
 
     ## Compte pro invité et validé ##
@@ -131,6 +175,8 @@ if categorie_2 == 'Tous':
         df4 = df4.groupby('Unnamed: 0').sum().reset_index()
 
         df_diff = df_diff
+
+        df_fiches_total = df_fiches_total
 
 
 
@@ -166,6 +212,8 @@ if categorie_2 == 'Tous':
 
         df_diff = df_diff[(df_diff.Territoire.str.contains('06')) | (df_diff.Territoire.str.contains('13'))]
 
+        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 6) | (df_fiches_total.territory == 13)]
+
 
 
     elif categorie == "Auvergne-Rhône-Alpes":
@@ -200,6 +248,9 @@ if categorie_2 == 'Tous':
 
         df_diff = df_diff[(df_diff.Territoire.str.contains('07')) | (df_diff.Territoire.str.contains('15')) | (df_diff.Territoire.str.contains('63'))]
 
+        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 7) | (df_fiches_total.territory == 15) | (df_fiches_total.territory == 63)]
+
+
     elif categorie == "Occitanie":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "34")].dropna()
         df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 34)].dropna()
@@ -222,6 +273,8 @@ if categorie_2 == 'Tous':
         df4 = df4[(df4['territoire'].str.contains("34"))]
 
         df_diff = df_diff[(df_diff.Territoire.str.contains('34', na=False))]
+
+        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 34)]
 
 
     elif categorie == "Nouvelle-Aquitaine":
@@ -260,6 +313,8 @@ if categorie_2 == 'Tous':
 
         df_diff = df_diff[(df_diff.Territoire.str.contains('33')) | (df_diff.Territoire.str.contains('87')) | (df_diff.Territoire.str.contains('16'))| (df_diff.Territoire.str.contains('24'))]
 
+        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 33) | (df_fiches_total.territory == 87) | (df_fiches_total.territory == 16) | (df_fiches_total.territory == 24)]
+
 
     elif categorie == "Centre-Val-de-Loire":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "36")].dropna()
@@ -285,6 +340,8 @@ if categorie_2 == 'Tous':
 
         df_diff = df_diff[(df_diff.Territoire.str.contains('36', na=False))]
 
+        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 36)]
+
     elif categorie == "Pays-de-la-Loire":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "44")].dropna()
 
@@ -309,6 +366,8 @@ if categorie_2 == 'Tous':
 
         df_diff = df_diff[(df_diff.Territoire.str.contains('44', na=False))]
 
+        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 44)]
+
     elif categorie == "Normandie":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "76")].dropna()
 
@@ -332,6 +391,8 @@ if categorie_2 == 'Tous':
         df4 = df4[(df4['territoire'].str.contains("76"))]
 
         df_diff = df_diff[(df_diff.Territoire.str.contains('76', na=False))]
+
+        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 76)]
 
     elif categorie == "Ile-de-France":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "75") | (df_users_pro_roles.territories == "77") | (df_users_pro_roles.territories == "78")
@@ -385,6 +446,9 @@ if categorie_2 == 'Tous':
         | (df_diff.Territoire.str.contains('91')) | (df_diff.Territoire.str.contains('92')) | (df_diff.Territoire.str.contains('93')) | (df_diff.Territoire.str.contains('94'))
         | (df_diff.Territoire.str.contains('95'))]
 
+        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 75) | (df_fiches_total.territory == 77) | (df_fiches_total.territory == 78)
+        | (df_fiches_total.territory == 91) | (df_fiches_total.territory == 92) | (df_fiches_total.territory == 93) | (df_fiches_total.territory == 94)
+        | (df_fiches_total.territory == 95)]
 
 
     elif categorie == "Hauts-de-France":
@@ -411,6 +475,7 @@ if categorie_2 == 'Tous':
 
         df_diff = df_diff[(df_diff.Territoire.str.contains('59', na=False))]
 
+        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 59)]
 
     elif categorie == "Grand-Est":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "67")].dropna()
@@ -436,6 +501,9 @@ if categorie_2 == 'Tous':
 
         df_diff = df_diff[(df_diff.Territoire.str.contains('67', na=False))]
 
+        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 67)]
+
+
     elif categorie == "Bourgogne-Franche-Comté":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "21")].dropna()
 
@@ -460,6 +528,9 @@ if categorie_2 == 'Tous':
 
         df_diff = df_diff[(df_diff.Territoire.str.contains('21', na=False))]
 
+        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 21)]
+
+
 
     elif categorie.startswith("-"):
         df_users_pro_roles = df_users_pro_roles[df_users_pro_roles.territories == cat_dict[categorie]].dropna()
@@ -483,6 +554,9 @@ if categorie_2 == 'Tous':
         df4 = df4[(df4['territoire'].str.contains(cat_dict[categorie]))]
 
         df_diff = df_diff[(df_diff.Territoire.str.contains(cat_dict[categorie], na=False))]
+
+        df_fiches_total = df_fiches_total[(df_fiches_total.territory == int(cat_dict[categorie]))]
+
 
         
     df_users_pro_roles_2 = df_users_pro_roles[df_users_pro_roles.typeAccount == 'INVITATION']
@@ -1085,5 +1159,44 @@ if categorie_2 == 'Tous':
         figActionCum.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
 
         expander.plotly_chart(figActionCum, use_container_width=True)
+
+        st.markdown("### **Nombre fiches sensibilisées au moins une fois**")
+
+        df_diff_fiches = df_diff[['Fiches']]
+        df_diff_fiches = df_diff_fiches["Fiches"].str.split("," , expand=True)
+
+        n = 0
+        L = []
+        for n in range(len(df_diff_fiches.columns)-1):
+            L.extend(df_diff_fiches[n].tolist())
+        L = [x for x in L if x is not None]
+        
+        df_sensi_nb = pd.DataFrame(L)
+        df_sensi_nb.dropna(inplace=True)
+        df_sensi_nb.reset_index(inplace=True)
+        if 0 in df_sensi_nb.columns.to_list():  
+          df_sensi_nb[0].drop_duplicates(inplace=True)
+        else:
+            df_sensi_nb = df_diff_fiches
+
+
+        col1, col2 = st.columns(2)
+
+        html_string_c = f"""<br>
+        <center><font face='Helvetica' size='7'>{df_sensi_nb[0].count()}</font>
+        <br/><font size='3'>Nombre de fiches sensibilisées au moins une fois<br></font></center>
+        """
+
+        html_string_d = f"""<br>
+        <center><font face='Helvetica' size='7'>{round((df_sensi_nb[0].count() / df_fiches_total.departement.sum())* 100, 2)}%</font>
+        <br/><font size='3'>Pourcentage de fiches sensibilisées au moins une fois<br></font></center>
+        """
+
+        if 0 in df_sensi_nb.columns.to_list():
+            col1.markdown(html_string_c, unsafe_allow_html=True)
+
+        if not df_fiches_total.empty:
+            col2.markdown(html_string_d, unsafe_allow_html=True)
+
 
 
