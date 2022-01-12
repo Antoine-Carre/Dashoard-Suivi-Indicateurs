@@ -871,7 +871,8 @@ if categorie_2 == 'Tous':
     fig4.update_traces( mode='lines+markers', hovertemplate=None)
     fig4.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotations])
     fig4.update_layout(xaxis=dict(tickformat="%B-%Y"))
-    fig4.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotations])
+    fig4.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotations],
+                      legend={'title_text':''})
 
 
     st.plotly_chart(fig4, use_container_width=True)
