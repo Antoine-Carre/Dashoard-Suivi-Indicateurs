@@ -84,7 +84,7 @@ df_users_API_vf.drop(columns='Unnamed: 0', inplace=True)
 df4 = pd.read_csv("./ressource/GAdata.csv")
 
 df_diff = pd.read_csv('./ressource/Diffusion-allDep.csv')
-df_diff = df_diff[['Date','Territoire','Nb de pros','Nb de bénéficiaires']]
+df_diff = df_diff[['Date','Territoire','Nb de pros','Nb de bénéficiaires','Diffusion_name','Type']]
 df_diff = df_diff.fillna(0)
 
 
@@ -1005,5 +1005,85 @@ if categorie_2 == 'Tous':
 
 
         expander.plotly_chart(figDiffBenef, use_container_width=True)
+
+
+
+        st.markdown("### **Nombre d'actions de diffusion**")
+
+        df_diff_action = df_diff[['Diffusion_name','Territoire','Type','Date']]
+        df_diff_action['Date'] = pd.to_datetime(df_diff_action['Date'])
+        df_diff_action['Date'] = df_diff_action.Date.dt.strftime('%Y-%m')
+        df_diff_action = df_diff_action[df_diff_action['Date'] > "2017-01-01"]
+
+        df_diff_action = df_diff_action.join(pd.get_dummies(df_diff_action.Type))
+
+        df_diff_action = pd.DataFrame(df_diff_action.groupby('Date').sum())
+        df_diff_action.reset_index(inplace=True)
+
+        figAction = go.Figure(data=[
+            go.Bar(name="Coop", x=df_diff_action['Date'], y=df_diff_action["Coop"], marker_color='#7201a8'),
+            go.Bar(name="Copil", x=df_diff_action['Date'], y=df_diff_action["Copil"], marker_color='#d8576b'),
+            go.Bar(name="Double-écoute 115", x=df_diff_action['Date'], y=df_diff_action["Double-écoute 115"],marker_color='#3E3A71'),
+            go.Bar(name="Maraude", x=df_diff_action['Date'], y=df_diff_action["Maraude"],marker_color='#E65A46'),
+            go.Bar(name="Permanence", x=df_diff_action['Date'], y=df_diff_action["Permanence"],marker_color='#2896A0'),
+            go.Bar(name="Prospection", x=df_diff_action['Date'], y=df_diff_action["Prospection"],marker_color='#F5EBE1'),
+            go.Bar(name="Présentation publique", x=df_diff_action['Date'], y=df_diff_action["Présentation publique"],marker_color='#231E3C'),
+            go.Bar(name="Refus de sensibilisation", x=df_diff_action['Date'], y=df_diff_action["Refus de sensibilisation"],marker_color='#ff0921'),
+            go.Bar(name="Rencontre structure", x=df_diff_action['Date'], y=df_diff_action["Rencontre structure"],marker_color='#2e006c'),
+            go.Bar(name="Rendez-vous", x=df_diff_action['Date'], y=df_diff_action["Rendez-vous"],marker_color='#ffe4c4'),
+            go.Bar(name="Réunion de coordination", x=df_diff_action['Date'], y=df_diff_action["Réunion de coordination"],marker_color='#c8f4d5'),
+            go.Bar(name="Réunion de service", x=df_diff_action['Date'], y=df_diff_action["Réunion de service"],marker_color='#1b019b'),
+            go.Bar(name="Soli-citation", x=df_diff_action['Date'], y=df_diff_action["Soli-citation"],marker_color='#856d4d'),
+        ])
+
+        # Change the bar mode
+        figAction.update_layout(barmode='stack')
+
+        figAction.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre d'actions réalisées",)
+        figAction.update_traces(hovertemplate = "Mois de la réalisation de l'action : en %{x}<br>Nbre d'actions réalisées: %{value}")
+
+        dt_all = pd.date_range(start=df_diff_action['Date'].iloc[0],end=df_diff_action['Date'].iloc[-1])
+        dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_action['Date'])]
+        dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+        figAction.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+
+        st.plotly_chart(figAction, use_container_width=True)
+
+
+        expander = st.expander("Nombre d'actions de diffusion (en cumulé)")
+
+        df_diff_action_cum = df_diff_action[['Date']].join(df_diff_action.iloc[:,1:].cumsum())
+
+
+        figActionCum = go.Figure(data=[
+            go.Bar(name="Coop", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Coop"], marker_color='#7201a8'),
+            go.Bar(name="Copil", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Copil"], marker_color='#d8576b'),
+            go.Bar(name="Double-écoute 115", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Double-écoute 115"],marker_color='#3E3A71'),
+            go.Bar(name="Maraude", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Maraude"],marker_color='#E65A46'),
+            go.Bar(name="Permanence", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Permanence"],marker_color='#2896A0'),
+            go.Bar(name="Prospection", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Prospection"],marker_color='#F5EBE1'),
+            go.Bar(name="Présentation publique", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Présentation publique"],marker_color='#231E3C'),
+            go.Bar(name="Refus de sensibilisation", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Refus de sensibilisation"],marker_color='#ff0921'),
+            go.Bar(name="Rencontre structure", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Rencontre structure"],marker_color='#2e006c'),
+            go.Bar(name="Rendez-vous", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Rendez-vous"],marker_color='#ffe4c4'),
+            go.Bar(name="Réunion de coordination", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Réunion de coordination"],marker_color='#c8f4d5'),
+            go.Bar(name="Réunion de service", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Réunion de service"],marker_color='#1b019b'),
+            go.Bar(name="Soli-citation", x=df_diff_action_cum['Date'], y=df_diff_action_cum["Soli-citation"],marker_color='#856d4d'),
+        ])
+
+        # Change the bar mode
+        figActionCum.update_layout(barmode='stack')
+
+        figActionCum.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre d'actions réalisées",)
+        figActionCum.update_traces(hovertemplate = "Mois de la réalisation de l'action : en %{x}<br>Nbre d'actions réalisées: %{value}")
+
+        dt_all = pd.date_range(start=df_diff_action_cum['Date'].iloc[0],end=df_diff_action_cum['Date'].iloc[-1])
+        dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_action_cum['Date'])]
+        dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+        figActionCum.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+
+        expander.plotly_chart(figActionCum, use_container_width=True)
 
 
