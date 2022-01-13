@@ -66,6 +66,7 @@ df_orga_ceated = pd.read_csv('./ressource/df_orga_ceated.csv')
 df_orga_2 = pd.read_csv('./ressource/df_orga_2.csv')
 df_orga_3 = pd.read_csv('./ressource/df_orga_3.csv')
 df_orga_auto = df_orga_3.copy()
+
 df_history_data = pd.read_csv('./ressource/df_history_data.csv')
 
 s = pd.read_csv("./ressource/searchWithDatePresentation3.csv")
@@ -89,9 +90,22 @@ df_diff = df_diff.fillna(0)
 
 df_fiches_total = pd.read_csv('./ressource/df_fiches_total.csv')
 
+df_newsletter = pd.read_csv('./ressource/data.csv')
+df_newsletter = df_newsletter[['Campaign Name','Sent','Opened','Clicked']]
+
+df_newsletter['Territoire'] = df_newsletter['Campaign Name'].str[0:2]
+df_newsletter['Tx ouverture'] = round((df_newsletter['Opened'] / df_newsletter['Sent'])*100,2)
+df_newsletter['Tx clic'] = round((df_newsletter['Clicked'] / df_newsletter['Opened'])*100,2)
+
+
 
 today = date.today()
 lastMonth = today - pd.Timedelta(days=183)
+
+
+
+
+
 
 
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
@@ -101,8 +115,440 @@ cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":
             "- Seine-et-Marne (77)":'77', "- Yvelines (78)":"78", "- Essonne (91)" :"91", 
             "- Hauts-de-Seine (92)":"92","- Seine-Saint-Denis (93)": "93","- Val-de-Marne (94)": "94", 
             "- Val-d'Oise (95)":"95"}
-            
-            
+
+ 
+## Compte pro invité et validé ##
+
+if categorie == "France":
+    df_users_pro_roles = df_users_pro_roles
+    df_users_pro_roles_test = df_users_pro_roles_test
+    df_orga_ceated = df_orga_ceated
+    df_orga_2 = df_orga_2
+    df_orga_auto = df_orga_auto
+    df_history_data = df_history_data
+    s1 = s.filter(regex='général')
+    s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+
+    s1_cum = s1[['datePresentation','Recherches général']]
+    s1_cum['Recherches général cumulé'] = s1_cum['Recherches général'].cumsum()
+
+    df_search_users = df_search_users
+
+    df_relais_clean = df_relais_clean
+
+    df4 = df4.groupby('Unnamed: 0').sum().reset_index()
+
+    df_diff = df_diff
+
+    df_fiches_total = df_fiches_total
+
+    df_newsletter_2 = df_newsletter.sum()
+
+
+
+elif categorie == "Région SUD":
+    df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "06") | (df_users_pro_roles.territories == "13")].dropna()
+    df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 6) | (df_users_pro_roles_test.territory == 13)].dropna()
+    df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "06") | (df_orga_ceated.territories == "13")].dropna()
+    df_orga_2 = df_orga_2[(df_orga_2.territory == 6) | (df_orga_2.territory == 13)].dropna()
+    df_orga_auto = df_orga_auto[(df_orga_auto.territory == 6) | (df_orga_auto.territory == 13)].dropna()
+    df_history_data = df_history_data[(df_history_data.territoire== 6) | (df_history_data.territoire == 13)].dropna()
+
+    s1 = pd.concat([s.filter(regex="06"), s.filter(regex="13")], axis=0)
+    s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+    s1 = s1.groupby(s1['datePresentation']).sum()
+    s1 = s1.T
+    s1.index = s1.iloc[:, :].index.str[:-8].tolist()
+    s1 = s1.groupby(s1.index).sum()
+    s1 = s1.T.reset_index()
+    s1.replace({0:np.nan}, inplace=True)
+
+    s1_cum = s1[['datePresentation','Recherches']]
+    s1_cum['Recherches cumulé'] = s1_cum['Recherches'].cumsum()
+
+    df_search_users = df_search_users[(df_search_users.Territoire == 6) | (df_search_users.Territoire == 13)]
+
+    df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('06')) | (df_relais_clean['Territoire Rollup'].str.contains('13'))]
+
+    df_users_API = df_users_API[(df_users_API['territories'] == "06") | (df_users_API['territories'] == "13")]
+
+    df4 = df4[(df4['territoire'].str.contains("06")) | (df4['territoire'].str.contains("13"))]
+    df4 = df4.groupby('Unnamed: 0').sum().reset_index()
+
+    df_diff = df_diff[(df_diff.Territoire.str.contains('06')) | (df_diff.Territoire.str.contains('13'))]
+
+    df_fiches_total = df_fiches_total[(df_fiches_total.territory == 6) | (df_fiches_total.territory == 13)]
+
+    df_newsletter = df_newsletter[(df_newsletter.Territoire == "06") | (df_newsletter.Territoire == "13")]
+    df_newsletter_2 = df_newsletter.sum()
+
+
+elif categorie == "Auvergne-Rhône-Alpes":
+    df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "07") | (df_users_pro_roles.territories == "15") | (df_users_pro_roles.territories == "63")].dropna()
+    df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 7) | (df_users_pro_roles_test.territory == 15) | (df_users_pro_roles_test.territory == 63)].dropna()
+    df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "07") | (df_orga_ceated.territories == "15") | (df_orga_ceated.territories == "63")].dropna()
+    df_orga_2 = df_orga_2[(df_orga_2.territory == 7) | (df_orga_2.territory == 15) | (df_orga_2.territory == 63)].dropna()
+    df_orga_auto = df_orga_auto[(df_orga_auto.territory == 7) | (df_orga_auto.territory == 15) | (df_orga_auto.territory == 63)].dropna()
+    df_history_data = df_history_data[(df_history_data.territoire == 7) | (df_history_data.territoire == 15) | (df_history_data.territoire == 63)].dropna()
+
+    s1 = pd.concat([s.filter(regex="07"), s.filter(regex="15"), s.filter(regex="63")], axis=0)
+    s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+    s1 = s1.groupby(s1['datePresentation']).sum()
+    s1 = s1.T
+    s1.index = s1.iloc[:, :].index.str[:-8].tolist()
+    s1 = s1.groupby(s1.index).sum()
+    s1 = s1.T.reset_index()
+    s1.replace({0:np.nan}, inplace=True)
+
+    s1_cum = s1[['datePresentation','Recherches']]
+    s1_cum['Recherches cumulé'] = s1_cum['Recherches'].cumsum()
+
+    df_search_users = df_search_users[(df_search_users.Territoire == 7) | (df_search_users.Territoire == 15) | (df_search_users.Territoire == 63)]
+
+    df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('07')) | (df_relais_clean['Territoire Rollup'].str.contains('15'))
+    | (df_relais_clean['Territoire Rollup'].str.contains('63'))]
+
+    df_users_API = df_users_API[(df_users_API['territories'] == "07") | (df_users_API['territories'] == "15") | (df_users_API['territories'] == "63")]
+
+    df4 = df4[(df4['territoire'].str.contains("07")) | (df4['territoire'].str.contains("15")) | (df4['territoire'].str.contains("63"))]
+    df4 = df4.groupby('Unnamed: 0').sum().reset_index()
+
+    df_diff = df_diff[(df_diff.Territoire.str.contains('07')) | (df_diff.Territoire.str.contains('15')) | (df_diff.Territoire.str.contains('63'))]
+
+    df_fiches_total = df_fiches_total[(df_fiches_total.territory == 7) | (df_fiches_total.territory == 15) | (df_fiches_total.territory == 63)]
+
+    df_newsletter = df_newsletter[(df_newsletter.Territoire == "07") | (df_newsletter.Territoire == "15") | (df_newsletter.Territoire == "63")]
+    df_newsletter_2 = df_newsletter.sum()
+
+elif categorie == "Occitanie":
+    df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "34")].dropna()
+    df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 34)].dropna()
+    df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "34")].dropna()
+    df_orga_2 = df_orga_2[(df_orga_2.territory == 34)].dropna()
+    df_orga_auto = df_orga_auto[(df_orga_auto.territory == 34)].dropna()
+    df_history_data = df_history_data[(df_history_data.territoire == 34)].dropna()
+
+    s1 = s.filter(regex="34")
+    s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+    df1 = s1.iloc[:, 1:]
+
+    df_search_users = df_search_users[(df_search_users.Territoire == 34)]
+
+    df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('34'))]
+
+    df_users_API = df_users_API[(df_users_API['territories'] == "34")]
+
+    df4 = df4[(df4['territoire'].str.contains("34"))]
+
+    df_diff = df_diff[(df_diff.Territoire.str.contains('34', na=False))]
+
+    df_fiches_total = df_fiches_total[(df_fiches_total.territory == 34)]
+
+    df_newsletter = df_newsletter[(df_newsletter.Territoire == "34")]
+    df_newsletter_2 = df_newsletter.sum()
+
+elif categorie == "Nouvelle-Aquitaine":
+    df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "33") | (df_users_pro_roles.territories == "87") | (df_users_pro_roles.territories == "16") | 
+    (df_users_pro_roles.territories == "24")].dropna()
+
+    df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 33) | (df_users_pro_roles_test.territory == 87) | (df_users_pro_roles_test.territory == 16) | (df_users_pro_roles_test.territory == 24)].dropna()
+    df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "33") | (df_orga_ceated.territories == "87") | (df_orga_ceated.territories == "16") | (df_orga_ceated.territories == "24")].dropna()
+
+    df_orga_2 = df_orga_2[(df_orga_2.territory == 33) | (df_orga_2.territory == 87) | (df_orga_2.territory == 16) | (df_orga_2.territory == 24)].dropna()
+    df_orga_auto = df_orga_auto[(df_orga_auto.territory == 33) | (df_orga_auto.territory == 87) | (df_orga_auto.territory == 16) | (df_orga_auto.territory == 24)].dropna()
+    df_history_data = df_history_data[(df_history_data.territoire == 33) | (df_history_data.territoire == 87) | (df_history_data.territoire == 16) | (df_history_data.territoire == 24)].dropna()
+
+    s1 = pd.concat([s.filter(regex="33"), s.filter(regex="87"), s.filter(regex="16"), s.filter(regex="24")], axis=0)
+    s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+    s1 = s1.groupby(s1['datePresentation']).sum()
+    s1 = s1.T
+    s1.index = s1.iloc[:, :].index.str[:-8].tolist()
+    s1 = s1.groupby(s1.index).sum()
+    s1 = s1.T.reset_index()
+    s1.replace({0:np.nan}, inplace=True)
+
+    s1_cum = s1[['datePresentation','Recherches']]
+    s1_cum['Recherches cumulé'] = s1_cum['Recherches'].cumsum()
+
+    df_search_users = df_search_users[(df_search_users.Territoire == 33) | (df_search_users.Territoire == 87) | (df_search_users.Territoire == 16) | (df_search_users.Territoire == 24)]
+
+    df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('33')) | (df_relais_clean['Territoire Rollup'].str.contains('87'))
+    | (df_relais_clean['Territoire Rollup'].str.contains('16')) | (df_relais_clean['Territoire Rollup'].str.contains('24'))]
+
+    df_users_API = df_users_API[(df_users_API['territories'] == "33") | (df_users_API['territories'] == "87") | (df_users_API['territories'] == "16")
+    | (df_users_API['territories'] == "24")]
+
+    df4 = df4[(df4['territoire'].str.contains("33")) | (df4['territoire'].str.contains("87")) | (df4['territoire'].str.contains("16")) | (df4['territoire'].str.contains("24"))]
+    df4 = df4.groupby('Unnamed: 0').sum().reset_index()
+
+    df_diff = df_diff[(df_diff.Territoire.str.contains('33')) | (df_diff.Territoire.str.contains('87')) | (df_diff.Territoire.str.contains('16'))| (df_diff.Territoire.str.contains('24'))]
+
+    df_fiches_total = df_fiches_total[(df_fiches_total.territory == 33) | (df_fiches_total.territory == 87) | (df_fiches_total.territory == 16) | (df_fiches_total.territory == 24)]
+
+    df_newsletter = df_newsletter[(df_newsletter.Territoire == "33") | (df_newsletter.Territoire == "87") | (df_newsletter.Territoire == "16") | (df_newsletter.Territoire == "24")]
+    df_newsletter_2 = df_newsletter.sum()
+
+elif categorie == "Centre-Val-de-Loire":
+    df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "36")].dropna()
+
+    df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 36)].dropna()
+    df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "36")].dropna()
+    df_orga_2 = df_orga_2[(df_orga_2.territory == 36)].dropna()
+    df_orga_auto = df_orga_auto[(df_orga_auto.territory == 36)].dropna()
+    df_history_data = df_history_data[(df_history_data.territoire == 36)].dropna()
+
+    s1 = s.filter(regex="34")
+    s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+    df1 = s1.iloc[:, 1:]
+
+    df_search_users = df_search_users[(df_search_users.Territoire == 36)]
+
+    df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('36'))]
+
+    df_users_API = df_users_API[(df_users_API['territories'] == "36")]
+
+    df4 = df4[(df4['territoire'].str.contains("36"))]
+
+    df_diff = df_diff[(df_diff.Territoire.str.contains('36', na=False))]
+
+    df_fiches_total = df_fiches_total[(df_fiches_total.territory == 36)]
+
+    df_newsletter = df_newsletter[(df_newsletter.Territoire == "36")]
+    df_newsletter_2 = df_newsletter.sum()
+
+elif categorie == "Pays-de-la-Loire":
+    df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "44")].dropna()
+
+    df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 44)].dropna()
+    df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "44")].dropna()
+    df_orga_2 = df_orga_2[(df_orga_2.territory == 44)].dropna()
+    df_orga_auto = df_orga_auto[(df_orga_auto.territory == 44)].dropna()
+    df_history_data = df_history_data[(df_history_data.territoire == 44)].dropna()
+
+    s1 = s.filter(regex="44")
+    s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+    df1 = s1.iloc[:, 1:]
+
+    df_search_users = df_search_users[(df_search_users.Territoire == 44)]
+
+    df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('44'))]
+
+    df_users_API = df_users_API[(df_users_API['territories'] == "44")]
+
+    df4 = df4[(df4['territoire'].str.contains("44"))]
+
+    df_diff = df_diff[(df_diff.Territoire.str.contains('44', na=False))]
+
+    df_fiches_total = df_fiches_total[(df_fiches_total.territory == 44)]
+
+
+    df_newsletter = df_newsletter[(df_newsletter.Territoire == "44")]
+    df_newsletter_2 = df_newsletter.sum()
+
+elif categorie == "Normandie":
+    df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "76")].dropna()
+
+    df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 76)].dropna()
+    df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "76")].dropna()
+    df_orga_2 = df_orga_2[(df_orga_2.territory == 76)].dropna()
+    df_orga_auto = df_orga_auto[(df_orga_auto.territory == 76)].dropna()
+    df_history_data = df_history_data[(df_history_data.territoire == 76)].dropna()
+
+    s1 = s.filter(regex="76")
+    s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+    df1 = s1.iloc[:, 1:]
+
+    df_search_users = df_search_users[(df_search_users.Territoire == 76)]
+
+    df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('76'))]
+
+    df_users_API = df_users_API[(df_users_API['territories'] == "76")]
+
+    df4 = df4[(df4['territoire'].str.contains("76"))]
+
+    df_diff = df_diff[(df_diff.Territoire.str.contains('76', na=False))]
+
+    df_fiches_total = df_fiches_total[(df_fiches_total.territory == 76)]
+
+    df_newsletter = df_newsletter[(df_newsletter.Territoire == "76")]
+    df_newsletter_2 = df_newsletter.sum()
+
+elif categorie == "Ile-de-France":
+    df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "75") | (df_users_pro_roles.territories == "77") | (df_users_pro_roles.territories == "78")
+    | (df_users_pro_roles.territories == "91")| (df_users_pro_roles.territories == "92")| (df_users_pro_roles.territories == "93")| (df_users_pro_roles.territories == "94")
+    | (df_users_pro_roles.territories == "95")].dropna()
+
+    df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 75) | (df_users_pro_roles_test.territory == 77) | (df_users_pro_roles_test.territory == 78)
+    | (df_users_pro_roles_test.territory == 91)| (df_users_pro_roles_test.territory == 92)| (df_users_pro_roles_test.territory == 93)| (df_users_pro_roles_test.territory == 94)
+    | (df_users_pro_roles_test.territory == 95)].dropna()
+
+    df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "75") | (df_orga_ceated.territories == "77") | (df_orga_ceated.territories == "78") | (df_orga_ceated.territories == "91")
+    | (df_orga_ceated.territories == "92") |(df_orga_ceated.territories == "93") | (df_orga_ceated.territories == "94") | (df_orga_ceated.territories == "95")].dropna()
+
+    df_orga_2 = df_orga_2[(df_orga_2.territory == 75) | (df_orga_2.territory == 77) | (df_orga_2.territory == 78) | (df_orga_2.territory == 91)
+    | (df_orga_2.territory == 92) |(df_orga_2.territory == 93) | (df_orga_2.territory == 94) | (df_orga_2.territory == 95)].dropna()
+
+    df_orga_auto = df_orga_auto[(df_orga_auto.territory == 75) | (df_orga_auto.territory == 77) | (df_orga_auto.territory == 78) | (df_orga_auto.territory == 91)
+    | (df_orga_auto.territory == 92) |(df_orga_auto.territory == 93) | (df_orga_auto.territory == 94) | (df_orga_auto.territory == 95)].dropna()
+
+    df_history_data = df_history_data[(df_history_data.territoire == 75) | (df_history_data.territoire == 77) | (df_history_data.territoire == 78) | (df_history_data.territoire == 91)
+    | (df_history_data.territoire == 92) |(df_history_data.territoire == 93) | (df_history_data.territoire == 94) | (df_history_data.territoire == 95)].dropna()
+
+    s1 = pd.concat([s.filter(regex="75"), s.filter(regex="77"), s.filter(regex="78"), s.filter(regex="91"), s.filter(regex="92"), s.filter(regex="93"), s.filter(regex="94"), s.filter(regex="95")], axis=0)
+    s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+    s1 = s1.groupby(s1['datePresentation']).sum()
+    s1 = s1.T
+    s1.index = s1.iloc[:, :].index.str[:-8].tolist()
+    s1 = s1.groupby(s1.index).sum()
+    s1 = s1.T.reset_index()
+    s1.replace({0:np.nan}, inplace=True)
+
+    s1_cum = s1[['datePresentation','Recherches']]
+    s1_cum['Recherches cumulé'] = s1_cum['Recherches'].cumsum()
+
+    df_search_users = df_search_users[(df_search_users.Territoire == 75) | (df_search_users.Territoire == 77) | (df_search_users.Territoire == 78) | (df_search_users.Territoire == 91)
+    | (df_search_users.Territoire == 92) | (df_search_users.Territoire == 93) | (df_search_users.Territoire == 93) | (df_search_users.Territoire == 95)]
+
+    df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('75')) | (df_relais_clean['Territoire Rollup'].str.contains('77'))
+    | (df_relais_clean['Territoire Rollup'].str.contains('78')) | (df_relais_clean['Territoire Rollup'].str.contains('91')) | (df_relais_clean['Territoire Rollup'].str.contains('92'))
+    | (df_relais_clean['Territoire Rollup'].str.contains('93'))| (df_relais_clean['Territoire Rollup'].str.contains('94'))| (df_relais_clean['Territoire Rollup'].str.contains('95'))]
+
+    df_users_API = df_users_API[(df_users_API['territories'] == "75") | (df_users_API['territories'] == "77") | (df_users_API['territories'] == "78")
+    | (df_users_API['territories'] == "91") | (df_users_API['territories'] == "92") | (df_users_API['territories'] == "93") | (df_users_API['territories'] == "94")
+    | (df_users_API['territories'] == "95")]
+
+    df4 = df4[(df4['territoire'].str.contains("75")) | (df4['territoire'].str.contains("77")) | (df4['territoire'].str.contains("78")) | (df4['territoire'].str.contains("91"))
+    | (df4['territoire'].str.contains("92")) | (df4['territoire'].str.contains("93")) | (df4['territoire'].str.contains("94")) | (df4['territoire'].str.contains("95"))]
+    df4 = df4.groupby('Unnamed: 0').sum().reset_index()
+
+    df_diff = df_diff[(df_diff.Territoire.str.contains('75')) | (df_diff.Territoire.str.contains('77')) | (df_diff.Territoire.str.contains('78'))
+    | (df_diff.Territoire.str.contains('91')) | (df_diff.Territoire.str.contains('92')) | (df_diff.Territoire.str.contains('93')) | (df_diff.Territoire.str.contains('94'))
+    | (df_diff.Territoire.str.contains('95'))]
+
+    df_fiches_total = df_fiches_total[(df_fiches_total.territory == 75) | (df_fiches_total.territory == 77) | (df_fiches_total.territory == 78)
+    | (df_fiches_total.territory == 91) | (df_fiches_total.territory == 92) | (df_fiches_total.territory == 93) | (df_fiches_total.territory == 94)
+    | (df_fiches_total.territory == 95)]
+
+    df_newsletter = df_newsletter[(df_newsletter.Territoire == "75") | (df_newsletter.Territoire == "77") | (df_newsletter.Territoire == "78") 
+    | (df_newsletter.Territoire == "91")  | (df_newsletter.Territoire == "92")  | (df_newsletter.Territoire == "93")  | (df_newsletter.Territoire == "94")
+    | (df_newsletter.Territoire == "95")]
+    df_newsletter_2 = df_newsletter.sum()
+
+
+elif categorie == "Hauts-de-France":
+    df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "59")].dropna()
+
+    df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 59)].dropna()
+    df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "59")].dropna()
+    df_orga_2 = df_orga_2[(df_orga_2.territory == 59)].dropna()
+    df_orga_auto = df_orga_auto[(df_orga_auto.territory == 59)].dropna()
+    df_history_data = df_history_data[(df_history_data.territoire == 59)].dropna()
+
+    s1 = s.filter(regex="59")
+    s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+    df1 = s1.iloc[:, 1:]
+
+    df_search_users = df_search_users[(df_search_users.Territoire == 59)]
+
+    df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('59'))]
+
+    df_users_API = df_users_API[(df_users_API['territories'] == "59")]
+
+    df4 = df4[(df4['territoire'].str.contains("59"))]
+
+    df_diff = df_diff[(df_diff.Territoire.str.contains('59', na=False))]
+
+    df_fiches_total = df_fiches_total[(df_fiches_total.territory == 59)]
+
+    df_newsletter = df_newsletter[(df_newsletter.Territoire == "59")]
+    df_newsletter_2 = df_newsletter.sum()
+
+elif categorie == "Grand-Est":
+    df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "67")].dropna()
+
+    df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 67)].dropna()
+    df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "67")].dropna()
+    df_orga_2 = df_orga_2[(df_orga_2.territory == 67)].dropna()
+    df_orga_auto = df_orga_auto[(df_orga_auto.territory == 67)].dropna()
+    df_history_data = df_history_data[(df_history_data.territoire == 67)].dropna()
+
+    s1 = s.filter(regex="67")
+    s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+    df1 = s1.iloc[:, 1:]
+
+    df_search_users = df_search_users[(df_search_users.Territoire == 67)]
+
+    df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('67'))]
+
+    df_users_API = df_users_API[(df_users_API['territories'] == "67")]
+
+    df4 = df4[(df4['territoire'].str.contains("67"))]
+
+    df_diff = df_diff[(df_diff.Territoire.str.contains('67', na=False))]
+
+    df_fiches_total = df_fiches_total[(df_fiches_total.territory == 67)]
+
+    df_newsletter = df_newsletter[(df_newsletter.Territoire == "67")]
+    df_newsletter_2 = df_newsletter.sum()
+
+
+elif categorie == "Bourgogne-Franche-Comté":
+    df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "21")].dropna()
+
+    df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 21)].dropna()
+    df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "21")].dropna()
+    df_orga_2 = df_orga_2[(df_orga_2.territory == 21)].dropna()
+    df_orga_auto = df_orga_auto[(df_orga_auto.territory == 21)].dropna()
+    df_history_data = df_history_data[(df_history_data.territoire == 21)].dropna()
+
+    s1 = s.filter(regex="21")
+    s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+    df1 = s1.iloc[:, 1:]
+
+    df_search_users = df_search_users[(df_search_users.Territoire == 21)]
+
+    df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('21'))]
+
+    df_users_API = df_users_API[(df_users_API['territories'] == "21")]
+
+    df4 = df4[(df4['territoire'].str.contains("21"))]
+
+    df_diff = df_diff[(df_diff.Territoire.str.contains('21', na=False))]
+
+    df_fiches_total = df_fiches_total[(df_fiches_total.territory == 21)]
+
+    df_newsletter = df_newsletter[(df_newsletter.Territoire == "21")]
+    df_newsletter_2 = df_newsletter.sum()
+
+
+
+elif categorie.startswith("-"):
+    df_users_pro_roles = df_users_pro_roles[df_users_pro_roles.territories == cat_dict[categorie]].dropna()
+    df_users_pro_roles_test = df_users_pro_roles_test[df_users_pro_roles_test.territory == int(cat_dict[categorie])].dropna()
+    df_orga_ceated = df_orga_ceated[df_orga_ceated.territories == cat_dict[categorie]].dropna()
+    df_orga_2 = df_orga_2[df_orga_2.territory == int(cat_dict[categorie])].dropna()
+    df_orga_auto = df_orga_auto[df_orga_auto.territory == int(cat_dict[categorie])].dropna()
+    df_history_data = df_history_data[df_history_data.territoire == int(cat_dict[categorie])].dropna()
+
+    s1 = s.filter(regex=cat_dict[categorie])
+    s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+    df1 = s1.iloc[:, 1:]
+
+    df_search_users = df_search_users[(df_search_users.Territoire == int(cat_dict[categorie]))]
+
+    df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains(cat_dict[categorie]))]
+
+    df_users_API = df_users_API[df_users_API['territories'] == cat_dict[categorie]]
+
+    df4 = df4[(df4['territoire'].str.contains(cat_dict[categorie]))]
+
+    df_diff = df_diff[(df_diff.Territoire.str.contains(cat_dict[categorie], na=False))]
+
+    df_fiches_total = df_fiches_total[(df_fiches_total.territory == int(cat_dict[categorie]))]
+
+    df_newsletter = df_newsletter[(df_newsletter.Territoire == (cat_dict[categorie]))].reset_index()
+
+           
 ##########
 ## Tous ##
 ##########
@@ -110,412 +556,6 @@ cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":
 if categorie_2 == 'Tous':
 
     st.title("Autonomiser les acteurs dans l'utilisation de nos outils")
-
-
-    ## Compte pro invité et validé ##
-
-    if categorie == "France":
-        df_users_pro_roles = df_users_pro_roles
-        df_users_pro_roles_test = df_users_pro_roles_test
-        df_orga_ceated = df_orga_ceated
-        df_orga_2 = df_orga_2
-        df_orga_auto = df_orga_auto
-        df_history_data = df_history_data
-        s1 = s.filter(regex='général')
-        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
-
-        s1_cum = s1[['datePresentation','Recherches général']]
-        s1_cum['Recherches général cumulé'] = s1_cum['Recherches général'].cumsum()
-
-        df_search_users = df_search_users
-
-        df_relais_clean = df_relais_clean
-
-        df4 = df4.groupby('Unnamed: 0').sum().reset_index()
-
-        df_diff = df_diff
-
-        df_fiches_total = df_fiches_total
-
-
-
-
-    elif categorie == "Région SUD":
-        df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "06") | (df_users_pro_roles.territories == "13")].dropna()
-        df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 6) | (df_users_pro_roles_test.territory == 13)].dropna()
-        df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "06") | (df_orga_ceated.territories == "13")].dropna()
-        df_orga_2 = df_orga_2[(df_orga_2.territory == 6) | (df_orga_2.territory == 13)].dropna()
-        df_orga_auto = df_orga_auto[(df_orga_auto.territory == 6) | (df_orga_auto.territory == 13)].dropna()
-        df_history_data = df_history_data[(df_history_data.territoire== 6) | (df_history_data.territoire == 13)].dropna()
-
-        s1 = pd.concat([s.filter(regex="06"), s.filter(regex="13")], axis=0)
-        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
-        s1 = s1.groupby(s1['datePresentation']).sum()
-        s1 = s1.T
-        s1.index = s1.iloc[:, :].index.str[:-8].tolist()
-        s1 = s1.groupby(s1.index).sum()
-        s1 = s1.T.reset_index()
-        s1.replace({0:np.nan}, inplace=True)
-
-        s1_cum = s1[['datePresentation','Recherches']]
-        s1_cum['Recherches cumulé'] = s1_cum['Recherches'].cumsum()
-
-        df_search_users = df_search_users[(df_search_users.Territoire == 6) | (df_search_users.Territoire == 13)]
-
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('06')) | (df_relais_clean['Territoire Rollup'].str.contains('13'))]
-
-        df_users_API = df_users_API[(df_users_API['territories'] == "06") | (df_users_API['territories'] == "13")]
-
-        df4 = df4[(df4['territoire'].str.contains("06")) | (df4['territoire'].str.contains("13"))]
-        df4 = df4.groupby('Unnamed: 0').sum().reset_index()
-
-        df_diff = df_diff[(df_diff.Territoire.str.contains('06')) | (df_diff.Territoire.str.contains('13'))]
-
-        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 6) | (df_fiches_total.territory == 13)]
-
-
-
-    elif categorie == "Auvergne-Rhône-Alpes":
-        df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "07") | (df_users_pro_roles.territories == "15") | (df_users_pro_roles.territories == "63")].dropna()
-        df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 7) | (df_users_pro_roles_test.territory == 15) | (df_users_pro_roles_test.territory == 63)].dropna()
-        df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "07") | (df_orga_ceated.territories == "15") | (df_orga_ceated.territories == "63")].dropna()
-        df_orga_2 = df_orga_2[(df_orga_2.territory == 7) | (df_orga_2.territory == 15) | (df_orga_2.territory == 63)].dropna()
-        df_orga_auto = df_orga_auto[(df_orga_auto.territory == 7) | (df_orga_auto.territory == 15) | (df_orga_auto.territory == 63)].dropna()
-        df_history_data = df_history_data[(df_history_data.territoire == 7) | (df_history_data.territoire == 15) | (df_history_data.territoire == 63)].dropna()
-
-        s1 = pd.concat([s.filter(regex="07"), s.filter(regex="15"), s.filter(regex="63")], axis=0)
-        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
-        s1 = s1.groupby(s1['datePresentation']).sum()
-        s1 = s1.T
-        s1.index = s1.iloc[:, :].index.str[:-8].tolist()
-        s1 = s1.groupby(s1.index).sum()
-        s1 = s1.T.reset_index()
-        s1.replace({0:np.nan}, inplace=True)
-
-        s1_cum = s1[['datePresentation','Recherches']]
-        s1_cum['Recherches cumulé'] = s1_cum['Recherches'].cumsum()
-
-        df_search_users = df_search_users[(df_search_users.Territoire == 7) | (df_search_users.Territoire == 15) | (df_search_users.Territoire == 63)]
-
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('07')) | (df_relais_clean['Territoire Rollup'].str.contains('15'))
-        | (df_relais_clean['Territoire Rollup'].str.contains('63'))]
-
-        df_users_API = df_users_API[(df_users_API['territories'] == "07") | (df_users_API['territories'] == "15") | (df_users_API['territories'] == "63")]
-
-        df4 = df4[(df4['territoire'].str.contains("07")) | (df4['territoire'].str.contains("15")) | (df4['territoire'].str.contains("63"))]
-        df4 = df4.groupby('Unnamed: 0').sum().reset_index()
-
-        df_diff = df_diff[(df_diff.Territoire.str.contains('07')) | (df_diff.Territoire.str.contains('15')) | (df_diff.Territoire.str.contains('63'))]
-
-        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 7) | (df_fiches_total.territory == 15) | (df_fiches_total.territory == 63)]
-
-
-    elif categorie == "Occitanie":
-        df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "34")].dropna()
-        df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 34)].dropna()
-        df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "34")].dropna()
-        df_orga_2 = df_orga_2[(df_orga_2.territory == 34)].dropna()
-        df_orga_auto = df_orga_auto[(df_orga_auto.territory == 34)].dropna()
-        df_history_data = df_history_data[(df_history_data.territoire == 34)].dropna()
-
-        s1 = s.filter(regex="34")
-        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
-        #s1.replace({np.nan:0}, inplace=True)
-        df1 = s1.iloc[:, 1:]
-
-        df_search_users = df_search_users[(df_search_users.Territoire == 34)]
-
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('34'))]
-
-        df_users_API = df_users_API[(df_users_API['territories'] == "34")]
-
-        df4 = df4[(df4['territoire'].str.contains("34"))]
-
-        df_diff = df_diff[(df_diff.Territoire.str.contains('34', na=False))]
-
-        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 34)]
-
-
-    elif categorie == "Nouvelle-Aquitaine":
-        df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "33") | (df_users_pro_roles.territories == "87") | (df_users_pro_roles.territories == "16") | 
-        (df_users_pro_roles.territories == "24")].dropna()
-
-        df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 33) | (df_users_pro_roles_test.territory == 87) | (df_users_pro_roles_test.territory == 16) | (df_users_pro_roles_test.territory == 24)].dropna()
-        df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "33") | (df_orga_ceated.territories == "87") | (df_orga_ceated.territories == "16") | (df_orga_ceated.territories == "24")].dropna()
-
-        df_orga_2 = df_orga_2[(df_orga_2.territory == 33) | (df_orga_2.territory == 87) | (df_orga_2.territory == 16) | (df_orga_2.territory == 24)].dropna()
-        df_orga_auto = df_orga_auto[(df_orga_auto.territory == 33) | (df_orga_auto.territory == 87) | (df_orga_auto.territory == 16) | (df_orga_auto.territory == 24)].dropna()
-        df_history_data = df_history_data[(df_history_data.territoire == 33) | (df_history_data.territoire == 87) | (df_history_data.territoire == 16) | (df_history_data.territoire == 24)].dropna()
-
-        s1 = pd.concat([s.filter(regex="33"), s.filter(regex="87"), s.filter(regex="16"), s.filter(regex="24")], axis=0)
-        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
-        s1 = s1.groupby(s1['datePresentation']).sum()
-        s1 = s1.T
-        s1.index = s1.iloc[:, :].index.str[:-8].tolist()
-        s1 = s1.groupby(s1.index).sum()
-        s1 = s1.T.reset_index()
-        s1.replace({0:np.nan}, inplace=True)
-
-        s1_cum = s1[['datePresentation','Recherches']]
-        s1_cum['Recherches cumulé'] = s1_cum['Recherches'].cumsum()
-
-        df_search_users = df_search_users[(df_search_users.Territoire == 33) | (df_search_users.Territoire == 87) | (df_search_users.Territoire == 16) | (df_search_users.Territoire == 24)]
-
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('33')) | (df_relais_clean['Territoire Rollup'].str.contains('87'))
-        | (df_relais_clean['Territoire Rollup'].str.contains('16')) | (df_relais_clean['Territoire Rollup'].str.contains('24'))]
-
-        df_users_API = df_users_API[(df_users_API['territories'] == "33") | (df_users_API['territories'] == "87") | (df_users_API['territories'] == "16")
-        | (df_users_API['territories'] == "24")]
-
-        df4 = df4[(df4['territoire'].str.contains("33")) | (df4['territoire'].str.contains("87")) | (df4['territoire'].str.contains("16")) | (df4['territoire'].str.contains("24"))]
-        df4 = df4.groupby('Unnamed: 0').sum().reset_index()
-
-        df_diff = df_diff[(df_diff.Territoire.str.contains('33')) | (df_diff.Territoire.str.contains('87')) | (df_diff.Territoire.str.contains('16'))| (df_diff.Territoire.str.contains('24'))]
-
-        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 33) | (df_fiches_total.territory == 87) | (df_fiches_total.territory == 16) | (df_fiches_total.territory == 24)]
-
-
-    elif categorie == "Centre-Val-de-Loire":
-        df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "36")].dropna()
-
-        df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 36)].dropna()
-        df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "36")].dropna()
-        df_orga_2 = df_orga_2[(df_orga_2.territory == 36)].dropna()
-        df_orga_auto = df_orga_auto[(df_orga_auto.territory == 36)].dropna()
-        df_history_data = df_history_data[(df_history_data.territoire == 36)].dropna()
-
-        s1 = s.filter(regex="34")
-        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
-        #s1.replace({np.nan:0}, inplace=True)
-        df1 = s1.iloc[:, 1:]
-
-        df_search_users = df_search_users[(df_search_users.Territoire == 36)]
-
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('36'))]
-
-        df_users_API = df_users_API[(df_users_API['territories'] == "36")]
-
-        df4 = df4[(df4['territoire'].str.contains("36"))]
-
-        df_diff = df_diff[(df_diff.Territoire.str.contains('36', na=False))]
-
-        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 36)]
-
-    elif categorie == "Pays-de-la-Loire":
-        df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "44")].dropna()
-
-        df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 44)].dropna()
-        df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "44")].dropna()
-        df_orga_2 = df_orga_2[(df_orga_2.territory == 44)].dropna()
-        df_orga_auto = df_orga_auto[(df_orga_auto.territory == 44)].dropna()
-        df_history_data = df_history_data[(df_history_data.territoire == 44)].dropna()
-
-        s1 = s.filter(regex="44")
-        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
-        #s1.replace({np.nan:0}, inplace=True)
-        df1 = s1.iloc[:, 1:]
-
-        df_search_users = df_search_users[(df_search_users.Territoire == 44)]
-
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('44'))]
-
-        df_users_API = df_users_API[(df_users_API['territories'] == "44")]
-
-        df4 = df4[(df4['territoire'].str.contains("44"))]
-
-        df_diff = df_diff[(df_diff.Territoire.str.contains('44', na=False))]
-
-        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 44)]
-
-    elif categorie == "Normandie":
-        df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "76")].dropna()
-
-        df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 76)].dropna()
-        df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "76")].dropna()
-        df_orga_2 = df_orga_2[(df_orga_2.territory == 76)].dropna()
-        df_orga_auto = df_orga_auto[(df_orga_auto.territory == 76)].dropna()
-        df_history_data = df_history_data[(df_history_data.territoire == 76)].dropna()
-
-        s1 = s.filter(regex="76")
-        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
-        #s1.replace({np.nan:0}, inplace=True)
-        df1 = s1.iloc[:, 1:]
-
-        df_search_users = df_search_users[(df_search_users.Territoire == 76)]
-
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('76'))]
-
-        df_users_API = df_users_API[(df_users_API['territories'] == "76")]
-
-        df4 = df4[(df4['territoire'].str.contains("76"))]
-
-        df_diff = df_diff[(df_diff.Territoire.str.contains('76', na=False))]
-
-        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 76)]
-
-    elif categorie == "Ile-de-France":
-        df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "75") | (df_users_pro_roles.territories == "77") | (df_users_pro_roles.territories == "78")
-        | (df_users_pro_roles.territories == "91")| (df_users_pro_roles.territories == "92")| (df_users_pro_roles.territories == "93")| (df_users_pro_roles.territories == "94")
-        | (df_users_pro_roles.territories == "95")].dropna()
-
-        df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 75) | (df_users_pro_roles_test.territory == 77) | (df_users_pro_roles_test.territory == 78)
-        | (df_users_pro_roles_test.territory == 91)| (df_users_pro_roles_test.territory == 92)| (df_users_pro_roles_test.territory == 93)| (df_users_pro_roles_test.territory == 94)
-        | (df_users_pro_roles_test.territory == 95)].dropna()
-
-        df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "75") | (df_orga_ceated.territories == "77") | (df_orga_ceated.territories == "78") | (df_orga_ceated.territories == "91")
-        | (df_orga_ceated.territories == "92") |(df_orga_ceated.territories == "93") | (df_orga_ceated.territories == "94") | (df_orga_ceated.territories == "95")].dropna()
-
-        df_orga_2 = df_orga_2[(df_orga_2.territory == 75) | (df_orga_2.territory == 77) | (df_orga_2.territory == 78) | (df_orga_2.territory == 91)
-        | (df_orga_2.territory == 92) |(df_orga_2.territory == 93) | (df_orga_2.territory == 94) | (df_orga_2.territory == 95)].dropna()
-
-        df_orga_auto = df_orga_auto[(df_orga_auto.territory == 75) | (df_orga_auto.territory == 77) | (df_orga_auto.territory == 78) | (df_orga_auto.territory == 91)
-        | (df_orga_auto.territory == 92) |(df_orga_auto.territory == 93) | (df_orga_auto.territory == 94) | (df_orga_auto.territory == 95)].dropna()
-
-        df_history_data = df_history_data[(df_history_data.territoire == 75) | (df_history_data.territoire == 77) | (df_history_data.territoire == 78) | (df_history_data.territoire == 91)
-        | (df_history_data.territoire == 92) |(df_history_data.territoire == 93) | (df_history_data.territoire == 94) | (df_history_data.territoire == 95)].dropna()
-
-        s1 = pd.concat([s.filter(regex="75"), s.filter(regex="77"), s.filter(regex="78"), s.filter(regex="91"), s.filter(regex="92"), s.filter(regex="93"), s.filter(regex="94"), s.filter(regex="95")], axis=0)
-        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
-        s1 = s1.groupby(s1['datePresentation']).sum()
-        s1 = s1.T
-        s1.index = s1.iloc[:, :].index.str[:-8].tolist()
-        s1 = s1.groupby(s1.index).sum()
-        s1 = s1.T.reset_index()
-        s1.replace({0:np.nan}, inplace=True)
-
-        s1_cum = s1[['datePresentation','Recherches']]
-        s1_cum['Recherches cumulé'] = s1_cum['Recherches'].cumsum()
-
-        df_search_users = df_search_users[(df_search_users.Territoire == 75) | (df_search_users.Territoire == 77) | (df_search_users.Territoire == 78) | (df_search_users.Territoire == 91)
-        | (df_search_users.Territoire == 92) | (df_search_users.Territoire == 93) | (df_search_users.Territoire == 93) | (df_search_users.Territoire == 95)]
-
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('75')) | (df_relais_clean['Territoire Rollup'].str.contains('77'))
-        | (df_relais_clean['Territoire Rollup'].str.contains('78')) | (df_relais_clean['Territoire Rollup'].str.contains('91')) | (df_relais_clean['Territoire Rollup'].str.contains('92'))
-        | (df_relais_clean['Territoire Rollup'].str.contains('93'))| (df_relais_clean['Territoire Rollup'].str.contains('94'))| (df_relais_clean['Territoire Rollup'].str.contains('95'))]
-
-        df_users_API = df_users_API[(df_users_API['territories'] == "75") | (df_users_API['territories'] == "77") | (df_users_API['territories'] == "78")
-        | (df_users_API['territories'] == "91") | (df_users_API['territories'] == "92") | (df_users_API['territories'] == "93") | (df_users_API['territories'] == "94")
-        | (df_users_API['territories'] == "95")]
-
-        df4 = df4[(df4['territoire'].str.contains("75")) | (df4['territoire'].str.contains("77")) | (df4['territoire'].str.contains("78")) | (df4['territoire'].str.contains("91"))
-        | (df4['territoire'].str.contains("92")) | (df4['territoire'].str.contains("93")) | (df4['territoire'].str.contains("94")) | (df4['territoire'].str.contains("95"))]
-        df4 = df4.groupby('Unnamed: 0').sum().reset_index()
-
-        df_diff = df_diff[(df_diff.Territoire.str.contains('75')) | (df_diff.Territoire.str.contains('77')) | (df_diff.Territoire.str.contains('78'))
-        | (df_diff.Territoire.str.contains('91')) | (df_diff.Territoire.str.contains('92')) | (df_diff.Territoire.str.contains('93')) | (df_diff.Territoire.str.contains('94'))
-        | (df_diff.Territoire.str.contains('95'))]
-
-        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 75) | (df_fiches_total.territory == 77) | (df_fiches_total.territory == 78)
-        | (df_fiches_total.territory == 91) | (df_fiches_total.territory == 92) | (df_fiches_total.territory == 93) | (df_fiches_total.territory == 94)
-        | (df_fiches_total.territory == 95)]
-
-
-    elif categorie == "Hauts-de-France":
-        df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "59")].dropna()
-
-        df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 59)].dropna()
-        df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "59")].dropna()
-        df_orga_2 = df_orga_2[(df_orga_2.territory == 59)].dropna()
-        df_orga_auto = df_orga_auto[(df_orga_auto.territory == 59)].dropna()
-        df_history_data = df_history_data[(df_history_data.territoire == 59)].dropna()
-
-        s1 = s.filter(regex="59")
-        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
-        #s1.replace({np.nan:0}, inplace=True)
-        df1 = s1.iloc[:, 1:]
-
-        df_search_users = df_search_users[(df_search_users.Territoire == 59)]
-
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('59'))]
-
-        df_users_API = df_users_API[(df_users_API['territories'] == "59")]
-
-        df4 = df4[(df4['territoire'].str.contains("59"))]
-
-        df_diff = df_diff[(df_diff.Territoire.str.contains('59', na=False))]
-
-        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 59)]
-
-    elif categorie == "Grand-Est":
-        df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "67")].dropna()
-
-        df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 67)].dropna()
-        df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "67")].dropna()
-        df_orga_2 = df_orga_2[(df_orga_2.territory == 67)].dropna()
-        df_orga_auto = df_orga_auto[(df_orga_auto.territory == 67)].dropna()
-        df_history_data = df_history_data[(df_history_data.territoire == 67)].dropna()
-
-        s1 = s.filter(regex="67")
-        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
-        #s1.replace({np.nan:0}, inplace=True)
-        df1 = s1.iloc[:, 1:]
-
-        df_search_users = df_search_users[(df_search_users.Territoire == 67)]
-
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('67'))]
-
-        df_users_API = df_users_API[(df_users_API['territories'] == "67")]
-
-        df4 = df4[(df4['territoire'].str.contains("67"))]
-
-        df_diff = df_diff[(df_diff.Territoire.str.contains('67', na=False))]
-
-        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 67)]
-
-
-    elif categorie == "Bourgogne-Franche-Comté":
-        df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "21")].dropna()
-
-        df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 21)].dropna()
-        df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "21")].dropna()
-        df_orga_2 = df_orga_2[(df_orga_2.territory == 21)].dropna()
-        df_orga_auto = df_orga_auto[(df_orga_auto.territory == 21)].dropna()
-        df_history_data = df_history_data[(df_history_data.territoire == 21)].dropna()
-
-        s1 = s.filter(regex="21")
-        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
-        #s1.replace({np.nan:0}, inplace=True)
-        df1 = s1.iloc[:, 1:]
-
-        df_search_users = df_search_users[(df_search_users.Territoire == 21)]
-
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('21'))]
-
-        df_users_API = df_users_API[(df_users_API['territories'] == "21")]
-
-        df4 = df4[(df4['territoire'].str.contains("21"))]
-
-        df_diff = df_diff[(df_diff.Territoire.str.contains('21', na=False))]
-
-        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 21)]
-
-
-
-    elif categorie.startswith("-"):
-        df_users_pro_roles = df_users_pro_roles[df_users_pro_roles.territories == cat_dict[categorie]].dropna()
-        df_users_pro_roles_test = df_users_pro_roles_test[df_users_pro_roles_test.territory == int(cat_dict[categorie])].dropna()
-        df_orga_ceated = df_orga_ceated[df_orga_ceated.territories == cat_dict[categorie]].dropna()
-        df_orga_2 = df_orga_2[df_orga_2.territory == int(cat_dict[categorie])].dropna()
-        df_orga_auto = df_orga_auto[df_orga_auto.territory == int(cat_dict[categorie])].dropna()
-        df_history_data = df_history_data[df_history_data.territoire == int(cat_dict[categorie])].dropna()
-
-        s1 = s.filter(regex=cat_dict[categorie])
-        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
-        #s1.replace({np.nan:0}, inplace=True)
-        df1 = s1.iloc[:, 1:]
-
-        df_search_users = df_search_users[(df_search_users.Territoire == int(cat_dict[categorie]))]
-
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains(cat_dict[categorie]))]
-
-        df_users_API = df_users_API[df_users_API['territories'] == cat_dict[categorie]]
-
-        df4 = df4[(df4['territoire'].str.contains(cat_dict[categorie]))]
-
-        df_diff = df_diff[(df_diff.Territoire.str.contains(cat_dict[categorie], na=False))]
-
-        df_fiches_total = df_fiches_total[(df_fiches_total.territory == int(cat_dict[categorie]))]
-
 
 
     df_users_pro_roles_2 = df_users_pro_roles[df_users_pro_roles.typeAccount == 'INVITATION']
@@ -1053,7 +1093,7 @@ if categorie_2 == 'Tous':
 
         df_diff_action_cum=df_diff_action.sort_values(['Date']).reset_index(drop=True)
         df_diff_action_cum["cum_sale"]=df_diff_action_cum.groupby(['Type'])['Diffusion_name'].cumsum(axis=0)
-    
+        
         figAction = px.bar(df_diff_action, x="Date", y="Diffusion_name", color="Type", color_discrete_sequence= px.colors.qualitative.Dark24)
 
         figAction.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre d'actions réalisées",)
@@ -1084,41 +1124,118 @@ if categorie_2 == 'Tous':
 
         expander.plotly_chart(figActionCum, use_container_width=True)
 
-        st.markdown("### **Nombre fiches sensibilisées au moins une fois**")
+    st.markdown("### **Nombre fiches sensibilisées au moins une fois**")
 
-        df_diff_fiches = df_diff[['Fiches']]
-        df_diff_fiches = df_diff_fiches["Fiches"].str.split("," , expand=True)
+    df_diff_fiches = df_diff[['Fiches']]
+    df_diff_fiches = df_diff_fiches["Fiches"].str.split("," , expand=True)
 
-        n = 0
-        L = []
-        for n in range(len(df_diff_fiches.columns)-1):
-            L.extend(df_diff_fiches[n].tolist())
-        L = [x for x in L if x is not None]
+    n = 0
+    L = []
+    for n in range(len(df_diff_fiches.columns)-1):
+        L.extend(df_diff_fiches[n].tolist())
+    L = [x for x in L if x is not None]
         
-        df_sensi_nb = pd.DataFrame(L)
-        df_sensi_nb.dropna(inplace=True)
-        df_sensi_nb.reset_index(inplace=True)
-        if 0 in df_sensi_nb.columns.to_list():  
-          df_sensi_nb[0].drop_duplicates(inplace=True)
-        else:
-            df_sensi_nb = df_diff_fiches
+    df_sensi_nb = pd.DataFrame(L)
+    df_sensi_nb.dropna(inplace=True)
+    df_sensi_nb.reset_index(inplace=True)
+    if 0 in df_sensi_nb.columns.to_list():  
+        df_sensi_nb[0].drop_duplicates(inplace=True)
+    else:
+        df_sensi_nb = df_diff_fiches
 
 
-        col1, col2 = st.columns(2)
+    col1, col2 = st.columns(2)
+
+    if 0 in df_sensi_nb.columns.to_list():
 
         html_string_c = f"""<br>
         <center><font face='Helvetica' size='7'>{df_sensi_nb[0].count()}</font>
         <br/><font size='3'>Nombre de fiches sensibilisées au moins une fois<br></font></center>
         """
 
+        col1.markdown(html_string_c, unsafe_allow_html=True)
+
+    else:
+
+        html_string_c = f"""<br>
+        <center><font face='Helvetica' size='7'>{0}</font>
+        <br/><font size='3'>Nombre de fiches sensibilisées au moins une fois<br></font></center>
+        """
+
+        col1.markdown(html_string_c, unsafe_allow_html=True)
+
+    if not df_fiches_total.empty and 0 in df_sensi_nb.columns.to_list():
+
         html_string_d = f"""<br>
         <center><font face='Helvetica' size='7'>{round((df_sensi_nb[0].count() / df_fiches_total.departement.sum())* 100, 2)}%</font>
         <br/><font size='3'>Pourcentage de fiches sensibilisées au moins une fois<br></font></center>
         """
+        col2.markdown(html_string_d, unsafe_allow_html=True)
 
-        if 0 in df_sensi_nb.columns.to_list():
-            col1.markdown(html_string_c, unsafe_allow_html=True)
+    if df_fiches_total.empty and 0 not in df_sensi_nb.columns.to_list():
 
-        if not df_fiches_total.empty:
-            col2.markdown(html_string_d, unsafe_allow_html=True)
+        html_string_d = f"""<br>
+        <center><font face='Helvetica' size='7'>{0}%</font>
+        <br/><font size='3'>Pourcentage de fiches sensibilisées au moins une fois<br></font></center>
+        """
+  
+        col2.markdown(html_string_d, unsafe_allow_html=True)
 
+
+if categorie_2 == 'Communication':
+
+# Newsletter
+
+
+    st.markdown("### **Nombre de lecteurs de la newsletter, de clics**")
+
+    col1, col2 = st.columns(2)
+
+    html_string_e = f"""<br>
+    <center><font face='Helvetica' size='7'>{df_newsletter.loc[:,'Opened'].sum()}</font>
+    <br/><font size='3'>Nombre de newsletters cliquées<br></font></center>
+    """
+
+    col1.markdown(html_string_e, unsafe_allow_html=True)
+
+    html_string_f = f"""<br>
+    <center><font face='Helvetica' size='7'>{df_newsletter.loc[:,'Clicked'].sum()}</font>
+    <br/><font size='3'>Nombre de newsletters ouvertes<br></font></center>
+    """
+
+    col2.markdown(html_string_f, unsafe_allow_html=True)
+
+
+    col1, col2 = st.columns(2)
+
+    if categorie.startswith("-"):
+
+        html_string_g = f"""<br>
+        <center><font face='Helvetica' size='7'>{df_newsletter.loc[0,'Tx ouverture']}%</font>
+        <br/><font size='3'>Pourcentage de newsletters ouvertes <br>(par rapport aux newsletters envoyées)<br></font></center>
+        """
+
+        col1.markdown(html_string_g, unsafe_allow_html=True)
+
+        html_string_h = f"""<br>
+        <center><font face='Helvetica' size='7'>{df_newsletter.loc[0,'Tx clic']}%</font>
+        <br/><font size='3'>Pourcentage de newsletters cliquées <br>(par rapport aux newsletters ouvertes)<br></font></center>
+        """
+
+        col2.markdown(html_string_h, unsafe_allow_html=True)
+
+    else:
+
+        html_string_g = f"""<br>
+        <center><font face='Helvetica' size='7'>{round((df_newsletter_2.Opened / df_newsletter_2.Sent)*100,2)}%</font>
+        <br/><font size='3'>Pourcentage de newsletters ouvertes <br>(par rapport aux newsletters envoyées)<br></font></center>
+        """
+
+        col1.markdown(html_string_g, unsafe_allow_html=True)
+
+        html_string_h = f"""<br>
+        <center><font face='Helvetica' size='7'>{round((df_newsletter_2.Clicked / df_newsletter_2.Opened)*100,2)}%</font>
+        <br/><font size='3'>Pourcentage de newsletters cliquées <br>(par rapport aux newsletters ouvertes)<br></font></center>
+        """
+
+        col2.markdown(html_string_h, unsafe_allow_html=True)
