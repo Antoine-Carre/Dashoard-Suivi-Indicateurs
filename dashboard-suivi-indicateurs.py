@@ -98,7 +98,7 @@ df_newsletter['Tx ouverture'] = round((df_newsletter['Opened'] / df_newsletter['
 df_newsletter['Tx clic'] = round((df_newsletter['Clicked'] / df_newsletter['Opened'])*100,2)
 
 
-df_listing = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/Listing repérés-allDep.csv')
+df_listing = pd.read_csv('./ressource/Listing repérés-allDep.csv')
 df_listing_count = df_listing[['Territoire','Etat']]
 df_listing_count.fillna('Rien', inplace=True)
 df_listing_count_vf = df_listing_count[df_listing_count.Etat.str.contains('Partenariat actif')]
