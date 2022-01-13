@@ -84,7 +84,7 @@ df_users_API_vf.drop(columns='Unnamed: 0', inplace=True)
 df4 = pd.read_csv("./ressource/GAdata.csv")
 
 df_diff = pd.read_csv('./ressource/Diffusion-allDep.csv')
-df_diff = df_diff[['Date','Territoire','Nb de pros','Nb de bénéficiaires','Diffusion_name','Type']]
+df_diff = df_diff[['Date','Territoire','Nb de pros','Nb de bénéficiaires','Diffusion_name','Type','Fiches']]
 df_diff = df_diff.fillna(0)
 
 df_fiches_total = pd.read_csv('./ressource/df_fiches_total.csv')
