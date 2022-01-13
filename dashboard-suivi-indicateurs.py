@@ -98,6 +98,11 @@ df_newsletter['Tx ouverture'] = round((df_newsletter['Opened'] / df_newsletter['
 df_newsletter['Tx clic'] = round((df_newsletter['Clicked'] / df_newsletter['Opened'])*100,2)
 
 
+df_listing = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/Listing repérés-allDep.csv')
+df_listing_count = df_listing[['Territoire','Etat']]
+df_listing_count.fillna('Rien', inplace=True)
+df_listing_count_vf = df_listing_count[df_listing_count.Etat.str.contains('Partenariat actif')]
+
 
 today = date.today()
 lastMonth = today - pd.Timedelta(days=183)
@@ -144,6 +149,7 @@ if categorie == "France":
 
     df_newsletter_2 = df_newsletter.sum()
 
+    df_listing_count_vf = df_listing_count_vf
 
 
 elif categorie == "Région SUD":
@@ -182,6 +188,8 @@ elif categorie == "Région SUD":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "06") | (df_newsletter.Territoire == "13")]
     df_newsletter_2 = df_newsletter.sum()
 
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "06") | (df_listing_count_vf.Territoire == "13")]
+
 
 elif categorie == "Auvergne-Rhône-Alpes":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "07") | (df_users_pro_roles.territories == "15") | (df_users_pro_roles.territories == "63")].dropna()
@@ -219,6 +227,8 @@ elif categorie == "Auvergne-Rhône-Alpes":
 
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "07") | (df_newsletter.Territoire == "15") | (df_newsletter.Territoire == "63")]
     df_newsletter_2 = df_newsletter.sum()
+    
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "07") | (df_listing_count_vf.Territoire == "15") | (df_listing_count_vf.Territoire == "63")]
 
 elif categorie == "Occitanie":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "34")].dropna()
@@ -246,6 +256,8 @@ elif categorie == "Occitanie":
 
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "34")]
     df_newsletter_2 = df_newsletter.sum()
+    
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "34")]
 
 elif categorie == "Nouvelle-Aquitaine":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "33") | (df_users_pro_roles.territories == "87") | (df_users_pro_roles.territories == "16") | 
@@ -288,6 +300,8 @@ elif categorie == "Nouvelle-Aquitaine":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "33") | (df_newsletter.Territoire == "87") | (df_newsletter.Territoire == "16") | (df_newsletter.Territoire == "24")]
     df_newsletter_2 = df_newsletter.sum()
 
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "33") | (df_listing_count_vf.Territoire == "87") | (df_listing_count_vf.Territoire == "16") | (df_listing_count_vf.Territoire == "24")]
+
 elif categorie == "Centre-Val-de-Loire":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "36")].dropna()
 
@@ -315,6 +329,8 @@ elif categorie == "Centre-Val-de-Loire":
 
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "36")]
     df_newsletter_2 = df_newsletter.sum()
+
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "36")]
 
 elif categorie == "Pays-de-la-Loire":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "44")].dropna()
@@ -345,6 +361,9 @@ elif categorie == "Pays-de-la-Loire":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "44")]
     df_newsletter_2 = df_newsletter.sum()
 
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "44")]
+
+
 elif categorie == "Normandie":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "76")].dropna()
 
@@ -372,6 +391,9 @@ elif categorie == "Normandie":
 
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "76")]
     df_newsletter_2 = df_newsletter.sum()
+    
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "76")]
+
 
 elif categorie == "Ile-de-France":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "75") | (df_users_pro_roles.territories == "77") | (df_users_pro_roles.territories == "78")
@@ -434,6 +456,9 @@ elif categorie == "Ile-de-France":
     | (df_newsletter.Territoire == "95")]
     df_newsletter_2 = df_newsletter.sum()
 
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "75") | (df_listing_count_vf.Territoire == "77") | (df_listing_count_vf.Territoire == "78") 
+                                              | (df_listing_count_vf.Territoire == "91") | (df_listing_count_vf.Territoire == "92") | (df_listing_count_vf.Territoire == "93")
+                                             | (df_listing_count_vf.Territoire == "94")| (df_listing_count_vf.Territoire == "95")]
 
 elif categorie == "Hauts-de-France":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "59")].dropna()
@@ -462,6 +487,8 @@ elif categorie == "Hauts-de-France":
 
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "59")]
     df_newsletter_2 = df_newsletter.sum()
+    
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "59")]
 
 elif categorie == "Grand-Est":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "67")].dropna()
@@ -490,6 +517,8 @@ elif categorie == "Grand-Est":
 
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "67")]
     df_newsletter_2 = df_newsletter.sum()
+
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "67")]
 
 
 elif categorie == "Bourgogne-Franche-Comté":
@@ -520,6 +549,7 @@ elif categorie == "Bourgogne-Franche-Comté":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "21")]
     df_newsletter_2 = df_newsletter.sum()
 
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "21")]
 
 
 elif categorie.startswith("-"):
@@ -547,6 +577,8 @@ elif categorie.startswith("-"):
     df_fiches_total = df_fiches_total[(df_fiches_total.territory == int(cat_dict[categorie]))]
 
     df_newsletter = df_newsletter[(df_newsletter.Territoire == (cat_dict[categorie]))].reset_index()
+  
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == (cat_dict[categorie]))]
 
            
 ##########
@@ -1181,6 +1213,15 @@ if categorie_2 == 'Tous':
   
         col2.markdown(html_string_d, unsafe_allow_html=True)
 
+    # Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat
+    st.markdown("### **Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat**")
+
+    html_string_z = f"""<br>
+    <center><font face='Helvetica' size='7'>{df_listing_count_vf.Etat.count()}</font>
+    <br/><font size='3'>acteurs partenaires réalisant d'autres guides<br></font></center>
+    """
+  
+    st.markdown(html_string_z, unsafe_allow_html=True)
 
 if categorie_2 == 'Communication':
 
