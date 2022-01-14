@@ -108,7 +108,7 @@ today = date.today()
 lastMonth = today - pd.Timedelta(days=183)
 
 
-df_hebergeurs_dispo = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/Hébergeur.euse.s-Tout DA.csv')
+df_hebergeurs_dispo = pd.read_csv('./ressource/Hébergeur.euse.s-Tout DA.csv')
 df_hebergeurs_dispo_vf = df_hebergeurs_dispo[['Département','Disponibilité','Statut','Date de début']]
 df_hebergeurs_dispo_vf = df_hebergeurs_dispo_vf[(df_hebergeurs_dispo_vf.Disponibilité == "Disponible") & (df_hebergeurs_dispo_vf.Statut == "Validé")]
 df_hebergeurs_dispo_vf['Date de début'] = pd.to_datetime(df_hebergeurs_dispo_vf['Date de début'])
@@ -122,7 +122,7 @@ df_hebergeurs_dispo_final = df_hebergeurs_dispo_vf.join(
 )
 df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[:,4:]
 
-df_hebergement = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/Hébergement-Tout.csv')
+df_hebergement = pd.read_csv('./ressource/Hébergement-Tout.csv')
 df_hebergement_vf = df_hebergement[['Territoire','Statut','Date début','Date fin']]
 df_hebergement_vf['territory'] = df_hebergement_vf['Territoire'].map(Dep_to_num)
 df_hebergement_vf['Date fin'] = pd.to_datetime(df_hebergement_vf['Date fin'])
@@ -141,10 +141,10 @@ df_hebergement_final = df_hebergement_vf.join(
 df_hebergement = df_hebergement[['Territoire','Statut','Date début','Date fin']]
 df_hebergement['territory'] = df_hebergement['Territoire'].map(Dep_to_num)
 
-df_maj_6_months = pd.read_csv("/home/antoine/Bureau/BDD_python/BDD_python/data_csv/mise_a_jour_6_mois.csv")
+df_maj_6_months = pd.read_csv("./ressource/mise_a_jour_6_mois.csv")
 df_maj_6_months.set_index('territoire', inplace=True)
 
-df_fiche_serv_on_off = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/df_fiches_nb_serv.csv')
+df_fiche_serv_on_off = pd.read_csv('./ressource/df_fiches_nb_serv.csv')
 
 
 
