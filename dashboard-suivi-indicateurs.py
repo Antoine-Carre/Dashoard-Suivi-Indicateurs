@@ -108,8 +108,43 @@ today = date.today()
 lastMonth = today - pd.Timedelta(days=183)
 
 
+df_hebergeurs_dispo = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/Hébergeur.euse.s-Tout DA.csv')
+df_hebergeurs_dispo_vf = df_hebergeurs_dispo[['Département','Disponibilité','Statut','Date de début']]
+df_hebergeurs_dispo_vf = df_hebergeurs_dispo_vf[(df_hebergeurs_dispo_vf.Disponibilité == "Disponible") & (df_hebergeurs_dispo_vf.Statut == "Validé")]
+df_hebergeurs_dispo_vf['Date de début'] = pd.to_datetime(df_hebergeurs_dispo_vf['Date de début'])
+df_hebergeurs_dispo_vf['territory'] = df_hebergeurs_dispo_vf['Département'].map(Dep_to_num)
+df_hebergeurs_dispo_vf.dropna(subset=['Date de début'], inplace=True)
+df_hebergeurs_dispo_final = df_hebergeurs_dispo_vf.join(
+    df_hebergeurs_dispo_vf.apply(lambda v: pd.Series(pd.date_range(v['Date de début'], today.strftime("%Y-%m"), freq='M').to_period('M')), axis=1)
+    .apply(pd.value_counts, axis=1)
+    .fillna(0)
+    .astype(int)
+)
+df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[:,4:]
 
+df_hebergement = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/Hébergement-Tout.csv')
+df_hebergement_vf = df_hebergement[['Territoire','Statut','Date début','Date fin']]
+df_hebergement_vf['territory'] = df_hebergement_vf['Territoire'].map(Dep_to_num)
+df_hebergement_vf['Date fin'] = pd.to_datetime(df_hebergement_vf['Date fin'])
+df_hebergement_vf['Date fin'] = df_hebergement_vf['Date fin'] .dt.strftime('%Y-%m')
+df_hebergement_vf['Date début'] = pd.to_datetime(df_hebergement_vf['Date début'])
+df_hebergement_vf['Date début'] = df_hebergement_vf['Date début'] .dt.strftime('%Y-%m')
+df_hebergement_vf.dropna(subset=['Date début','Date fin'], inplace=True) 
 
+df_hebergement_final = df_hebergement_vf.join(
+    df_hebergement_vf.apply(lambda v: pd.Series(pd.date_range(v['Date début'], v['Date fin'], freq='M').to_period('M')), axis=1)
+    .apply(pd.value_counts, axis=1)
+    .fillna(0)
+    .astype(int)
+)
+
+df_hebergement = df_hebergement[['Territoire','Statut','Date début','Date fin']]
+df_hebergement['territory'] = df_hebergement['Territoire'].map(Dep_to_num)
+
+df_maj_6_months = pd.read_csv("/home/antoine/Bureau/BDD_python/BDD_python/data_csv/mise_a_jour_6_mois.csv")
+df_maj_6_months.set_index('territoire', inplace=True)
+
+df_fiche_serv_on_off = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/df_fiches_nb_serv.csv')
 
 
 
@@ -1222,6 +1257,158 @@ if categorie_2 == 'Tous':
     """
   
     st.markdown(html_string_z, unsafe_allow_html=True)
+
+
+# Nb d'hébergeurs disponibles
+
+    st.markdown("### **MPLI : Nombre d'hébergeurs disponibles**")
+
+    figHebDispo = go.Figure(data=[
+        go.Line(name='Nombre d\'hébrgement diponibles', x=df_hebergeurs_dispo_final.index.astype(str), y=df_hebergeurs_dispo_final.Total, marker_color='#7201a8',
+                text=df_hebergeurs_dispo_final.Total,
+                textposition='top center',
+                mode='lines+markers+text')   
+    ])
+
+    figHebDispo.update_xaxes(title_text="Mois où l'hébergement est disponible", title_font_family="Times New Roman")
+    figHebDispo.update_yaxes(title_text="Nombre d'hébergements disponibles", title_font_family="Times New Roman")
+
+    annotationsHebDispo = dict(xref='paper', yref='paper', x=0.055, y=1,
+                                xanchor='center', yanchor='top',
+                                text='Fait le: ' + str("1 janvier 2022"),
+                                font=dict(family='Arial',
+                                        size=12,
+                                        color='rgb(150,150,150)'),
+                                showarrow=False)
+
+                           
+    figHebDispo.update_layout(xaxis=dict(tickformat="%B %Y"))
+    figHebDispo.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotationsHebDispo])
+
+    st.plotly_chart(figHebDispo, use_container_width=True)
+
+# Nb d'hébergements
+
+    st.markdown("### **MPLI : Nombre d'hébergements en cours**")
+
+    figHeb = go.Figure(data=[
+        go.Line(name='Nombre d\'hébrgement diponibles', x=df_hebergement_final.index.astype(str), y=df_hebergement_final.Total, marker_color='#7201a8',
+                text=df_hebergement_final.Total,
+                textposition='top center',
+                mode='lines+markers+text')   
+    ])
+
+    figHeb.update_xaxes(title_text="Mois où l'hébergement est disponible", title_font_family="Times New Roman")
+    figHeb.update_yaxes(title_text="Nombre d'hébergements disponibles", title_font_family="Times New Roman")
+
+    annotationsHeb = dict(xref='paper', yref='paper', x=0.055, y=1,
+                                xanchor='center', yanchor='top',
+                                text='Fait le: ' + str("1 janvier 2022"),
+                                font=dict(family='Arial',
+                                        size=12,
+                                        color='rgb(150,150,150)'),
+                                showarrow=False)
+
+                           
+    figHeb.update_layout(xaxis=dict(tickformat="%B %Y"))
+    figHeb.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotationsHeb])
+
+    st.plotly_chart(figHeb, use_container_width=True)
+
+    st.markdown("### **MPLI : Nombre d'hébergées en recherche**")
+    st.markdown("Aucun hébergées en recherche enregistrées sur ce territoire")
+
+    st.markdown("### **MPLI : Nombre de nuitées d'hébergements**")
+
+    df_nuité = df_hebergement[['Date début','Date fin']]
+    df_nuité["Date début"] = pd.to_datetime(df_nuité["Date début"])
+    df_nuité["Date fin"] = pd.to_datetime(df_nuité["Date fin"])
+
+    df_nuité["Date début"] = df_nuité["Date début"] .dt.strftime('%Y-%m-%d')
+    df_nuité["Date fin"] = df_nuité["Date fin"] .dt.strftime('%Y-%m-%d')
+
+    df_nuité["Date début"] = pd.to_datetime(df_nuité["Date début"])
+    df_nuité["Date fin"] = pd.to_datetime(df_nuité["Date fin"])
+
+    df_nuité['Date fin'].fillna(today, inplace=True)
+
+
+    if not df_nuité.empty:
+
+        res = df_nuité.join(
+        df_nuité.apply(lambda v: pd.Series(pd.date_range(v['Date début'], v['Date fin'], freq='D').to_period('M')), axis=1)
+        .apply(pd.value_counts, axis=1)
+        .fillna(0)
+        .astype(int))
+
+        res_vf = res.drop(columns=res.iloc[:,0:2])
+        res_vf.index = res_vf.index.astype(str)
+        res_vf.loc['Total']= res_vf.sum()
+        res_vf = res_vf.tail(1)
+        st.write(res_vf)
+
+        res_vf_2 = res_vf.transpose()
+        res_vf_2 = res_vf_2.sort_index()
+        res_vf_2.reset_index(inplace=True)
+        res_vf_2.rename(columns={'index':'Date'}, inplace=True)
+
+        figNuité = go.Figure(data=[
+        go.Line(name='nombre de nuitées', x=res_vf_2.Date.astype(str), y=res_vf_2.Total, marker_color='#7201a8',
+            text=res_vf_2.Total,
+            textposition='top center',
+            mode='lines+markers+text')   
+        ])
+
+
+        figNuité.update_xaxes(title_text="", title_font_family="Times New Roman")
+        figNuité.update_yaxes(title_text="Nombre de nuitées d'hébergements", title_font_family="Times New Roman")
+
+        annotationsHeb = dict(xref='paper', yref='paper', x=0.055, y=1,
+                                    xanchor='center', yanchor='top',
+                                    text='Fait le: ' + str("1 janvier 2022"),
+                                    font=dict(family='Arial',
+                                            size=12,
+                                            color='rgb(150,150,150)'),
+                                    showarrow=False)
+
+                            
+        figNuité.update_layout(xaxis=dict(tickformat="%B %Y"))
+        figNuité.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotationsHeb])
+
+
+        st.plotly_chart(figNuité, use_container_width=True)
+
+    else:
+        st.markdown("Aucune nuité enregistrée sur ce territoire")
+
+    st.markdown("### **Pourcentage de fiches mises à jour dans les 6 derniers mois**")
+
+    if not categorie.startswith("-"):
+
+        html_string_k = f"""<br>
+        <center><font face='Helvetica' size='6'>{df_maj_6_months.loc['Total','pourcentage']} %</font>
+        <br/><font size='3'>des fiches ont été mise à jours au moins une fois pendant les 6 derniers mois<br></font></center>"
+        """
+
+        st.markdown(html_string_k, unsafe_allow_html=True)
+
+    if categorie.startswith("-"):
+
+        html_string_k = f"""<br>
+        <center><font face='Helvetica' size='6'>{df_maj_6_months.loc[cat_dict[categorie],'pourcentage']} %</font>
+        <br/><font size='3'>des fiches ont été mise à jours au moins une fois pendant les 6 derniers mois<br></font></center>"
+        """
+
+        st.markdown(html_string_k, unsafe_allow_html=True)
+
+
+    st.markdown("### **Nombre de fiches et de services en ligne et en brouillon**")
+
+    df_fiche_serv_on_off = df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0]
+    
+    st.write(df_fiche_serv_on_off.statut.count())
+
+    
 
 if categorie_2 == 'Communication':
 
