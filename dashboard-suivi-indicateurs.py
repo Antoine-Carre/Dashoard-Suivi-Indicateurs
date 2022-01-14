@@ -166,6 +166,10 @@ cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":
 
  
 ## Compte pro invité et validé ##
+            "- Val-d'Oise (95)":"95"}
+
+ 
+## Compte pro invité et validé ##
 
 if categorie == "France":
     df_users_pro_roles = df_users_pro_roles
@@ -194,6 +198,24 @@ if categorie == "France":
 
     df_listing_count_vf = df_listing_count_vf
 
+    df_hebergeurs_dispo_final.loc['Total'] = df_hebergeurs_dispo_final.sum()
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[-1:]
+    df_hebergeurs_dispo_final.drop(columns = ['territory'], inplace=True)
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.astype(str)
+    df_hebergeurs_dispo_final.columns = df_hebergeurs_dispo_final.columns.astype('datetime64[ns]')
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.T
+    
+    df_hebergement_final = df_hebergement_final.iloc[:,5:]
+    df_hebergement_final.index = df_hebergement_final.index.astype(str)
+    df_hebergement_final.loc['Total'] = df_hebergement_final.sum()
+    df_hebergement_final = df_hebergement_final.iloc[-1:]
+    df_hebergement_final = df_hebergement_final.astype(str)
+    df_hebergement_final.columns = df_hebergement_final.columns.astype('datetime64[ns]')
+    df_hebergement_final = df_hebergement_final.T
+    
+    df_hebergement = df_hebergement
+
+    df_maj_6_months = df_maj_6_months
 
 elif categorie == "Région SUD":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "06") | (df_users_pro_roles.territories == "13")].dropna()
@@ -233,6 +255,30 @@ elif categorie == "Région SUD":
 
     df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "06") | (df_listing_count_vf.Territoire == "13")]
 
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "06") | (df_hebergeurs_dispo_final.territory == "13")]
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
+
+    df_hebergeurs_dispo_final.loc['Total'] = df_hebergeurs_dispo_final.sum()
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[-1:]
+    df_hebergeurs_dispo_final.columns = df_hebergeurs_dispo_final.columns.astype('datetime64[ns]')
+
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.T
+
+    df_hebergement_final = df_hebergement_final[(df_hebergement_final.territory == "06") | (df_hebergement_final.territory == "13")]
+    df_hebergement_final = df_hebergement_final.iloc[:,5:]
+    df_hebergement_final.index = df_hebergement_final.index.astype(str)
+    df_hebergement_final.loc['Total'] = df_hebergement_final.sum()
+    df_hebergement_final = df_hebergement_final.iloc[-1:]
+    df_hebergement_final = df_hebergement_final.astype(str)
+    df_hebergement_final.columns = df_hebergement_final.columns.astype('datetime64[ns]')
+    df_hebergement_final = df_hebergement_final.T
+    
+    df_hebergement = df_hebergement[(df_hebergement.territory == "06") | (df_hebergement.territory == "13")]
+
+    df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "06") | (df_maj_6_months.index == "13")]
+    df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
+    df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
+
 
 elif categorie == "Auvergne-Rhône-Alpes":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "07") | (df_users_pro_roles.territories == "15") | (df_users_pro_roles.territories == "63")].dropna()
@@ -270,8 +316,33 @@ elif categorie == "Auvergne-Rhône-Alpes":
 
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "07") | (df_newsletter.Territoire == "15") | (df_newsletter.Territoire == "63")]
     df_newsletter_2 = df_newsletter.sum()
+
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "07") | (df_hebergeurs_dispo_final.territory == "15")
+     | (df_hebergeurs_dispo_final.territory == "63")]
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
+
+    df_hebergeurs_dispo_final.loc['Total'] = df_hebergeurs_dispo_final.sum()
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[-1:]
+    df_hebergeurs_dispo_final.columns = df_hebergeurs_dispo_final.columns.astype('datetime64[ns]')
+
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.T
+
+    df_hebergement_final = df_hebergement_final[(df_hebergement_final.territory == "07") | (df_hebergement_final.territory == "15") 
+    | (df_hebergement_final.territory == "63")]
+    df_hebergement_final = df_hebergement_final.iloc[:,5:]
+    df_hebergement_final.index = df_hebergement_final.index.astype(str)
+    df_hebergement_final.loc['Total'] = df_hebergement_final.sum()
+    df_hebergement_final = df_hebergement_final.iloc[-1:]
+    df_hebergement_final = df_hebergement_final.astype(str)
+    df_hebergement_final.columns = df_hebergement_final.columns.astype('datetime64[ns]')
+    df_hebergement_final = df_hebergement_final.T
     
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "07") | (df_listing_count_vf.Territoire == "15") | (df_listing_count_vf.Territoire == "63")]
+    df_hebergement = df_hebergement[(df_hebergement.territory == "07") | (df_hebergement.territory == "15") | (df_hebergement.territory == "63")]
+
+    df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "07") | (df_maj_6_months.index == "15") | (df_maj_6_months.index == "63")]
+    df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
+    df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
+
 
 elif categorie == "Occitanie":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "34")].dropna()
@@ -299,8 +370,31 @@ elif categorie == "Occitanie":
 
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "34")]
     df_newsletter_2 = df_newsletter.sum()
+
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "34")]
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
+
+    df_hebergeurs_dispo_final.loc['Total'] = df_hebergeurs_dispo_final.sum()
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[-1:]
+    df_hebergeurs_dispo_final.columns = df_hebergeurs_dispo_final.columns.astype('datetime64[ns]')
+
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.T
+
+    df_hebergement_final = df_hebergement_final[(df_hebergement_final.territory == "34")]
+    df_hebergement_final = df_hebergement_final.iloc[:,5:]
+    df_hebergement_final.index = df_hebergement_final.index.astype(str)
+    df_hebergement_final.loc['Total'] = df_hebergement_final.sum()
+    df_hebergement_final = df_hebergement_final.iloc[-1:]
+    df_hebergement_final = df_hebergement_final.astype(str)
+    df_hebergement_final.columns = df_hebergement_final.columns.astype('datetime64[ns]')
+    df_hebergement_final = df_hebergement_final.T
     
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "34")]
+    df_hebergement = df_hebergement[(df_hebergement.territory == "34")]
+
+
+    df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "34")]
+    df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
+    df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
 
 elif categorie == "Nouvelle-Aquitaine":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "33") | (df_users_pro_roles.territories == "87") | (df_users_pro_roles.territories == "16") | 
@@ -343,7 +437,31 @@ elif categorie == "Nouvelle-Aquitaine":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "33") | (df_newsletter.Territoire == "87") | (df_newsletter.Territoire == "16") | (df_newsletter.Territoire == "24")]
     df_newsletter_2 = df_newsletter.sum()
 
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "33") | (df_listing_count_vf.Territoire == "87") | (df_listing_count_vf.Territoire == "16") | (df_listing_count_vf.Territoire == "24")]
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "33") | (df_hebergeurs_dispo_final.territory == "87")
+     | (df_hebergeurs_dispo_final.territory == "16") | (df_hebergeurs_dispo_final.territory == "24")]
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
+
+    df_hebergeurs_dispo_final.loc['Total'] = df_hebergeurs_dispo_final.sum()
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[-1:]
+    df_hebergeurs_dispo_final.columns = df_hebergeurs_dispo_final.columns.astype('datetime64[ns]')
+
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.T
+
+    df_hebergement_final = df_hebergement_final[(df_hebergement_final.territory == "33") | (df_hebergement_final.territory == "87")
+    | (df_hebergement_final.territory == "16")| (df_hebergement_final.territory == "24")] 
+    df_hebergement_final = df_hebergement_final.iloc[:,5:]
+    df_hebergement_final.index = df_hebergement_final.index.astype(str)
+    df_hebergement_final.loc['Total'] = df_hebergement_final.sum()
+    df_hebergement_final = df_hebergement_final.iloc[-1:]
+    df_hebergement_final = df_hebergement_final.astype(str)
+    df_hebergement_final.columns = df_hebergement_final.columns.astype('datetime64[ns]')
+    df_hebergement_final = df_hebergement_final.T
+
+    df_hebergement = df_hebergement[(df_hebergement.territory == "33") | (df_hebergement.territory == "87") | (df_hebergement.territory == "16") | (df_hebergement.territory == "24")]
+
+    df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "33") | (df_maj_6_months.index == "87") | (df_maj_6_months.index == "16") | (df_maj_6_months.index == "24")]
+    df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
+    df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
 
 elif categorie == "Centre-Val-de-Loire":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "36")].dropna()
@@ -373,7 +491,29 @@ elif categorie == "Centre-Val-de-Loire":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "36")]
     df_newsletter_2 = df_newsletter.sum()
 
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "36")]
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "36")]
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
+
+    df_hebergeurs_dispo_final.loc['Total'] = df_hebergeurs_dispo_final.sum()
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[-1:]
+    df_hebergeurs_dispo_final.columns = df_hebergeurs_dispo_final.columns.astype('datetime64[ns]')
+
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.T
+
+    df_hebergement_final = df_hebergement_final[(df_hebergement_final.territory == "36")] 
+    df_hebergement_final = df_hebergement_final.iloc[:,5:]
+    df_hebergement_final.index = df_hebergement_final.index.astype(str)
+    df_hebergement_final.loc['Total'] = df_hebergement_final.sum()
+    df_hebergement_final = df_hebergement_final.iloc[-1:]
+    df_hebergement_final = df_hebergement_final.astype(str)
+    df_hebergement_final.columns = df_hebergement_final.columns.astype('datetime64[ns]')
+    df_hebergement_final = df_hebergement_final.T
+
+    df_hebergement = df_hebergement[(df_hebergement.territory == "36")]
+
+    df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "36")]
+    df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
+    df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
 
 elif categorie == "Pays-de-la-Loire":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "44")].dropna()
@@ -400,12 +540,32 @@ elif categorie == "Pays-de-la-Loire":
 
     df_fiches_total = df_fiches_total[(df_fiches_total.territory == 44)]
 
-
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "44")]
     df_newsletter_2 = df_newsletter.sum()
 
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "44")]
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "44") ]
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
 
+    df_hebergeurs_dispo_final.loc['Total'] = df_hebergeurs_dispo_final.sum()
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[-1:]
+    df_hebergeurs_dispo_final.columns = df_hebergeurs_dispo_final.columns.astype('datetime64[ns]')
+
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.T
+
+    df_hebergement_final = df_hebergement_final[(df_hebergement_final.territory == "44")] 
+    df_hebergement_final = df_hebergement_final.iloc[:,5:]
+    df_hebergement_final.index = df_hebergement_final.index.astype(str)
+    df_hebergement_final.loc['Total'] = df_hebergement_final.sum()
+    df_hebergement_final = df_hebergement_final.iloc[-1:]
+    df_hebergement_final = df_hebergement_final.astype(str)
+    df_hebergement_final.columns = df_hebergement_final.columns.astype('datetime64[ns]')
+    df_hebergement_final = df_hebergement_final.T
+
+    df_hebergement = df_hebergement[(df_hebergement.territory == "44")]
+
+    df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "44")]
+    df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
+    df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
 
 elif categorie == "Normandie":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "76")].dropna()
@@ -434,9 +594,30 @@ elif categorie == "Normandie":
 
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "76")]
     df_newsletter_2 = df_newsletter.sum()
-    
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "76")]
 
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "76")]
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
+
+    df_hebergeurs_dispo_final.loc['Total'] = df_hebergeurs_dispo_final.sum()
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[-1:]
+    df_hebergeurs_dispo_final.columns = df_hebergeurs_dispo_final.columns.astype('datetime64[ns]')
+
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.T
+
+    df_hebergement_final = df_hebergement_final[(df_hebergement_final.territory == "76")] 
+    df_hebergement_final = df_hebergement_final.iloc[:,5:]
+    df_hebergement_final.index = df_hebergement_final.index.astype(str)
+    df_hebergement_final.loc['Total'] = df_hebergement_final.sum()
+    df_hebergement_final = df_hebergement_final.iloc[-1:]
+    df_hebergement_final = df_hebergement_final.astype(str)
+    df_hebergement_final.columns = df_hebergement_final.columns.astype('datetime64[ns]')
+    df_hebergement_final = df_hebergement_final.T
+
+    df_hebergement = df_hebergement[(df_hebergement.territory == "76")]
+
+    df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "76")]
+    df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
+    df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
 
 elif categorie == "Ile-de-France":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "75") | (df_users_pro_roles.territories == "77") | (df_users_pro_roles.territories == "78")
@@ -499,9 +680,36 @@ elif categorie == "Ile-de-France":
     | (df_newsletter.Territoire == "95")]
     df_newsletter_2 = df_newsletter.sum()
 
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "75") | (df_listing_count_vf.Territoire == "77") | (df_listing_count_vf.Territoire == "78") 
-                                              | (df_listing_count_vf.Territoire == "91") | (df_listing_count_vf.Territoire == "92") | (df_listing_count_vf.Territoire == "93")
-                                             | (df_listing_count_vf.Territoire == "94")| (df_listing_count_vf.Territoire == "95")]
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "75") | (df_hebergeurs_dispo_final.territory == "77")
+     | (df_hebergeurs_dispo_final.territory == "78") | (df_hebergeurs_dispo_final.territory == "91") | (df_hebergeurs_dispo_final.territory == "92")
+     | (df_hebergeurs_dispo_final.territory == "93") | (df_hebergeurs_dispo_final.territory == "94") | (df_hebergeurs_dispo_final.territory == "95")]
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
+
+    df_hebergeurs_dispo_final.loc['Total'] = df_hebergeurs_dispo_final.sum()
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[-1:]
+    df_hebergeurs_dispo_final.columns = df_hebergeurs_dispo_final.columns.astype('datetime64[ns]')
+
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.T
+
+    df_hebergement_final = df_hebergement_final[(df_hebergement_final.territory == "75") | (df_hebergement_final.territory == "77")
+    | (df_hebergement_final.territory == "78")| (df_hebergement_final.territory == "91")| (df_hebergement_final.territory == "92")
+    | (df_hebergement_final.territory == "93") | (df_hebergement_final.territory == "94") | (df_hebergement_final.territory == "95")] 
+    df_hebergement_final = df_hebergement_final.iloc[:,5:]
+    df_hebergement_final.index = df_hebergement_final.index.astype(str)
+    df_hebergement_final.loc['Total'] = df_hebergement_final.sum()
+    df_hebergement_final = df_hebergement_final.iloc[-1:]
+    df_hebergement_final = df_hebergement_final.astype(str)
+    df_hebergement_final.columns = df_hebergement_final.columns.astype('datetime64[ns]')
+    df_hebergement_final = df_hebergement_final.T
+    
+    df_hebergement = df_hebergement[(df_hebergement.territory == "75") | (df_hebergement.territory == "77") | (df_hebergement.territory == "78") 
+    | (df_hebergement.territory == "91") | (df_hebergement.territory == "92") | (df_hebergement.territory == "93") | (df_hebergement.territory == "94")
+    | (df_hebergement.territory == "95")]
+
+    df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "75") | (df_maj_6_months.index == "77") | (df_maj_6_months.index == "78") | (df_maj_6_months.index == "91")
+    | (df_maj_6_months.index == "92") | (df_maj_6_months.index == "93") | (df_maj_6_months.index == "94") | (df_maj_6_months.index == "95")]
+    df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
+    df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
 
 elif categorie == "Hauts-de-France":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "59")].dropna()
@@ -530,8 +738,30 @@ elif categorie == "Hauts-de-France":
 
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "59")]
     df_newsletter_2 = df_newsletter.sum()
-    
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "59")]
+
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "59")]
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
+
+    df_hebergeurs_dispo_final.loc['Total'] = df_hebergeurs_dispo_final.sum()
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[-1:]
+    df_hebergeurs_dispo_final.columns = df_hebergeurs_dispo_final.columns.astype('datetime64[ns]')
+
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.T
+
+    df_hebergement_final = df_hebergement_final[(df_hebergement_final.territory == "59")] 
+    df_hebergement_final = df_hebergement_final.iloc[:,5:]
+    df_hebergement_final.index = df_hebergement_final.index.astype(str)
+    df_hebergement_final.loc['Total'] = df_hebergement_final.sum()
+    df_hebergement_final = df_hebergement_final.iloc[-1:]
+    df_hebergement_final = df_hebergement_final.astype(str)
+    df_hebergement_final.columns = df_hebergement_final.columns.astype('datetime64[ns]')
+    df_hebergement_final = df_hebergement_final.T
+
+    df_hebergement = df_hebergement[(df_hebergement.territory == "59")] 
+
+    df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "59")]
+    df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
+    df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
 
 elif categorie == "Grand-Est":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "67")].dropna()
@@ -561,8 +791,30 @@ elif categorie == "Grand-Est":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "67")]
     df_newsletter_2 = df_newsletter.sum()
 
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "67")]
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "67")]
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
 
+    df_hebergeurs_dispo_final.loc['Total'] = df_hebergeurs_dispo_final.sum()
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[-1:]
+    df_hebergeurs_dispo_final.columns = df_hebergeurs_dispo_final.columns.astype('datetime64[ns]')
+
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.T
+
+
+    df_hebergement_final = df_hebergement_final[(df_hebergement_final.territory == "67")] 
+    df_hebergement_final = df_hebergement_final.iloc[:,5:]
+    df_hebergement_final.index = df_hebergement_final.index.astype(str)
+    df_hebergement_final.loc['Total'] = df_hebergement_final.sum()
+    df_hebergement_final = df_hebergement_final.iloc[-1:]
+    df_hebergement_final = df_hebergement_final.astype(str)
+    df_hebergement_final.columns = df_hebergement_final.columns.astype('datetime64[ns]')
+    df_hebergement_final = df_hebergement_final.T
+
+    df_hebergement = df_hebergement[(df_hebergement.territory == "67")] 
+
+    df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "67")]
+    df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
+    df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
 
 elif categorie == "Bourgogne-Franche-Comté":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "21")].dropna()
@@ -592,8 +844,29 @@ elif categorie == "Bourgogne-Franche-Comté":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "21")]
     df_newsletter_2 = df_newsletter.sum()
 
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "21")]
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "21")]
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
 
+    df_hebergeurs_dispo_final.loc['Total'] = df_hebergeurs_dispo_final.sum()
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[-1:]
+    df_hebergeurs_dispo_final.columns = df_hebergeurs_dispo_final.columns.astype('datetime64[ns]')
+
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.T
+
+    df_hebergement_final = df_hebergement_final[(df_hebergement_final.territory == "21")] 
+    df_hebergement_final = df_hebergement_final.iloc[:,5:]
+    df_hebergement_final.index = df_hebergement_final.index.astype(str)
+    df_hebergement_final.loc['Total'] = df_hebergement_final.sum()
+    df_hebergement_final = df_hebergement_final.iloc[-1:]
+    df_hebergement_final = df_hebergement_final.astype(str)
+    df_hebergement_final.columns = df_hebergement_final.columns.astype('datetime64[ns]')
+    df_hebergement_final = df_hebergement_final.T
+    
+    df_hebergement = df_hebergement[(df_hebergement.territory == "21")] 
+
+    df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "21")]
+    df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
+    df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
 
 elif categorie.startswith("-"):
     df_users_pro_roles = df_users_pro_roles[df_users_pro_roles.territories == cat_dict[categorie]].dropna()
@@ -620,8 +893,28 @@ elif categorie.startswith("-"):
     df_fiches_total = df_fiches_total[(df_fiches_total.territory == int(cat_dict[categorie]))]
 
     df_newsletter = df_newsletter[(df_newsletter.Territoire == (cat_dict[categorie]))].reset_index()
-  
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == (cat_dict[categorie]))]
+
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == cat_dict[categorie])]
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
+
+    df_hebergeurs_dispo_final.loc['Total'] = df_hebergeurs_dispo_final.sum()
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[-1:]
+    df_hebergeurs_dispo_final.columns = df_hebergeurs_dispo_final.columns.astype('datetime64[ns]')
+
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.T
+
+
+    df_hebergement_final = df_hebergement_final[(df_hebergement_final.territory == cat_dict[categorie])] 
+    df_hebergement_final = df_hebergement_final.iloc[:,5:]
+    df_hebergement_final.index = df_hebergement_final.index.astype(str)
+    df_hebergement_final.loc['Total'] = df_hebergement_final.sum()
+    df_hebergement_final = df_hebergement_final.iloc[-1:]
+    df_hebergement_final = df_hebergement_final.astype(str)
+    df_hebergement_final.columns = df_hebergement_final.columns.astype('datetime64[ns]')
+    df_hebergement_final = df_hebergement_final.T
+
+    df_hebergement = df_hebergement[(df_hebergement.territory == cat_dict[categorie])] 
+
 
            
 ##########
