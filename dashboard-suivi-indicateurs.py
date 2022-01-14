@@ -59,6 +59,14 @@ categorie_2 = st.sidebar.radio("Cercles", ("Tous","Ile-de-France", "Lancement",'
 ## DATA ##
 ##########
 
+Dep_to_num = {"Alpes-Maritimes" :"06", "Ardèche":"07",
+            "Bouche-du-Rhône": "13","Cantal":"15","Charente":"16","Côte-d'Or" : "21", "Dordogne":"24","Gironde":"33","Hérault":"34","Indre":"36",
+            "Loire-Atlantique" : "44","Nord":"59" , "Puy-de-Dôme":"63","Haute-Vienne":"87",
+            "Bas-Rhin":"67", "Paris" : "75", "- Seine-Maritime":"76",
+            "Seine-et-Marne":'77', "Yvelines":"78", "- Essonne" :"91", 
+            "Hauts-de-Seine":"92","Seine-Saint-Denis": "93","Val-de-Marne": "94", 
+            "Val-d'Oise":"95"}
+
 # modifier selon la localisation de la BD
 df_users_pro_roles = pd.read_csv('./ressource/df_users_pro_roles.csv')
 df_users_pro_roles_test = pd.read_csv('./ressource/df_users_pro_roles_test.csv')
