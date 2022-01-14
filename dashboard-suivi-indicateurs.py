@@ -166,8 +166,6 @@ cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":
 
  
 ## Compte pro invité et validé ##
-            "- Val-d'Oise (95)":"95"}
-
  
 ## Compte pro invité et validé ##
 
