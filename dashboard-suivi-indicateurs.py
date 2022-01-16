@@ -154,6 +154,10 @@ df_maj_6_months.set_index('territoire', inplace=True)
 
 df_fiche_serv_on_off = pd.read_csv('./ressource/df_fiches_nb_serv.csv')
 
+df_ville = pd.read_csv('./ressource/df_ville.csv')
+
+df_exhaustivity = pd.read_csv('./ressource/exhaustivite_territoires.csv')
+
 
 
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
@@ -164,8 +168,6 @@ cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":
             "- Hauts-de-Seine (92)":"92","- Seine-Saint-Denis (93)": "93","- Val-de-Marne (94)": "94", 
             "- Val-d'Oise (95)":"95"}
 
- 
-## Compte pro invité et validé ##
  
 ## Compte pro invité et validé ##
 
@@ -214,6 +216,13 @@ if categorie == "France":
     df_hebergement = df_hebergement
 
     df_maj_6_months = df_maj_6_months
+
+    df_fiche_serv_on_off = df_fiche_serv_on_off
+
+    df_ville_vf = df_ville.groupby(['codePostal','ville']).sum().reset_index()
+    df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
+
+    df_exhaustivity = df_exhaustivity
 
 elif categorie == "Région SUD":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "06") | (df_users_pro_roles.territories == "13")].dropna()
@@ -277,6 +286,15 @@ elif categorie == "Région SUD":
     df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
     df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
 
+    df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == 6) | (df_fiche_serv_on_off.territory == 13)]
+
+    df_ville.dropna(inplace=True)
+    df_ville = df_ville[(df_ville['territory'].str.startswith('06')) | (df_ville['territory'].str.startswith('13'))]
+
+    df_ville_vf = df_ville.groupby(['codePostal','ville']).sum().reset_index()
+    df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
+
+    df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 6) | (df_exhaustivity.Département == 13)]
 
 elif categorie == "Auvergne-Rhône-Alpes":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "07") | (df_users_pro_roles.territories == "15") | (df_users_pro_roles.territories == "63")].dropna()
@@ -341,6 +359,15 @@ elif categorie == "Auvergne-Rhône-Alpes":
     df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
     df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
 
+    df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == 67) | (df_fiche_serv_on_off.territory == 15) | (df_fiche_serv_on_off.territory == 63)]
+
+    df_ville.dropna(inplace=True)
+    df_ville = df_ville[(df_ville['territory'].str.startswith('07')) | (df_ville['territory'].str.startswith('15')) | (df_ville['territory'].str.startswith('63'))]
+
+    df_ville_vf = df_ville.groupby(['codePostal','ville']).sum().reset_index()
+    df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
+
+    df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 7) | (df_exhaustivity.Département == 15) | (df_exhaustivity.Département == 63)]
 
 elif categorie == "Occitanie":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "34")].dropna()
@@ -393,6 +420,22 @@ elif categorie == "Occitanie":
     df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "34")]
     df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
     df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
+
+    df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == 34)]
+
+    df_ville.dropna(inplace=True)
+    df_ville = df_ville[(df_ville['territory'].str.startswith('34'))]
+
+    df_ville_vf = df_ville.groupby(['codePostal','ville']).sum().reset_index()
+    df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
+
+    df_ville.dropna(inplace=True)
+    df_ville = df_ville[(df_ville['territory'].str.startswith('34'))]
+
+    df_ville_vf = df_ville.groupby(['codePostal','ville']).sum().reset_index()
+    df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
+
+    df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 34)]
 
 elif categorie == "Nouvelle-Aquitaine":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "33") | (df_users_pro_roles.territories == "87") | (df_users_pro_roles.territories == "16") | 
@@ -461,6 +504,16 @@ elif categorie == "Nouvelle-Aquitaine":
     df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
     df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
 
+    df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == 33) | (df_fiche_serv_on_off.territory == 87) | (df_fiche_serv_on_off.territory == 16) | (df_fiche_serv_on_off.territory == 24)]
+
+    df_ville.dropna(inplace=True)
+    df_ville = df_ville[(df_ville['territory'].str.startswith('33')) | (df_ville['territory'].str.startswith('87')) | (df_ville['territory'].str.startswith('16')) | (df_ville['territory'].str.startswith('24'))]
+
+    df_ville_vf = df_ville.groupby(['codePostal','ville']).sum().reset_index()
+    df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
+
+    df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 33) | (df_exhaustivity.Département == 87) | (df_exhaustivity.Département == 16) | (df_exhaustivity.Département == 24)]
+
 elif categorie == "Centre-Val-de-Loire":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "36")].dropna()
 
@@ -512,6 +565,16 @@ elif categorie == "Centre-Val-de-Loire":
     df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "36")]
     df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
     df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
+
+    df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == 36)]
+
+    df_ville.dropna(inplace=True)
+    df_ville = df_ville[(df_ville['territory'].str.startswith('36'))]
+
+    df_ville_vf = df_ville.groupby(['codePostal','ville']).sum().reset_index()
+    df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
+
+    df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 36)]
 
 elif categorie == "Pays-de-la-Loire":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "44")].dropna()
@@ -565,6 +628,16 @@ elif categorie == "Pays-de-la-Loire":
     df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
     df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
 
+    df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == 44)]
+
+    df_ville.dropna(inplace=True)
+    df_ville = df_ville[(df_ville['territory'].str.startswith('44'))]
+
+    df_ville_vf = df_ville.groupby(['codePostal','ville']).sum().reset_index()
+    df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
+    
+    df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 44)]
+
 elif categorie == "Normandie":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "76")].dropna()
 
@@ -616,6 +689,16 @@ elif categorie == "Normandie":
     df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "76")]
     df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
     df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
+
+    df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == 76)]
+
+    df_ville.dropna(inplace=True)
+    df_ville = df_ville[(df_ville['territory'].str.startswith('76'))]
+
+    df_ville_vf = df_ville.groupby(['codePostal','ville']).sum().reset_index()
+    df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
+
+    df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 76)]
 
 elif categorie == "Ile-de-France":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "75") | (df_users_pro_roles.territories == "77") | (df_users_pro_roles.territories == "78")
@@ -709,6 +792,20 @@ elif categorie == "Ile-de-France":
     df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
     df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
 
+    df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == 75) | (df_fiche_serv_on_off.territory == 77) | (df_fiche_serv_on_off.territory == 78) 
+    | (df_fiche_serv_on_off.territory == 91) | (df_fiche_serv_on_off.territory == 92) | (df_fiche_serv_on_off.territory == 93) | (df_fiche_serv_on_off.territory == 94)
+    | (df_fiche_serv_on_off.territory == 95)]
+
+    df_ville.dropna(inplace=True)
+    df_ville = df_ville[(df_ville['territory'].str.startswith('75')) | (df_ville['territory'].str.startswith('77')) | (df_ville['territory'].str.startswith('78')) | (df_ville['territory'].str.startswith('91'))
+    | (df_ville['territory'].str.startswith('92')) | (df_ville['territory'].str.startswith('93')) | (df_ville['territory'].str.startswith('94')) | (df_ville['territory'].str.startswith('95'))]
+
+    df_ville_vf = df_ville.groupby(['codePostal','ville']).sum().reset_index()
+    df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
+
+    df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 75) | (df_exhaustivity.Département == 77) | (df_exhaustivity.Département == 78) | (df_exhaustivity.Département == 91)
+     | (df_exhaustivity.Département == 92) | (df_exhaustivity.Département == 93) | (df_exhaustivity.Département == 94) | (df_exhaustivity.Département == 95)]
+
 elif categorie == "Hauts-de-France":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "59")].dropna()
 
@@ -760,6 +857,16 @@ elif categorie == "Hauts-de-France":
     df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "59")]
     df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
     df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
+
+    df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == 59)]
+
+    df_ville.dropna(inplace=True)
+    df_ville = df_ville[(df_ville['territory'].str.startswith('59'))]
+
+    df_ville_vf = df_ville.groupby(['codePostal','ville']).sum().reset_index()
+    df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
+
+    df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 59)]    
 
 elif categorie == "Grand-Est":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "67")].dropna()
@@ -814,6 +921,16 @@ elif categorie == "Grand-Est":
     df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
     df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
 
+    df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == 67)]
+
+    df_ville.dropna(inplace=True)
+    df_ville = df_ville[(df_ville['territory'].str.startswith('67'))]
+
+    df_ville_vf = df_ville.groupby(['codePostal','ville']).sum().reset_index()
+    df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
+    
+    df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 67)]     
+
 elif categorie == "Bourgogne-Franche-Comté":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "21")].dropna()
 
@@ -866,6 +983,16 @@ elif categorie == "Bourgogne-Franche-Comté":
     df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
     df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
 
+    df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == 21)]
+
+    df_ville.dropna(inplace=True)
+    df_ville = df_ville[(df_ville['territory'].str.startswith('21'))]
+
+    df_ville_vf = df_ville.groupby(['codePostal','ville']).sum().reset_index()
+    df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
+
+    df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 21)]     
+
 elif categorie.startswith("-"):
     df_users_pro_roles = df_users_pro_roles[df_users_pro_roles.territories == cat_dict[categorie]].dropna()
     df_users_pro_roles_test = df_users_pro_roles_test[df_users_pro_roles_test.territory == int(cat_dict[categorie])].dropna()
@@ -913,8 +1040,16 @@ elif categorie.startswith("-"):
 
     df_hebergement = df_hebergement[(df_hebergement.territory == cat_dict[categorie])] 
 
+    df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == int(cat_dict[categorie]))]
 
-           
+    df_ville.dropna(inplace=True)
+    df_ville = df_ville[(df_ville['territory'].str.startswith(cat_dict[categorie]))]
+
+    df_ville_vf = df_ville.groupby(['codePostal','ville']).sum().reset_index()
+    df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
+
+    df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == int(cat_dict[categorie]))].reset_index()     
+
 ##########
 ## Tous ##
 ##########
@@ -1533,12 +1668,8 @@ if categorie_2 == 'Tous':
     if not df_fiches_total.empty and 0 in df_sensi_nb.columns.to_list():
 
         html_string_d = f"""<br>
-        <center><font face='Helvetica' size='7'>{round((df_sensi_nb[0].count() / df_fiches_total.departement.sum())* 100, 2)}%</font>
-        <br/><font size='3'>Pourcentage de fiches sensibilisées au moins une fois<br></font></center>
         """
-        col2.markdown(html_string_d, unsafe_allow_html=True)
 
-    if df_fiches_total.empty and 0 not in df_sensi_nb.columns.to_list():
 
         html_string_d = f"""<br>
         <center><font face='Helvetica' size='7'>{0}%</font>
@@ -1546,6 +1677,7 @@ if categorie_2 == 'Tous':
         """
   
         col2.markdown(html_string_d, unsafe_allow_html=True)
+
 
     # Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat
     st.markdown("### **Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat**")
@@ -1556,7 +1688,6 @@ if categorie_2 == 'Tous':
     """
   
     st.markdown(html_string_z, unsafe_allow_html=True)
-
 
 # Nb d'hébergeurs disponibles
 
@@ -1644,6 +1775,7 @@ if categorie_2 == 'Tous':
         res_vf.index = res_vf.index.astype(str)
         res_vf.loc['Total']= res_vf.sum()
         res_vf = res_vf.tail(1)
+        st.write(res_vf)
 
         res_vf_2 = res_vf.transpose()
         res_vf_2 = res_vf_2.sort_index()
@@ -1702,14 +1834,56 @@ if categorie_2 == 'Tous':
 
     st.markdown("### **Nombre de fiches et de services en ligne et en brouillon**")
 
-    df_fiche_serv_on_off = df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0]
+    #df_fiche_serv_on_off = df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0]
     
-    st.write(df_fiche_serv_on_off.statut.count())
+    col1, col2 = st.columns(2)
 
-    
+    html_string_l = f"""<br>
+    <center><font face='Helvetica' size='7'>{df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0].statut.count()}</font>
+    <br/><font size='3'>Nombre de fiches en ligne<br></font></center>
+    """
+
+    col1.markdown(html_string_l, unsafe_allow_html=True)
+
+    html_string_m = f"""<br>
+    <center><font face='Helvetica' size='7'>{df_fiche_serv_on_off[df_fiche_serv_on_off.statut == 0].statut.count()}</font>
+    <br/><font size='3'>Nombre de fiches en brouillon<br></font></center>
+    """
+
+    col2.markdown(html_string_m, unsafe_allow_html=True)
+
+    col1, col2 = st.columns(2)
+
+    html_string_n = f"""<br>
+    <center><font face='Helvetica' size='7'>{df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0].Nb_services.sum()}</font>
+    <br/><font size='3'>Nombre de services en ligne<br></font></center>
+    """
+
+    col1.markdown(html_string_n, unsafe_allow_html=True)
+
+    html_string_o = f"""<br>
+    <center><font face='Helvetica' size='7'>{df_fiche_serv_on_off[df_fiche_serv_on_off.statut == 0].Nb_services.sum()}</font>
+    <br/><font size='3'>Nombre de services en brouillon<br></font></center>
+    """
+
+    col2.markdown(html_string_o, unsafe_allow_html=True)
+
+    st.markdown("### **Nombre de fiches par communes**")
+
+    list_ville = list(dict.fromkeys(df_ville_vf.ville.to_list()))
+    list_ville.insert(0, "")
+
+    test = st.selectbox("Selctionnez une commune :", list_ville)
+
+    if test == "":
+        st.write(df_ville_vf)
+
+    else:
+        st.write(df_ville_vf[df_ville_vf.ville == test])
+
 
 if categorie_2 == 'Communication':
-
+    
 # Newsletter
 
 
@@ -1765,3 +1939,36 @@ if categorie_2 == 'Communication':
         """
 
         col2.markdown(html_string_h, unsafe_allow_html=True)
+
+
+if categorie_2 == 'Lancement':
+
+    st.markdown("### **Pourcentage d'exhaustivité des territoire**")
+
+
+    expander = st.expander("Définition et calcul")
+    expander.write("""Le pourcentage d'exhaustivité des territoires est basé sur le nombre de types de services référencés sur chaque territoire.  
+    En utilisant le nombre de services référencé dans les territoire les plus ancien (33 - 44 - 75 - 92 - 93), et en prenant en compte d'autre variable 
+    comme le taux de pauvreté, le nombre d'habitant ou la superficie, nous avons déterminé le nombre de strucutures par type de services que nous devrions atteindre""")
+
+    if categorie.startswith("-"):
+
+        html_string_p = f"""<br>
+        <center><font face='Helvetica' size='7'>{df_exhaustivity.loc[0,'Moyenne']}%</font>
+        <br/><font size='3'>Pourcentage d'exhaustivité du territoire<br></font></center><br>
+        """
+
+        st.markdown(html_string_p, unsafe_allow_html=True)
+
+    else:
+
+        html_string_q = f"""<br>
+        <center><font face='Helvetica' size='7'>{round(df_exhaustivity.Moyenne.mean(),2)}%</font>
+        <br/><font size='3'>Moyenne des pourcentages d'exhaustivité des territoires<br><br>
+        """
+
+        st.markdown(html_string_q, unsafe_allow_html=True)
+
+
+    expander = st.expander("Tableau des données pour chaque type de service")
+    expander.write(df_exhaustivity)
