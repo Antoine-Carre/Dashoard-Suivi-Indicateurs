@@ -1948,8 +1948,9 @@ if categorie_2 == 'Lancement':
 
     expander = st.expander("Définition et calcul")
     expander.write("""Le pourcentage d'exhaustivité des territoires est basé sur le nombre de types de services référencés sur chaque territoire.  
-    En utilisant le nombre de services référencé dans les territoire les plus ancien (33 - 44 - 75 - 92 - 93), et en prenant en compte d'autre variable 
-    comme le taux de pauvreté, le nombre d'habitant ou la superficie, nous avons déterminé le nombre de strucutures par type de services que nous devrions atteindre""")
+    En utilisant le nombre de services référencé dans les territoire les plus ancien (33 - 44 - 75 - 92 - 93), et en prenant en compte d'autres variables 
+    comme le taux de pauvreté, le nombre d'habitant ou la superficie, nous avons déterminé le nombre de structures par type de services que nous devrions obtenir pour chaque territoire.  
+    Enfin, nous avons comparé le nombre de structure par type de service enregistré par rapport au nombre estimer, ce qui nous donne le pourcentage d'exhaustivité du territoire.""")
 
     if categorie.startswith("-"):
 
