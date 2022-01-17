@@ -333,6 +333,9 @@ elif categorie == "Auvergne-Rhône-Alpes":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "07") | (df_newsletter.Territoire == "15") | (df_newsletter.Territoire == "63")]
     df_newsletter_2 = df_newsletter.sum()
 
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "07") | (df_listing_count_vf.Territoire == "15") 
+                                              | (df_listing_count_vf.Territoire == "63")]
+
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "07") | (df_hebergeurs_dispo_final.territory == "15")
      | (df_hebergeurs_dispo_final.territory == "63")]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
@@ -396,6 +399,8 @@ elif categorie == "Occitanie":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "34")]
     df_newsletter_2 = df_newsletter.sum()
 
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "34")]
+    
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "34")]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
 
@@ -478,6 +483,9 @@ elif categorie == "Nouvelle-Aquitaine":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "33") | (df_newsletter.Territoire == "87") | (df_newsletter.Territoire == "16") | (df_newsletter.Territoire == "24")]
     df_newsletter_2 = df_newsletter.sum()
 
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "33") | (df_listing_count_vf.Territoire == "87") 
+                                              | (df_listing_count_vf.Territoire == "16") | (df_listing_count_vf.Territoire == "24")]
+    
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "33") | (df_hebergeurs_dispo_final.territory == "87")
      | (df_hebergeurs_dispo_final.territory == "16") | (df_hebergeurs_dispo_final.territory == "24")]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
@@ -542,6 +550,8 @@ elif categorie == "Centre-Val-de-Loire":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "36")]
     df_newsletter_2 = df_newsletter.sum()
 
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "36")]
+    
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "36")]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
 
@@ -604,6 +614,8 @@ elif categorie == "Pays-de-la-Loire":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "44")]
     df_newsletter_2 = df_newsletter.sum()
 
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "44")]
+    
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "44") ]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
 
@@ -666,6 +678,8 @@ elif categorie == "Normandie":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "76")]
     df_newsletter_2 = df_newsletter.sum()
 
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "76")]
+    
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "76")]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
 
@@ -761,6 +775,11 @@ elif categorie == "Ile-de-France":
     | (df_newsletter.Territoire == "95")]
     df_newsletter_2 = df_newsletter.sum()
 
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "75") | (df_listing_count_vf.Territoire == "77") 
+                                              | (df_listing_count_vf.Territoire == "78") | (df_listing_count_vf.Territoire == "91")
+                                              | (df_listing_count_vf.Territoire == "92") | (df_listing_count_vf.Territoire == "93")
+                                              | (df_listing_count_vf.Territoire == "94") | (df_listing_count_vf.Territoire == "95")]
+    
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "75") | (df_hebergeurs_dispo_final.territory == "77")
      | (df_hebergeurs_dispo_final.territory == "78") | (df_hebergeurs_dispo_final.territory == "91") | (df_hebergeurs_dispo_final.territory == "92")
      | (df_hebergeurs_dispo_final.territory == "93") | (df_hebergeurs_dispo_final.territory == "94") | (df_hebergeurs_dispo_final.territory == "95")]
@@ -834,6 +853,8 @@ elif categorie == "Hauts-de-France":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "59")]
     df_newsletter_2 = df_newsletter.sum()
 
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "59")]
+    
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "59")]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
 
@@ -895,6 +916,8 @@ elif categorie == "Grand-Est":
 
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "67")]
     df_newsletter_2 = df_newsletter.sum()
+    
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "67")]
 
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "67")]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
@@ -958,6 +981,8 @@ elif categorie == "Bourgogne-Franche-Comté":
 
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "21")]
     df_newsletter_2 = df_newsletter.sum()
+    
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "21")]
 
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "21")]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
@@ -1018,6 +1043,8 @@ elif categorie.startswith("-"):
     df_fiches_total = df_fiches_total[(df_fiches_total.territory == int(cat_dict[categorie]))]
 
     df_newsletter = df_newsletter[(df_newsletter.Territoire == (cat_dict[categorie]))].reset_index()
+    
+    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == cat_dict[categorie])]
 
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == cat_dict[categorie])]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
