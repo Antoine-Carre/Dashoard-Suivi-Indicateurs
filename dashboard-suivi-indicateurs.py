@@ -1652,7 +1652,7 @@ if categorie_2 == 'Tous':
 
         expander.plotly_chart(figActionCum, use_container_width=True)
         
-    if categorie != "- Indre (36)":
+    if categorie != "- Indre (36)" and categorie != "Centre-Val-de-Loire":
 
         st.markdown("### **Nombre fiches sensibilisées au moins une fois**")
 
