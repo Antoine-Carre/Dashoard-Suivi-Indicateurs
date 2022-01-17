@@ -1460,7 +1460,7 @@ if categorie_2 == 'Tous':
     col2.markdown(html_string_b, unsafe_allow_html=True)
     
     st.markdown("### **Nombre d'utilisateurs* **")
-    st.markdown("* ne sont comptabilisé ici que les utilisateurs qui ont accepter l'utilisation de cookies")
+    st.markdown("\* ne sont comptabilisé ici que les utilisateurs qui ont accepter l'utilisation de cookies")
 
     df4 = df4.iloc[:-1,:]
 
