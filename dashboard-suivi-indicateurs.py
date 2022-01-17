@@ -1647,7 +1647,7 @@ if categorie_2 == 'Tous':
 
     col1, col2 = st.columns(2)
 
-  if 0 in df_sensi_nb.columns.to_list():
+    if 0 in df_sensi_nb.columns.to_list():
 
         html_string_c = f"""<br>
         <center><font face='Helvetica' size='7'>{df_sensi_nb[0].count()}</font>
