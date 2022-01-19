@@ -159,6 +159,9 @@ df_ville = pd.read_csv('./ressource/df_ville.csv')
 df_exhaustivity = pd.read_csv('./ressource/exhaustivite_territoires.csv')
 
 
+df_categorie_vf = pd.read_csv('./ressource/df_categorie_vf.csv')
+df_categorie_vf['territory'] = df_categorie_vf['departement'].map(Dep_to_num)
+
 
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
             "- Bouche-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
@@ -169,6 +172,7 @@ cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":
             "- Val-d'Oise (95)":"95"}
 
  
+
 ## Compte pro invité et validé ##
 
 if categorie == "France":
@@ -223,6 +227,10 @@ if categorie == "France":
     df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
 
     df_exhaustivity = df_exhaustivity
+
+    df_partenariat_dep_final = df_partenariat_dep_final.loc['Total']
+
+    df_categorie_vf = df_categorie_vf
 
 elif categorie == "Région SUD":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "06") | (df_users_pro_roles.territories == "13")].dropna()
@@ -296,6 +304,8 @@ elif categorie == "Région SUD":
 
     df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 6) | (df_exhaustivity.Département == 13)]
 
+    df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "06") | (df_categorie_vf.territory == "13")]
+
 elif categorie == "Auvergne-Rhône-Alpes":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "07") | (df_users_pro_roles.territories == "15") | (df_users_pro_roles.territories == "63")].dropna()
     df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 7) | (df_users_pro_roles_test.territory == 15) | (df_users_pro_roles_test.territory == 63)].dropna()
@@ -333,9 +343,6 @@ elif categorie == "Auvergne-Rhône-Alpes":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "07") | (df_newsletter.Territoire == "15") | (df_newsletter.Territoire == "63")]
     df_newsletter_2 = df_newsletter.sum()
 
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "07") | (df_listing_count_vf.Territoire == "15") 
-                                              | (df_listing_count_vf.Territoire == "63")]
-
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "07") | (df_hebergeurs_dispo_final.territory == "15")
      | (df_hebergeurs_dispo_final.territory == "63")]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
@@ -372,6 +379,8 @@ elif categorie == "Auvergne-Rhône-Alpes":
 
     df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 7) | (df_exhaustivity.Département == 15) | (df_exhaustivity.Département == 63)]
 
+    df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "07") | (df_categorie_vf.territory == "15") | (df_categorie_vf.territory == "63")]
+
 elif categorie == "Occitanie":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "34")].dropna()
     df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 34)].dropna()
@@ -399,8 +408,6 @@ elif categorie == "Occitanie":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "34")]
     df_newsletter_2 = df_newsletter.sum()
 
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "34")]
-    
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "34")]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
 
@@ -441,6 +448,8 @@ elif categorie == "Occitanie":
     df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
 
     df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 34)]
+
+    df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "34")]
 
 elif categorie == "Nouvelle-Aquitaine":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "33") | (df_users_pro_roles.territories == "87") | (df_users_pro_roles.territories == "16") | 
@@ -483,9 +492,6 @@ elif categorie == "Nouvelle-Aquitaine":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "33") | (df_newsletter.Territoire == "87") | (df_newsletter.Territoire == "16") | (df_newsletter.Territoire == "24")]
     df_newsletter_2 = df_newsletter.sum()
 
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "33") | (df_listing_count_vf.Territoire == "87") 
-                                              | (df_listing_count_vf.Territoire == "16") | (df_listing_count_vf.Territoire == "24")]
-    
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "33") | (df_hebergeurs_dispo_final.territory == "87")
      | (df_hebergeurs_dispo_final.territory == "16") | (df_hebergeurs_dispo_final.territory == "24")]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
@@ -522,6 +528,8 @@ elif categorie == "Nouvelle-Aquitaine":
 
     df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 33) | (df_exhaustivity.Département == 87) | (df_exhaustivity.Département == 16) | (df_exhaustivity.Département == 24)]
 
+    df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "33") | (df_categorie_vf.territory == "87") | (df_categorie_vf.territory == "16") | (df_categorie_vf.territory == "24")]
+
 elif categorie == "Centre-Val-de-Loire":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "36")].dropna()
 
@@ -550,8 +558,6 @@ elif categorie == "Centre-Val-de-Loire":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "36")]
     df_newsletter_2 = df_newsletter.sum()
 
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "36")]
-    
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "36")]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
 
@@ -586,6 +592,8 @@ elif categorie == "Centre-Val-de-Loire":
 
     df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 36)]
 
+    df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "36")]
+
 elif categorie == "Pays-de-la-Loire":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "44")].dropna()
 
@@ -614,8 +622,6 @@ elif categorie == "Pays-de-la-Loire":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "44")]
     df_newsletter_2 = df_newsletter.sum()
 
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "44")]
-    
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "44") ]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
 
@@ -650,6 +656,8 @@ elif categorie == "Pays-de-la-Loire":
     
     df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 44)]
 
+    df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "44")]
+
 elif categorie == "Normandie":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "76")].dropna()
 
@@ -678,8 +686,6 @@ elif categorie == "Normandie":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "76")]
     df_newsletter_2 = df_newsletter.sum()
 
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "76")]
-    
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "76")]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
 
@@ -713,6 +719,8 @@ elif categorie == "Normandie":
     df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
 
     df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 76)]
+
+    df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "76")]
 
 elif categorie == "Ile-de-France":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "75") | (df_users_pro_roles.territories == "77") | (df_users_pro_roles.territories == "78")
@@ -775,11 +783,6 @@ elif categorie == "Ile-de-France":
     | (df_newsletter.Territoire == "95")]
     df_newsletter_2 = df_newsletter.sum()
 
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "75") | (df_listing_count_vf.Territoire == "77") 
-                                              | (df_listing_count_vf.Territoire == "78") | (df_listing_count_vf.Territoire == "91")
-                                              | (df_listing_count_vf.Territoire == "92") | (df_listing_count_vf.Territoire == "93")
-                                              | (df_listing_count_vf.Territoire == "94") | (df_listing_count_vf.Territoire == "95")]
-    
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "75") | (df_hebergeurs_dispo_final.territory == "77")
      | (df_hebergeurs_dispo_final.territory == "78") | (df_hebergeurs_dispo_final.territory == "91") | (df_hebergeurs_dispo_final.territory == "92")
      | (df_hebergeurs_dispo_final.territory == "93") | (df_hebergeurs_dispo_final.territory == "94") | (df_hebergeurs_dispo_final.territory == "95")]
@@ -825,6 +828,10 @@ elif categorie == "Ile-de-France":
     df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 75) | (df_exhaustivity.Département == 77) | (df_exhaustivity.Département == 78) | (df_exhaustivity.Département == 91)
      | (df_exhaustivity.Département == 92) | (df_exhaustivity.Département == 93) | (df_exhaustivity.Département == 94) | (df_exhaustivity.Département == 95)]
 
+    df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "75") | (df_categorie_vf.territory == "77") | (df_categorie_vf.territory == "78")
+    | (df_categorie_vf.territory == "91") | (df_categorie_vf.territory == "92") | (df_categorie_vf.territory == "93") | (df_categorie_vf.territory == "94")
+    | (df_categorie_vf.territory == "95")]
+
 elif categorie == "Hauts-de-France":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "59")].dropna()
 
@@ -853,8 +860,6 @@ elif categorie == "Hauts-de-France":
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "59")]
     df_newsletter_2 = df_newsletter.sum()
 
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "59")]
-    
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "59")]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
 
@@ -889,6 +894,8 @@ elif categorie == "Hauts-de-France":
 
     df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 59)]    
 
+    df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "59")]
+
 elif categorie == "Grand-Est":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "67")].dropna()
 
@@ -916,8 +923,6 @@ elif categorie == "Grand-Est":
 
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "67")]
     df_newsletter_2 = df_newsletter.sum()
-    
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "67")]
 
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "67")]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
@@ -954,6 +959,8 @@ elif categorie == "Grand-Est":
     
     df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 67)]     
 
+    df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "67")]
+
 elif categorie == "Bourgogne-Franche-Comté":
     df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "21")].dropna()
 
@@ -981,8 +988,6 @@ elif categorie == "Bourgogne-Franche-Comté":
 
     df_newsletter = df_newsletter[(df_newsletter.Territoire == "21")]
     df_newsletter_2 = df_newsletter.sum()
-    
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "21")]
 
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "21")]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
@@ -1018,6 +1023,8 @@ elif categorie == "Bourgogne-Franche-Comté":
 
     df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 21)]     
 
+    df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "21")]
+
 elif categorie.startswith("-"):
     df_users_pro_roles = df_users_pro_roles[df_users_pro_roles.territories == cat_dict[categorie]].dropna()
     df_users_pro_roles_test = df_users_pro_roles_test[df_users_pro_roles_test.territory == int(cat_dict[categorie])].dropna()
@@ -1043,8 +1050,6 @@ elif categorie.startswith("-"):
     df_fiches_total = df_fiches_total[(df_fiches_total.territory == int(cat_dict[categorie]))]
 
     df_newsletter = df_newsletter[(df_newsletter.Territoire == (cat_dict[categorie]))].reset_index()
-    
-    df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == cat_dict[categorie])]
 
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == cat_dict[categorie])]
     df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
@@ -1076,6 +1081,8 @@ elif categorie.startswith("-"):
     df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
 
     df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == int(cat_dict[categorie]))].reset_index()     
+
+    df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == cat_dict[categorie])]
 
 ##########
 ## Tous ##
@@ -1651,11 +1658,10 @@ if categorie_2 == 'Tous':
         figActionCum.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
 
         expander.plotly_chart(figActionCum, use_container_width=True)
-        
+
+    st.markdown("### **Nombre fiches sensibilisées au moins une fois**")
+
     if categorie != "- Indre (36)" and categorie != "Centre-Val-de-Loire":
-
-        st.markdown("### **Nombre fiches sensibilisées au moins une fois**")
-
         df_diff_fiches = df_diff[['Fiches']]
         df_diff_fiches = df_diff_fiches["Fiches"].str.split("," , expand=True)
 
@@ -1664,7 +1670,7 @@ if categorie_2 == 'Tous':
         for n in range(len(df_diff_fiches.columns)-1):
             L.extend(df_diff_fiches[n].tolist())
         L = [x for x in L if x is not None]
-        
+            
         df_sensi_nb = pd.DataFrame(L)
         df_sensi_nb.dropna(inplace=True)
         df_sensi_nb.reset_index(inplace=True)
@@ -1698,14 +1704,16 @@ if categorie_2 == 'Tous':
 
             html_string_d = f"""<br>
             """
+
+
             html_string_d = f"""<br>
             <center><font face='Helvetica' size='7'>{round((df_sensi_nb[0].count() / df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0].statut.count())*100, 2)}%</font>
             <br/><font size='3'>Pourcentage de fiches sensibilisées au moins une fois<br></font></center>
             """
-  
+    
             col2.markdown(html_string_d, unsafe_allow_html=True)
 
-    
+
     # Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat
     st.markdown("### **Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat**")
 
@@ -1908,6 +1916,37 @@ if categorie_2 == 'Tous':
         st.write(df_ville_vf[df_ville_vf.ville == test])
 
 
+    st.markdown("### **Nombre de fiches par type de service**")
+    st.markdown("*Pour pouvoir visualiser le nombre de fiches pour un service en particulier, double_cliqué sur le service dans le légende.*")
+    st.markdown("**Attention**: si une structure propose plusieurs services, elles sera comptabilisée 1 fois par service dans ce graphique")
+
+    df_categorie_per_month = df_categorie_vf.groupby(['createdAt','categorie']).count().reset_index()
+    df_categorie_per_month = df_categorie_per_month.iloc[:,:3]
+    df_categorie_per_month.rename(columns={"Unnamed: 0":'Nombre_de_fiches'}, inplace=True)
+
+
+
+    figServiceFiches = px.bar(df_categorie_per_month, x="createdAt", y="Nombre_de_fiches", color="categorie", 
+             color_discrete_sequence= px.colors.qualitative.Dark24, )
+
+    figServiceFiches.update_yaxes(title_text="Nombre de fiches en ligne par type de service", title_font_family="Times New Roman")
+    figServiceFiches.update_xaxes(title_text="", title_font_family="Times New Roman")
+
+    annotationsServFiches = dict(xref='paper', yref='paper', x=0.055, y=1,
+                                    xanchor='center', yanchor='top',
+                                    text='Fait le: ' + str("1 janvier 2022"),
+                                    font=dict(family='Arial',
+                                            size=12,
+                                            color='rgb(150,150,150)'),
+                                    showarrow=False)
+
+                            
+    figServiceFiches.update_layout(xaxis=dict(tickformat="%B %Y"))
+    figServiceFiches.update_traces(hovertemplate = "Mois de création des fiches : %{x}<br>Nbre de fiches: %{y}")
+    figServiceFiches.update_layout(legend={'title_text':'Types de service'})
+
+    st.plotly_chart(figServiceFiches, use_container_width=True)
+
 if categorie_2 == 'Communication':
     
 # Newsletter
@@ -1967,6 +2006,9 @@ if categorie_2 == 'Communication':
         col2.markdown(html_string_h, unsafe_allow_html=True)
 
 
+    st.markdown("### **Nombre de partenariats départementaux**")
+
+
 if categorie_2 == 'Lancement':
 
     st.markdown("### **Pourcentage d'exhaustivité des territoire**")
@@ -1974,9 +2016,8 @@ if categorie_2 == 'Lancement':
 
     expander = st.expander("Définition et calcul")
     expander.write("""Le pourcentage d'exhaustivité des territoires est basé sur le nombre de types de services référencés sur chaque territoire.  
-    En utilisant le nombre de services référencé dans les territoire les plus ancien (33 - 44 - 75 - 92 - 93), et en prenant en compte d'autres variables 
-    comme le taux de pauvreté, le nombre d'habitant ou la superficie, nous avons déterminé le nombre de structures par type de services que nous devrions obtenir pour chaque territoire.  
-    Enfin, nous avons comparé le nombre de structure par type de service enregistré par rapport au nombre estimer, ce qui nous donne le pourcentage d'exhaustivité du territoire.""")
+    En utilisant le nombre de services référencé dans les territoire les plus ancien (33 - 44 - 75 - 92 - 93), et en prenant en compte d'autre variable 
+    comme le taux de pauvreté, le nombre d'habitant ou la superficie, nous avons déterminé le nombre de strucutures par type de services que nous devrions atteindre""")
 
     if categorie.startswith("-"):
 
@@ -1998,7 +2039,7 @@ if categorie_2 == 'Lancement':
 
 
     expander = st.expander("Tableau des données pour chaque type de service")
- 
+
     df_exhaustivity = df_exhaustivity.loc[:,"Département":]
 
     m = 2
