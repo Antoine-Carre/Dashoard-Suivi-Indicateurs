@@ -158,7 +158,6 @@ df_ville = pd.read_csv('./ressource/df_ville.csv')
 
 df_exhaustivity = pd.read_csv('./ressource/exhaustivite_territoires.csv')
 
-
 df_categorie_vf = pd.read_csv('./ressource/df_categorie_vf.csv')
 df_categorie_vf['territory'] = df_categorie_vf['departement'].map(Dep_to_num)
 
@@ -227,8 +226,6 @@ if categorie == "France":
     df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
 
     df_exhaustivity = df_exhaustivity
-
-    df_partenariat_dep_final = df_partenariat_dep_final.loc['Total']
 
     df_categorie_vf = df_categorie_vf
 
