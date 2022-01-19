@@ -1802,7 +1802,6 @@ if categorie_2 == 'Tous':
         res_vf.index = res_vf.index.astype(str)
         res_vf.loc['Total']= res_vf.sum()
         res_vf = res_vf.tail(1)
-        st.write(res_vf)
 
         res_vf_2 = res_vf.transpose()
         res_vf_2 = res_vf_2.sort_index()
