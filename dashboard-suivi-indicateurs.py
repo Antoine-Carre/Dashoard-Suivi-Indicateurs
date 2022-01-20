@@ -1968,7 +1968,7 @@ if categorie_2 == 'Tous':
     figServiceFichesCum.update_layout(legend={'title_text':'Types de service'})
 
 
-    expander.plotly_chart(figServiceFichesCum, use_container_width=True)
+    expander.plotly_chart(figServiceFichesCum, use_container_width=600)
     
     
 if categorie_2 == 'Communication':
