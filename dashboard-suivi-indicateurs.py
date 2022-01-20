@@ -1965,7 +1965,9 @@ if categorie_2 == 'Tous':
                             
     figServiceFichesCum.update_layout(xaxis=dict(tickformat="%B %Y"))
     figServiceFichesCum.update_traces(hovertemplate = "Mois de création des fiches : %{x}<br>Nbre de fiches: %{y}")
-    figServiceFichesCum.update_layout(legend={'title_text':'Types de service'})
+    figServiceFichesCum.update_layout(legend={'title_text':'Types de service'}, width=500)
+    
+    
 
     expander.plotly_chart(figServiceFichesCum, use_container_width=True)
     
