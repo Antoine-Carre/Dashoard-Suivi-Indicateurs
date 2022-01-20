@@ -1236,8 +1236,9 @@ if categorie_2 == 'Tous':
 
         dt_all = pd.date_range(start=df_users_pro_roles['createdAt'].iloc[0],end=df_users_pro_roles['createdAt'].iloc[-1])
         dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_users_pro_roles['createdAt'])]
-        dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
-
+        dt_breaks = [d for d in dt_all.strftime("%Y-%m"
+                                               ).tolist() if not d in dt_obs]
+        fig.update_layout(legend=dict(orientation="h"))
         fig.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
 
         st.plotly_chart(fig, use_container_width=True)
@@ -1269,6 +1270,7 @@ if categorie_2 == 'Tous':
         ])
         fig2.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre d'organisations",)
         fig2.update_traces(hovertemplate = "Date de la création de compte organisation : %{x}<br>Nbre d'organisation: %{y}")
+        fig2.update_layout(legend=dict(orientation="h"))
 
         st.plotly_chart(fig2, use_container_width=True)
 
@@ -1281,6 +1283,7 @@ if categorie_2 == 'Tous':
 
         fig3 = px.pie(values=test[0], names=test.index, color_discrete_sequence= [ '#7201a8', '#d8576b'],)
         fig3.update_traces(hovertemplate = "%{label}: <br>Nbre d'organisations: %{value}")
+        fig3.update_layout(legend=dict(orientation="h"))
 
 
         st.plotly_chart(fig3, use_container_width=True)
@@ -1312,7 +1315,7 @@ if categorie_2 == 'Tous':
         fig4 = px.pie(values=df.Nbre_orga, names=df.cat, color_discrete_sequence= [ '#7201a8', '#d8576b'],)
         fig4.update_traces(textinfo='percent + value')
         fig4.update_traces(hovertemplate = "%{label}: <br>Nbre d'organisations: %{value}")
-        #fig4.update_layout(legend=dict(orientation="h"))
+        fig4.update_layout(legend=dict(orientation="h"))
 
         st.plotly_chart(fig4, use_container_width=True)
 
@@ -1328,6 +1331,7 @@ if categorie_2 == 'Tous':
                             "Nbre d'orga":[df_orga_auto_season[df_orga_auto_season.isCampaign ==True]['index'].count(),((df.iloc[0,1] + df.iloc[1,1]) - test[test.isCampaign == True]['index'].count())]})
 
         fig5 = px.pie(values=df_seasoned['Nbre d\'orga'], names=df_seasoned['Type d\'orga'], color_discrete_sequence= [ '#7201a8', '#d8576b'],)
+        fig5.update_layout(legend=dict(orientation="h"))
 
         st.plotly_chart(fig5, use_container_width=True)
 
@@ -1342,6 +1346,7 @@ if categorie_2 == 'Tous':
         fig6.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de fiches mises à jour par les pro",)
         fig6.update_traces(hovertemplate = "Date de la création du compte pro : %{x}<br>Nbre de fiches mises à jour par les pro: %{y}")
         fig6.update_layout(legend={'title_text':''})
+        fig6.update_layout(legend=dict(orientation="h"))
 
         st.plotly_chart(fig6, use_container_width=True)
 
@@ -1367,6 +1372,7 @@ if categorie_2 == 'Tous':
                             
     figSearch.update_layout(xaxis=dict(tickformat="%B %Y"))
     figSearch.update_layout(hovermode="x", title_font_family="Times New Roman", annotations=[annotationsSearch])
+    figSearch.update_layout(legend=dict(orientation="h"))
 
 
     st.plotly_chart(figSearch, use_container_width=True)
@@ -1457,6 +1463,7 @@ if categorie_2 == 'Tous':
                             
     figSearch_user.update_layout(xaxis=dict(tickformat="%B %Y"))
     figSearch_user.update_layout(hovermode="x", title_font_family="Times New Roman", annotations=[annotationsSearch_user])
+    figSearch_user.update_layout(legend=dict(orientation="h"))
 
     st.plotly_chart(figSearch_user, use_container_width=True)
 
@@ -1511,6 +1518,7 @@ if categorie_2 == 'Tous':
     fig4.update_layout(xaxis=dict(tickformat="%B-%Y"))
     fig4.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotations],
     legend={'title_text':''})
+    fig4.update_layout(legend=dict(orientation="h"))
 
 
     st.plotly_chart(fig4, use_container_width=True)
@@ -1545,6 +1553,7 @@ if categorie_2 == 'Tous':
         dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
 
         figProDifCum.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+        figProDifCum.update_layout(legend=dict(orientation="h"))
 
         st.plotly_chart(figProDifCum, use_container_width=True)
 
@@ -1563,6 +1572,7 @@ if categorie_2 == 'Tous':
         dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
 
         figProDif.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+        figProDif.update_layout(legend=dict(orientation="h"))
 
         expander.plotly_chart(figProDif, use_container_width=True)
 
@@ -1589,6 +1599,7 @@ if categorie_2 == 'Tous':
         dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
 
         figDiffBenefCum.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+        figDiffBenefCum.update_layout(legend=dict(orientation="h"))
 
         st.plotly_chart(figDiffBenefCum, use_container_width=True)
 
@@ -1607,6 +1618,7 @@ if categorie_2 == 'Tous':
         dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
 
         figDiffBenef.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+        figDiffBenef.update_layout(legend=dict(orientation="h"))
 
 
         expander.plotly_chart(figDiffBenef, use_container_width=True)
@@ -1636,6 +1648,7 @@ if categorie_2 == 'Tous':
         dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
 
         figAction.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+        figAction.update_layout(legend=dict(orientation="h"))
 
         st.plotly_chart(figAction, use_container_width=True)
 
@@ -1653,6 +1666,7 @@ if categorie_2 == 'Tous':
         dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
 
         figActionCum.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+        figActionCum.update_layout(legend=dict(orientation="h"))
 
         expander.plotly_chart(figActionCum, use_container_width=True)
 
@@ -1746,6 +1760,7 @@ if categorie_2 == 'Tous':
                            
     figHebDispo.update_layout(xaxis=dict(tickformat="%B %Y"))
     figHebDispo.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotationsHebDispo])
+    figHebDispo.update_layout(legend=dict(orientation="h"))
 
     st.plotly_chart(figHebDispo, use_container_width=True)
 
@@ -1774,6 +1789,7 @@ if categorie_2 == 'Tous':
                            
     figHeb.update_layout(xaxis=dict(tickformat="%B %Y"))
     figHeb.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotationsHeb])
+    figHeb.update_layout(legend=dict(orientation="h"))
 
     st.plotly_chart(figHeb, use_container_width=True)
 
@@ -1835,6 +1851,7 @@ if categorie_2 == 'Tous':
                             
         figNuité.update_layout(xaxis=dict(tickformat="%B %Y"))
         figNuité.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotationsHeb])
+        figNuité.update_layout(legend=dict(orientation="h"))
 
 
         st.plotly_chart(figNuité, use_container_width=True)
@@ -1941,6 +1958,7 @@ if categorie_2 == 'Tous':
     figServiceFiches.update_layout(xaxis=dict(tickformat="%B %Y"))
     figServiceFiches.update_traces(hovertemplate = "Mois de création des fiches : %{x}<br>Nbre de fiches: %{y}")
     figServiceFiches.update_layout(legend={'title_text':'Types de service'})
+    figServiceFiches.update_layout(legend=dict(orientation="h"))
 
     st.plotly_chart(figServiceFiches, use_container_width=True)
 
@@ -1966,8 +1984,7 @@ if categorie_2 == 'Tous':
     figServiceFichesCum.update_layout(xaxis=dict(tickformat="%B %Y"))
     figServiceFichesCum.update_traces(hovertemplate = "Mois de création des fiches : %{x}<br>Nbre de fiches: %{y}")
     figServiceFichesCum.update_layout(legend={'title_text':'Types de service'}, width=100)
-    
-    
+    figServiceFichesCum.update_layout(legend=dict(orientation="h"))   
 
     expander.plotly_chart(figServiceFichesCum, use_container_width=True)
     
