@@ -1921,7 +1921,7 @@ if categorie_2 == 'Tous':
     df_categorie_per_month = df_categorie_per_month.iloc[:,:3]
     df_categorie_per_month.rename(columns={"Unnamed: 0":'Nombre_de_fiches'}, inplace=True)
 
-
+    df_categorie_per_month["nbre_fiches_cum"]=df_categorie_per_month.groupby(['categorie'])['Nombre_de_fiches'].cumsum(axis=0)
 
     figServiceFiches = px.bar(df_categorie_per_month, x="createdAt", y="Nombre_de_fiches", color="categorie", 
              color_discrete_sequence= px.colors.qualitative.Dark24, )
@@ -1944,6 +1944,33 @@ if categorie_2 == 'Tous':
 
     st.plotly_chart(figServiceFiches, use_container_width=True)
 
+    
+
+    expander = st.expander("Nombre de fiches par type de service (en cumulé)")
+    expander.markdown("*Lorsque vous double-cliquez sur un type de service dans la légende le nombre qui apparait est le nombre total de fiches en ligne avec proposant ce service*")
+
+    figServiceFichesCum = px.bar(df_categorie_per_month, x="createdAt", y="nbre_fiches_cum", color="categorie", 
+             color_discrete_sequence= px.colors.qualitative.Dark24, )
+
+    figServiceFichesCum.update_yaxes(title_text="Nombre de fiches en ligne par type de service", title_font_family="Times New Roman")
+    figServiceFichesCum.update_xaxes(title_text="Mois de création de la fiche", title_font_family="Times New Roman")
+    annotationsServFichesCum = dict(xref='paper', yref='paper', x=0.055, y=1,
+                                    xanchor='center', yanchor='top',
+                                    text='Fait le: ' + str("1 janvier 2022"),
+                                    font=dict(family='Arial',
+                                            size=12,
+                                            color='rgb(150,150,150)'),
+                                    showarrow=False)
+
+                            
+    figServiceFichesCum.update_layout(xaxis=dict(tickformat="%B %Y"))
+    figServiceFichesCum.update_traces(hovertemplate = "Mois de création des fiches : %{x}<br>Nbre de fiches: %{y}")
+    figServiceFichesCum.update_layout(legend={'title_text':'Types de service'})
+
+
+    expander.plotly_chart(figServiceFichesCum, use_container_width=True)
+    
+    
 if categorie_2 == 'Communication':
     
 # Newsletter
@@ -2019,7 +2046,8 @@ if categorie_2 == 'Lancement':
     if categorie.startswith("-"):
 
         html_string_p = f"""<br>
-        <center><font face='Helvetica' size='7'>{df_exhaustivity.loc[0,'Moyenne']}%</font>
+        <center><font face='Helvetica' size='7'>{df_exhaustivity.loc[0,'Moye    df_categorie_per_month["nbre_fiches_cum"]=df_categorie_per_month.groupby(['categorie'])['Nombre_de_fiches'].cumsum(axis=0)
+nne']}%</font>
         <br/><font size='3'>Pourcentage d'exhaustivité du territoire<br></font></center><br>
         """
 
