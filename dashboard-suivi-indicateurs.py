@@ -2046,8 +2046,7 @@ if categorie_2 == 'Lancement':
     if categorie.startswith("-"):
 
         html_string_p = f"""<br>
-        <center><font face='Helvetica' size='7'>{df_exhaustivity.loc[0,'Moye    df_categorie_per_month["nbre_fiches_cum"]=df_categorie_per_month.groupby(['categorie'])['Nombre_de_fiches'].cumsum(axis=0)
-nne']}%</font>
+        <center><font face='Helvetica' size='7'>{df_exhaustivity.loc[0,'Moyenne']}%</font>
         <br/><font size='3'>Pourcentage d'exhaustivité du territoire<br></font></center><br>
         """
 
