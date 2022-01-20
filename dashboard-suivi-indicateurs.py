@@ -1965,7 +1965,7 @@ if categorie_2 == 'Tous':
                             
     figServiceFichesCum.update_layout(xaxis=dict(tickformat="%B %Y"))
     figServiceFichesCum.update_traces(hovertemplate = "Mois de création des fiches : %{x}<br>Nbre de fiches: %{y}")
-    figServiceFichesCum.update_layout(legend={'title_text':'Types de service'}, width=500)
+    figServiceFichesCum.update_layout(legend={'title_text':'Types de service'}, width=100)
     
     
 
