@@ -2153,6 +2153,7 @@ if categorie_2 == 'Admin/Finance':
     df_co_const = df_diff_v2[(df_diff_v2['Type'] == "Coop") | (df_diff_v2['Type'] == "Copil")]
     df_co_const = df_co_const[['Date','Territoire','Type']]
     df_co_const['Date'] = pd.to_datetime(df_co_const['Date'])
+    df_co_const = df_co_const[df_co_const['Date'] > "2015-01-01"] 
         
     table = pd.pivot_table(df_co_const, values='Type', index=['Territoire'],
                         columns=['Date'], aggfunc='count')
