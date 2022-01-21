@@ -199,6 +199,14 @@ cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":
             "- Hauts-de-Seine (92)":"92","- Seine-Saint-Denis (93)": "93","- Val-de-Marne (94)": "94", 
             "- Val-d'Oise (95)":"95"}
 
+dict_region = {"33" : "Nouvelle-Aquitaine","87" : "Nouvelle-Aquitaine", "16" : "Nouvelle-Aquitaine",
+              "24" : "Nouvelle-Aquitaine", "44" : "Pays-de-la-Loire", "67" : "Grand-Est",
+               "75" : "Ile-de-France", "77" : "Ile-de-France", "78" : "Ile-de-France", "91" : "Ile-de-France",
+              "92" : "Ile-de-France", "93" : "Ile-de-France", "94" : "Ile-de-France", "95" : "Ile-de-France",
+              "06" : "Région-Sud", "13" : "Région-Sud", "36" : "Centre-Val-de-Loire", "34" : "Occitanie",
+              "63" : "Auvergne-Rhône-Alpes","07" : "Auvergne-Rhône-Alpes", "15" : "Auvergne-Rhône-Alpes",
+              "76" : "Normandie", "21" : "Bourgogne-Franche-Comté"}
+
  
 
 ## Compte pro invité et validé ##
@@ -2211,3 +2219,104 @@ if categorie_2 == 'Admin/Finance':
     figCo_const.update_layout(barmode='stack')
 
     st.plotly_chart(figCo_const, use_container_width=True)
+    
+    
+    
+    # CSS to inject contained in a string
+    hide_table_row_index = """
+                <style>
+                tbody th {display:none}
+                .blank {display:none}
+                </style>
+                """
+
+    # Inject CSS with Markdown
+    st.markdown(hide_table_row_index, unsafe_allow_html=True)
+
+
+    st.markdown("### **Nombre de partenariats régionaux**")
+
+    html_string = "<br>"
+    st.markdown(html_string, unsafe_allow_html=True)
+
+
+    col1, col2 = st.columns(2)
+
+    df_Partenaires_Regionaux = df_Partenaires[['Statut du partenariat','Département (from CR)','Département (from partenaires)']]
+    df_Partenaires_Regionaux.dropna(inplace=True)
+    df_Partenaires_Regionaux['Département (from CR)'] = df_Partenaires_Regionaux['Département (from CR)'].str.split(',').apply(set).str.join(', ')
+
+    df_Partenaires_Regionaux_en_cours = df_Partenaires_Regionaux[df_Partenaires_Regionaux['Statut du partenariat'].str.contains('cours')]
+    df_Partenaires_Regionaux_en_cours = df_Partenaires_Regionaux_en_cours.groupby('Département (from CR)').count()
+    df_Partenaires_Regionaux_en_cours.loc['Région Sud'] = df_Partenaires_Regionaux_en_cours.loc['Alpes-Maritimes'] + df_Partenaires_Regionaux_en_cours.loc['Bouches-du-Rhône']
+    df_Partenaires_Regionaux_en_cours.loc['Ile-de-France'] = df_Partenaires_Regionaux_en_cours.loc['Hauts-de-Seine']
+    df_Partenaires_Regionaux_en_cours.loc['Pays-de-la-Loire'] = df_Partenaires_Regionaux_en_cours.loc['Loire-Atlantique']
+
+    df_Partenaires_Regionaux_en_cours.reset_index(inplace=True)
+    df_Partenaires_Regionaux_en_cours = df_Partenaires_Regionaux_en_cours.iloc[:,:2]
+    df_Partenaires_Regionaux_en_cours.rename(columns={"Département (from CR)":"Région","Statut du partenariat":'Nbre de partenariats en cours'},inplace=True)
+    df_Partenaires_Regionaux_en_cours = df_Partenaires_Regionaux_en_cours.iloc[4:]#.set_index('Région')
+
+    col1.markdown("**Nombre de partenariats régionaux en cours**")
+    col1.table(df_Partenaires_Regionaux_en_cours)
+
+    df_Partenaires_Regionaux_en_négo = df_Partenaires_Regionaux[df_Partenaires_Regionaux['Statut du partenariat'].str.contains('négo')]
+    df_Partenaires_Regionaux_en_négo = df_Partenaires_Regionaux_en_négo.groupby('Département (from CR)').count()
+    df_Partenaires_Regionaux_en_négo.loc['Région Sud'] = df_Partenaires_Regionaux_en_négo.loc['Alpes-Maritimes'] + df_Partenaires_Regionaux_en_négo.loc['Bouches-du-Rhône'] + df_Partenaires_Regionaux_en_négo.loc['Alpes-Maritimes, Bouches-du-Rhône']
+    df_Partenaires_Regionaux_en_négo.loc['Grand-Est'] = df_Partenaires_Regionaux_en_négo.loc['Bas-Rhin']
+    df_Partenaires_Regionaux_en_négo.loc['Bretagne'] = df_Partenaires_Regionaux_en_négo.loc["Côtes-d'Armor"]
+    df_Partenaires_Regionaux_en_négo.loc['Auvergne-Rhône-Alpes'] = df_Partenaires_Regionaux_en_négo.loc["Puy-de-Dôme"]
+
+    df_Partenaires_Regionaux_en_négo.reset_index(inplace=True)
+    df_Partenaires_Regionaux_en_négo = df_Partenaires_Regionaux_en_négo.iloc[:,:2]
+    df_Partenaires_Regionaux_en_négo.rename(columns={"Département (from CR)":"Région","Statut du partenariat":'Nbre de partenariats en négociation'},inplace=True)
+    df_Partenaires_Regionaux_en_négo = df_Partenaires_Regionaux_en_négo.iloc[6:]#.set_index('Région')
+
+    col2.markdown("**Nombre de partenariats régionaux en négociation**")
+    col2.table(df_Partenaires_Regionaux_en_négo)
+
+
+    st.markdown("### **Nombre de financements régionaux en cours**")
+
+    df_Financements_reg = df_Financements[['Deadline','Région','Département','Solde à percevoir',"Année d'attribution"]]
+    df_Financements_reg = df_Financements_reg[df_Financements_reg['Solde à percevoir'] != "€0.00" ]
+
+    df_Financements_reg['Solde à percevoir'] = df_Financements_reg['Solde à percevoir'].str.replace('€','')
+    df_Financements_reg['Solde à percevoir'] = df_Financements_reg['Solde à percevoir'].str.replace(',','')
+    df_Financements_reg['Solde à percevoir'] = df_Financements_reg['Solde à percevoir'].astype(float)
+
+    df_Financements_region = df_Financements_reg[df_Financements_reg.Région != 'France']
+    df_Financements_region_vf = df_Financements_region.groupby('Région').agg({'Département':'count', 'Solde à percevoir': 'sum'}).reset_index().rename(columns={'Département':'Nbre de financements'})
+
+    st.table(df_Financements_region_vf)
+
+
+    st.markdown("### **Nombre d'organismes régionaux dans la BDD**")
+        
+    df_orga_reg['territories'] = df_orga_reg.territories.astype(str)
+    df_orga_reg['departement'] = df_orga_reg.territories.apply(eval).apply(' '.join)
+
+    df_orga_region = df_orga_reg.groupby(['createdAt','departement']).count().reset_index()
+
+    df_orga_region['Région'] = df_orga_region.departement.map(dict_region)
+    df_orga_region_vf = df_orga_region[['createdAt','Région', 'territories']]
+    
+    df_orga_region_vf = df_orga_region_vf.groupby(['createdAt','Région']).sum()
+    df_orga_region_vf.reset_index(inplace=True)
+
+    df_orga_region_final=df_orga_region_vf.sort_values(['createdAt']).reset_index(drop=True)
+    df_orga_region_final["cum_sum_orga"]=df_orga_region_final.groupby(['Région'])['territories'].cumsum(axis=0)
+    df_orga_region_final = df_orga_region_final[df_orga_region_final['Région'] != '']
+    df_orga_region_final.dropna(inplace=True)
+
+    figNbOrga = px.bar(df_orga_region_final, x="createdAt", y="cum_sum_orga", color="Région", color_discrete_sequence=px.colors.sequential.Plasma)
+
+
+    figNbOrga.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre d'organisations créées",)
+    figNbOrga.update_traces(hovertemplate = "Date de la création des dernières organisations : %{x}<br>Nbre d'organisatons: %{value}")
+
+    #figNbOrga.update_layout(legend=dict(orientation="h"))
+
+    st.plotly_chart(figNbOrga, use_container_width=True)
+
+
