@@ -2263,7 +2263,7 @@ if categorie_2 == 'Admin/Finance':
 
     df_Partenaires_Regionaux_en_négo = df_Partenaires_Regionaux[df_Partenaires_Regionaux['Statut du partenariat'].str.contains('négo')]
     df_Partenaires_Regionaux_en_négo = df_Partenaires_Regionaux_en_négo.groupby('Département (from CR)').count()
-    df_Partenaires_Regionaux_en_négo.loc['Région Sud'] = df_Partenaires_Regionaux_en_négo.loc['Alpes-Maritimes'] + df_Partenaires_Regionaux_en_négo.loc['Bouches-du-Rhône'] + df_Partenaires_Regionaux_en_négo.loc['Alpes-Maritimes, Bouches-du-Rhône']
+    df_Partenaires_Regionaux_en_négo.loc['Région Sud'] = df_Partenaires_Regionaux_en_négo.loc['Alpes-Maritimes'] + df_Partenaires_Regionaux_en_négo.loc['Bouches-du-Rhône'] #+ df_Partenaires_Regionaux_en_négo.loc['Alpes-Maritimes, Bouches-du-Rhône']
     df_Partenaires_Regionaux_en_négo.loc['Grand-Est'] = df_Partenaires_Regionaux_en_négo.loc['Bas-Rhin']
     df_Partenaires_Regionaux_en_négo.loc['Bretagne'] = df_Partenaires_Regionaux_en_négo.loc["Côtes-d'Armor"]
     df_Partenaires_Regionaux_en_négo.loc['Auvergne-Rhône-Alpes'] = df_Partenaires_Regionaux_en_négo.loc["Puy-de-Dôme"]
