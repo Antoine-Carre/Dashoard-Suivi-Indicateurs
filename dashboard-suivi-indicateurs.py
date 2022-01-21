@@ -2238,46 +2238,30 @@ if categorie_2 == 'Admin/Finance':
     st.markdown(hide_table_row_index, unsafe_allow_html=True)
 
 
+
     st.markdown("### **Nombre de partenariats régionaux**")
 
     html_string = "<br>"
     st.markdown(html_string, unsafe_allow_html=True)
 
+    df_Partenaires_Regionaux = df_Partenaires[['Statut du partenariat','Rattachement à un partenaire national','Département (from CR)','Département (from Contact)']]
+    df_Partenaires_Regionaux = df_Partenaires_Regionaux[df_Partenaires_Regionaux['Statut du partenariat'] == "En cours (contact/actions régulières)"]
+    df_Partenaires_Regionaux['Département (from Contact)'] = df_Partenaires_Regionaux['Département (from Contact)'].astype(str).str.split(',').apply(set).str.join(',')
+    df_Partenaires_Regionaux['Département (from CR)'] = df_Partenaires_Regionaux['Département (from CR)'].astype(str).str.split(',').apply(set).str.join(',')
+    df_Partenaires_Regionaux = pd.DataFrame(df_Partenaires_Regionaux['Département (from CR)'].value_counts())
 
-    col1, col2 = st.columns(2)
+    df_Partenaires_Regionaux.loc['Région Sud'] = df_Partenaires_Regionaux.loc['Alpes-Maritimes'] + df_Partenaires_Regionaux.loc['Bouches-du-Rhône']
+    df_Partenaires_Regionaux.loc['Ile-de-France'] = df_Partenaires_Regionaux.loc[(df_Partenaires_Regionaux.index.str.contains('Paris') )| (df_Partenaires_Regionaux.index.str.contains('Hauts-de-Seine'))].sum()
+    df_Partenaires_Regionaux.loc['Auvergne-Rhône-Alpes'] = df_Partenaires_Regionaux.loc[(df_Partenaires_Regionaux.index.str.contains('Puy') )| (df_Partenaires_Regionaux.index.str.contains('Cantal'))].sum()
+    df_Partenaires_Regionaux.loc['Pays-de-la-Loire'] = df_Partenaires_Regionaux.loc[(df_Partenaires_Regionaux.index.str.contains('Loire-Atlantique'))].sum()
+    df_Partenaires_Regionaux.loc['Bretagne'] = df_Partenaires_Regionaux.loc[(df_Partenaires_Regionaux.index.str.contains('Morbihan'))].sum()
 
-    df_Partenaires_Regionaux = df_Partenaires[['Statut du partenariat','Département (from CR)','Département (from partenaires)']]
-    df_Partenaires_Regionaux.dropna(inplace=True)
-    df_Partenaires_Regionaux['Département (from CR)'] = df_Partenaires_Regionaux['Département (from CR)'].str.split(',').apply(set).str.join(', ')
+    df_Partenaires_Regionaux = df_Partenaires_Regionaux.loc['Région Sud':].reset_index()
 
-    df_Partenaires_Regionaux_en_cours = df_Partenaires_Regionaux[df_Partenaires_Regionaux['Statut du partenariat'].str.contains('cours')]
-    df_Partenaires_Regionaux_en_cours = df_Partenaires_Regionaux_en_cours.groupby('Département (from CR)').count()
-    df_Partenaires_Regionaux_en_cours.loc['Région Sud'] = df_Partenaires_Regionaux_en_cours.loc['Alpes-Maritimes'] + df_Partenaires_Regionaux_en_cours.loc['Bouches-du-Rhône']
-    df_Partenaires_Regionaux_en_cours.loc['Ile-de-France'] = df_Partenaires_Regionaux_en_cours.loc['Hauts-de-Seine']
-    df_Partenaires_Regionaux_en_cours.loc['Pays-de-la-Loire'] = df_Partenaires_Regionaux_en_cours.loc['Loire-Atlantique']
+    df_Partenaires_Regionaux.rename(columns={"index":'Région',"Département (from CR)":"Nbre de partenariats"}, inplace=True)
 
-    df_Partenaires_Regionaux_en_cours.reset_index(inplace=True)
-    df_Partenaires_Regionaux_en_cours = df_Partenaires_Regionaux_en_cours.iloc[:,:2]
-    df_Partenaires_Regionaux_en_cours.rename(columns={"Département (from CR)":"Région","Statut du partenariat":'Nbre de partenariats en cours'},inplace=True)
-    df_Partenaires_Regionaux_en_cours = df_Partenaires_Regionaux_en_cours.iloc[4:]#.set_index('Région')
-
-    col1.markdown("**Nombre de partenariats régionaux en cours**")
-    col1.table(df_Partenaires_Regionaux_en_cours)
-
-    df_Partenaires_Regionaux_en_négo = df_Partenaires_Regionaux[df_Partenaires_Regionaux['Statut du partenariat'].str.contains('négo')]
-    df_Partenaires_Regionaux_en_négo = df_Partenaires_Regionaux_en_négo.groupby('Département (from CR)').count()
-    df_Partenaires_Regionaux_en_négo.loc['Région Sud'] = df_Partenaires_Regionaux_en_négo.loc['Alpes-Maritimes'] + df_Partenaires_Regionaux_en_négo.loc['Bouches-du-Rhône'] #+ df_Partenaires_Regionaux_en_négo.loc['Alpes-Maritimes, Bouches-du-Rhône']
-    df_Partenaires_Regionaux_en_négo.loc['Grand-Est'] = df_Partenaires_Regionaux_en_négo.loc['Bas-Rhin']
-    df_Partenaires_Regionaux_en_négo.loc['Bretagne'] = df_Partenaires_Regionaux_en_négo.loc["Côtes-d'Armor"]
-    df_Partenaires_Regionaux_en_négo.loc['Auvergne-Rhône-Alpes'] = df_Partenaires_Regionaux_en_négo.loc["Puy-de-Dôme"]
-
-    df_Partenaires_Regionaux_en_négo.reset_index(inplace=True)
-    df_Partenaires_Regionaux_en_négo = df_Partenaires_Regionaux_en_négo.iloc[:,:2]
-    df_Partenaires_Regionaux_en_négo.rename(columns={"Département (from CR)":"Région","Statut du partenariat":'Nbre de partenariats en négociation'},inplace=True)
-    df_Partenaires_Regionaux_en_négo = df_Partenaires_Regionaux_en_négo.iloc[6:]#.set_index('Région')
-
-    col2.markdown("**Nombre de partenariats régionaux en négociation**")
-    col2.table(df_Partenaires_Regionaux_en_négo)
+    st.markdown("**Nombre de partenariats régionaux en cours**")
+    st.table(df_Partenaires_Regionaux)
 
 
     st.markdown("### **Nombre de financements régionaux en cours**")
@@ -2323,4 +2307,26 @@ if categorie_2 == 'Admin/Finance':
 
     st.plotly_chart(figNbOrga, use_container_width=True)
 
+    st.markdown("### **Nombre de partenariats départementaux**")
 
+    df_partenariat_dep = df_Partenaires[['Statut du partenariat','Rattachement à un partenaire national','Département (from CR)','Département (from Contact)']]
+
+    df_partenariat_dep_vf = df_partenariat_dep[df_partenariat_dep['Statut du partenariat'] == "En cours (contact/actions régulières)"]
+    df_partenariat_dep_vf['Département (from Contact)'] = df_partenariat_dep_vf['Département (from Contact)'].astype(str).str.split(',').apply(set).str.join(',')
+    df_partenariat_dep_vf['Département (from CR)'] = df_partenariat_dep_vf['Département (from CR)'].astype(str).str.split(',').apply(set).str.join(',')
+
+    df_partenariat_dep_vf['territory'] = df_partenariat_dep_vf['Département (from CR)'].map(Dep_to_num)
+
+    df_partenariat_dep_final = pd.DataFrame(df_partenariat_dep_vf['territory'].value_counts())
+    #df_partenariat_dep_final.loc['Total'] = df_partenariat_dep_final.sum()
+
+    df_partenariat_dep_final.reset_index(inplace=True)
+    #inv_map = {v: k for k, v in Dep_to_num.iteritems()}
+
+    df_partenariat_dep_final['Département'] = df_partenariat_dep_final.iloc[:,0].map(dict(map(reversed, Dep_to_num.items())))
+    df_partenariat_dep_final = df_partenariat_dep_final[['Département','territory']]
+    df_partenariat_dep_final.rename(columns={"territory":"Nbre de partenariat en cours"})
+
+    st.table(df_partenariat_dep_final)
+    
+    
