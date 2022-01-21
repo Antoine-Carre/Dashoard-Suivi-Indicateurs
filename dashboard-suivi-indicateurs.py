@@ -95,6 +95,7 @@ df4 = pd.read_csv("./ressource/GAdata.csv")
 df_diff = pd.read_csv('./ressource/Diffusion-allDep.csv')
 df_diff = df_diff[['Date','Territoire','Nb de pros','Nb de bénéficiaires','Diffusion_name','Type','Fiches']]
 df_diff = df_diff.fillna(0)
+df_diff_v2 = df_diff.copy()
 
 df_fiches_total = pd.read_csv('./ressource/df_fiches_total.csv')
 
@@ -2149,7 +2150,7 @@ if categorie_2 == 'Admin/Finance':
 
     st.markdown("### **Nombre d'instances de co-construction au niveau régional**")
 
-    df_co_const = df_diff[(df_diff['Type'] == "Coop") | (df_diff['Type'] == "Copil")]
+    df_co_const = df_diff_v2[(df_diff_v2['Type'] == "Coop") | (df_diff_v2['Type'] == "Copil")]
     df_co_const = df_co_const[['Date','Territoire','Type']]
     df_co_const['Date'] = pd.to_datetime(df_co_const['Date'])
         
