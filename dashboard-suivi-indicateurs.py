@@ -162,6 +162,34 @@ df_categorie_vf = pd.read_csv('./ressource/df_categorie_vf.csv')
 df_categorie_vf['territory'] = df_categorie_vf['departement'].map(Dep_to_num)
 
 
+df_prospection = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/Partenaires-Tout.csv')
+df_prospection_cleaned = df_prospection[['Compte-rendu','Département (from CR)']].dropna()
+df_prospection_cleaned_2 = df_prospection_cleaned['Département (from CR)'].str.split(',', expand=True)
+df_prospection_cleaned_vf = pd.DataFrame(df_prospection_cleaned_2[0].value_counts()).reset_index()
+df_prospection_cleaned_vf.rename(columns={"index":"Departement", 0 : "Nombre de rdv"}, inplace=True)
+df_prospection_vf = df_prospection_cleaned_vf[(df_prospection_cleaned_vf.Departement != "Gironde") &
+                                             (df_prospection_cleaned_vf.Departement != "Puy-de-Dôme") &
+                                              (df_prospection_cleaned_vf.Departement != "Paris") &
+                                              (df_prospection_cleaned_vf.Departement != "Loire-Atlantique")&
+                                             (df_prospection_cleaned_vf.Departement != "Bouches-du-Rhône")&
+                                             (df_prospection_cleaned_vf.Departement != "Hérault")&
+                                             (df_prospection_cleaned_vf.Departement != "Seine-Maritime")&
+                                             (df_prospection_cleaned_vf.Departement != "Nord")&
+                                             (df_prospection_cleaned_vf.Departement != "Cantal")&
+                                             (df_prospection_cleaned_vf.Departement != "Bas-Rhin") &
+                                             (df_prospection_cleaned_vf.Departement != "Ille-et-Vilaine") &
+                                             (df_prospection_cleaned_vf.Departement != "Val-d'Oise") &
+                                             (df_prospection_cleaned_vf.Departement != "Alpes-Maritimes") &
+                                             (df_prospection_cleaned_vf.Departement != "Indre") &
+                                             (df_prospection_cleaned_vf.Departement != "Côte-d'Or") &
+                                             (df_prospection_cleaned_vf.Departement != "Yvelines") &
+                                             (df_prospection_cleaned_vf.Departement != "Hauts-de-Seine") &
+                                             (df_prospection_cleaned_vf.Departement != "Drôme") &
+                                             (df_prospection_cleaned_vf.Departement != "Seine-Saint-Denis") &
+                                             (df_prospection_cleaned_vf.Departement != "Val-de-Marne") ]
+
+
+
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
             "- Bouche-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
             "- Loire-Atlantique (44)" : "44","- Nord (59)":"59" , "- Puy-de-Dôme (63)":"63","- Haute-Vienne (87)":"87",
@@ -2090,3 +2118,94 @@ if categorie_2 == 'Lancement':
         m += 1
 
     expander.write(df_exhaustivity)
+
+   
+if categorie_2 == 'Admin/Finance':
+
+    st.markdown("### **Nombre de rendez-vous de prospection**")
+
+    df_prospection_vf = df_prospection_vf.sort_values(by='Nombre de rdv', ascending = True)
+
+    figProspection = go.Figure(data=[
+    go.Bar(name="Prospection", y=df_prospection_vf['Departement'], x=df_prospection_vf["Nombre de rdv"], marker_color='#7201a8', orientation="h"),
+    ])
+
+    figProspection.update_yaxes(title_text="", title_font_family="Times New Roman")
+    figProspection.update_xaxes(title_text="Nombre de rdv de prospections réalisés", title_font_family="Times New Roman")
+                            
+    figProspection.update_traces(hovertemplate = "Département: %{y}<br>Nombre de rdv de prospection : %{x}")
+
+
+    st.plotly_chart(figProspection, use_container_width=True)
+
+
+    html_string_r = f"""<br>
+    <center><font face='Helvetica' size='7'>{df_prospection_vf["Nombre de rdv"].sum()}</font>
+    <br/><font size='3'>Nombre total de rendez-vous de prospection réalisés<br><br>
+    """
+
+    st.markdown(html_string_r, unsafe_allow_html=True)
+
+
+    st.markdown("### **Nombre d'instances de co-construction au niveau régional**")
+
+    df_co_const = df_diff[(df_diff['Type'] == "Coop") | (df_diff['Type'] == "Copil")]
+    df_co_const = df_co_const[['Date','Territoire','Type']]
+    df_co_const['Date'] = pd.to_datetime(df_co_const['Date'])
+        
+    table = pd.pivot_table(df_co_const, values='Type', index=['Territoire'],
+                        columns=['Date'], aggfunc='count')
+
+    table = table.groupby(pd.PeriodIndex(table.columns, freq='Q'), axis=1).count()
+    table.reset_index(inplace = True)
+
+    table.loc[17] = table.iloc[0:1].sum()
+    table.loc[17,'Territoire'] = 'Alpes-Maritime'
+
+    table.loc[18] = table.loc[2] + table.loc[6]
+    table.loc[18,'Territoire'] = 'Auvergne-Rhône-Alpes'
+
+    table.loc[19] = table.loc[3]
+    table.loc[19,'Territoire'] = 'Nouvelle-Aquitaine'
+
+    table.loc[20] = table.loc[4]
+    table.loc[20,'Territoire'] = 'Centre-Val-de-Loire'
+
+    table.loc[21] = table.loc[5]
+    table.loc[21,'Territoire'] = 'Pays-de-la-Loire'
+
+    table.loc[22] = table.loc[7]
+    table.loc[22,'Territoire'] = 'Grand-Est'
+
+    table.loc[23] = table.loc[8] + table.loc[10] + table.loc[11] + table.loc[12] + table.loc[13]  + table.loc[14] + table.loc[15] + table.loc[16]
+    table.loc[23,'Territoire'] = 'Ile-de-France'
+
+    table.loc[24] = table.loc[10]
+    table.loc[24,'Territoire'] = 'Normandie'
+
+    df_co_const_vf = table.loc[17:].reset_index()
+
+
+    df_co_const_vf = df_co_const_vf.T.reset_index()
+    df_co_const_vf.columns = df_co_const_vf.iloc[1]
+    df_co_const_final = df_co_const_vf.drop(index=[1,0])
+
+    df_co_const_final.reset_index(inplace=True)
+
+    df_co_const_final.drop(columns="index", inplace=True)
+    df_co_const_final['Territoire'] = df_co_const_final.Territoire.astype(str)
+
+    figCo_const = go.Figure(data=[
+        go.Bar(name="Alpes-Maritimes", y=df_co_const_final['Alpes-Maritime'], x=df_co_const_final["Territoire"],marker_color='#7201a8'),
+        go.Bar(name="Auvergne-Rhône-Alpes", y=df_co_const_final['Auvergne-Rhône-Alpes'], x=df_co_const_final["Territoire"],marker_color='#E65A46',),
+        go.Bar(name="Nouvelle-Aquitaine", y=df_co_const_final['Nouvelle-Aquitaine'], x=df_co_const_final["Territoire"],marker_color='#3E3A71',),
+        go.Bar(name="Centre-Val-de-Loire", y=df_co_const_final['Centre-Val-de-Loire'], x=df_co_const_final["Territoire"],marker_color='#2896A0',),
+        go.Bar(name="Pays-de-la-Loire", y=df_co_const_final['Pays-de-la-Loire'], x=df_co_const_final["Territoire"],marker_color='#231E3C',),
+        go.Bar(name="Grand-Est", y=df_co_const_final['Grand-Est'], x=df_co_const_final["Territoire"],marker_color="#258a63"),
+        go.Bar(name="Ile-de-France", y=df_co_const_final['Ile-de-France'], x=df_co_const_final["Territoire"],marker_color="#c9a0dc"),
+        go.Bar(name="Normandie", y=df_co_const_final['Normandie'], x=df_co_const_final["Territoire"],),
+        ])
+
+    figCo_const.update_layout(barmode='stack')
+
+    st.plotly_chart(figCo_const, use_container_width=True)
