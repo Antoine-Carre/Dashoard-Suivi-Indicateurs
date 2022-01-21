@@ -162,6 +162,7 @@ df_exhaustivity = pd.read_csv('./ressource/exhaustivite_territoires.csv')
 df_categorie_vf = pd.read_csv('./ressource/df_categorie_vf.csv')
 df_categorie_vf['territory'] = df_categorie_vf['departement'].map(Dep_to_num)
 
+df_Partenaires= pd.read_csv('./ressource/Partenaires-Tout.csv')
 
 df_prospection = pd.read_csv('./ressource/Partenaires-Tout.csv')
 df_prospection_cleaned = df_prospection[['Compte-rendu','Département (from CR)']].dropna()
