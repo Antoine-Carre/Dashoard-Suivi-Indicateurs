@@ -190,7 +190,7 @@ df_prospection_vf = df_prospection_cleaned_vf[(df_prospection_cleaned_vf.Departe
                                              (df_prospection_cleaned_vf.Departement != "Seine-Saint-Denis") &
                                              (df_prospection_cleaned_vf.Departement != "Val-de-Marne") ]
 
-
+df_Financements = pd.read_csv('./ressource/Financements-Grid.csv')
 
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
             "- Bouche-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
