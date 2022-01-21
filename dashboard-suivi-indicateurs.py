@@ -162,7 +162,7 @@ df_categorie_vf = pd.read_csv('./ressource/df_categorie_vf.csv')
 df_categorie_vf['territory'] = df_categorie_vf['departement'].map(Dep_to_num)
 
 
-df_prospection = pd.read_csv('/home/antoine/Bureau/Streamlit/Dashboard_indicateurs/Partenaires-Tout.csv')
+df_prospection = pd.read_csv('./ressource/Partenaires-Tout.csv')
 df_prospection_cleaned = df_prospection[['Compte-rendu','Département (from CR)']].dropna()
 df_prospection_cleaned_2 = df_prospection_cleaned['Département (from CR)'].str.split(',', expand=True)
 df_prospection_cleaned_vf = pd.DataFrame(df_prospection_cleaned_2[0].value_counts()).reset_index()
