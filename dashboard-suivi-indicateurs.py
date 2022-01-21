@@ -75,6 +75,9 @@ df_orga_2 = pd.read_csv('./ressource/df_orga_2.csv')
 df_orga_3 = pd.read_csv('./ressource/df_orga_3.csv')
 df_orga_auto = df_orga_3.copy()
 
+df_orga_reg = pd.read_csv('./ressource/df_orga_reg.csv')
+
+
 df_history_data = pd.read_csv('./ressource/df_history_data.csv')
 
 s = pd.read_csv("./ressource/searchWithDatePresentation3.csv")
