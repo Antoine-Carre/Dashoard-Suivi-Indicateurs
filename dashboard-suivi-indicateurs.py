@@ -195,6 +195,10 @@ df_prospection_vf = df_prospection_cleaned_vf[(df_prospection_cleaned_vf.Departe
 
 df_Financements = pd.read_csv('./ressource/Financements-Grid.csv')
 
+df_relation = pd.read_csv('./ressource/Organisme-allDep pas locked.csv')
+
+df_remontées = pd.read_csv('./ressource/🧐 Remontées-Tout - DA.csv')
+
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
             "- Bouche-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
             "- Loire-Atlantique (44)" : "44","- Nord (59)":"59" , "- Puy-de-Dôme (63)":"63","- Haute-Vienne (87)":"87",
@@ -2330,3 +2334,107 @@ if categorie_2 == 'Admin/Finance':
     st.table(df_partenariat_dep_final)
     
     
+
+    st.markdown("### **Nombre d'instances de \"co-construction\"**")
+
+    col1, col2 = st.columns(2)
+
+    df_nb_co_const = df_diff[(df_diff['Type'] == "Coop") | (df_diff['Type'] == "Copil") |  (df_diff['Type'] == "Focus group")]
+    df_nb_co_const = df_nb_co_const[['Date','Type']]
+    df_nb_co_const['Date'] = pd.to_datetime(df_nb_co_const['Date'])
+    df_nb_co_const_2021 = df_nb_co_const[df_nb_co_const.Date > "2020-12-31"]
+    test = pd.DataFrame(df_nb_co_const_2021.Type.value_counts())
+
+
+    figCoConstInst2021 = px.pie(values=test.Type, names=test.index, color_discrete_sequence= [ '#7201a8', '#d8576b'],)
+    figCoConstInst2021.update_traces(hovertemplate = "%{label}: <br>Nbre d'intances de co-contruction en 2021: %{value}")
+    figCoConstInst2021.update_layout(legend=dict(orientation="h"))
+
+    col1.markdown('### en 2021')
+    col1.plotly_chart(figCoConstInst2021, use_container_width=True)
+
+    df_nb_co_const_2022 = df_nb_co_const[df_nb_co_const.Date > "2021-12-31"]
+    test_2022 = pd.DataFrame(df_nb_co_const_2022.Type.value_counts())
+
+
+    figCoConstInst2022 = px.pie(values=test_2022.Type, names=test_2022.index, color_discrete_sequence= [ '#7201a8', '#d8576b'],)
+    figCoConstInst2022.update_traces(hovertemplate = "%{label}: <br>Nbre d'intances de co-contruction en 2022: %{value}")
+    figCoConstInst2022.update_layout(legend=dict(orientation="h"))
+
+    col2.markdown('### en 2022')
+    col2.plotly_chart(figCoConstInst2022, use_container_width=True)
+
+
+    st.markdown("### **Nombre de participants aux instances de co-construction**")
+
+    df_num_co_const = df_diff[(df_diff.Type == "Coop") | (df_diff.Type == "Copil")]
+    df_num_co_const = df_num_co_const[['Territoire','Date','Type','Nb de pros','Nb de bénéficiaires']]
+
+    df_num_co_const['Date'] = df_num_co_const['Date'].apply(pd.to_datetime)
+
+    df_num_co_const["Year"] = df_num_co_const["Date"] .dt.strftime('%Y')
+
+    df_num_co_const_vf = df_num_co_const[['Year','Type','Nb de pros','Nb de bénéficiaires']]
+    df_num_co_const_vf = df_num_co_const_vf.groupby(['Year','Type']).sum().reset_index()
+    df_num_co_const_vf['Nb de participants'] = df_num_co_const_vf['Nb de pros'] + df_num_co_const_vf['Nb de bénéficiaires']
+    df_num_co_const_vf = df_num_co_const_vf[df_num_co_const_vf.Year > "1970"]
+
+    table = pd.pivot_table(df_num_co_const_vf, values='Nb de participants', index=['Year'],
+
+                        columns=['Type'], aggfunc=np.sum)
+    table.reset_index(inplace=True)
+    
+    figPartInst = go.Figure(data=[
+    go.Bar(name="Coop", x=table['Year'], y=table["Coop"], marker_color='#7201a8',
+          text=table["Coop"],
+          textposition="inside"),
+    go.Bar(name="Copil", x=table['Year'], y=table["Copil"], marker_color='#d8576b',
+          text=table["Copil"],
+          textposition="inside"),
+    ])
+    # Change the bar mode
+    figPartInst.update_layout(barmode='stack')
+
+    figPartInst.update_layout(xaxis=dict(tickformat="%Y"), xaxis_title="", yaxis_title="Nombre de participants",)
+    figPartInst.update_traces(hovertemplate = "Année de l'instance : %{x}<br>Nbre de participants: %{value}")
+
+    st.plotly_chart(figPartInst, use_container_width=True)
+
+
+    st.markdown("### **Nombre de remontées de bug ou d’amélioration par les parties prenantes (publics, partenaires, ...)**")
+    st.markdown("Les remontées de l'équipe Soliguide ne sont pas prise en compte ici")
+
+    df_remontées = df_remontées[['Traité le ','Type de source']]
+    df_remontées['Date'] = df_remontées['Traité le '].apply(pd.to_datetime)
+    df_remontées['Date'] = df_remontées['Date'].dt.strftime('%Y-%m')
+
+    df_remontées = df_remontées[df_remontées['Type de source'] != "Equipe Soliguide"]
+    df_remontées['Type de source'] = np.where(df_remontées['Type de source'] != "Bénéficiaires", "Pro", "Bénéficiaires")
+    df_remontées_vf = df_remontées[['Date','Type de source']]
+
+    df_remontées_final = pd.DataFrame(df_remontées_vf.groupby(['Date','Type de source'])['Type de source'].count())
+    df_remontées_final.columns.values[0] = "Nbre de pers."
+    df_remontées_final.reset_index(inplace=True)
+
+    table = pd.pivot_table(df_remontées_final, values='Nbre de pers.', index=['Date'],
+
+                    columns=['Type de source'], aggfunc=np.sum)
+    table.reset_index(inplace=True)
+    
+
+    figBug = go.Figure(data=[
+    go.Bar(name="Pro", x=table['Date'], y=table["Pro"], marker_color='#7201a8',
+          text=table["Pro"],
+          textposition="inside"),
+    go.Bar(name="Bénéficiaires", x=table['Date'], y=table["Bénéficiaires"], marker_color='#d8576b',
+          text=table["Bénéficiaires"],
+          textposition="outside"),
+    ])
+    # Change the bar mode
+    figBug.update_layout(barmode='stack')
+
+    figBug.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de participants",)
+    figBug.update_traces(hovertemplate = "Mois de l'instance : %{x}<br>Nbre de participants: %{value}")
+
+    st.plotly_chart(figBug, use_container_width=True)
+
