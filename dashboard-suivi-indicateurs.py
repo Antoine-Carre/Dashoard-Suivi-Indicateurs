@@ -3776,7 +3776,7 @@ if categorie_2 == 'Admin/Finance':
     st.plotly_chart(figPartFin, use_container_width=True)
 
 
-    st.markdown("### **Nombre de financeurs différents, montant et durée**")
+    #st.markdown("### **Nombre de financeurs différents, montant et durée**")
 
     
 
