@@ -24,7 +24,7 @@ st.sidebar.title('Indicateurs 2022')
 st.sidebar.subheader('Janvier 2022')
 
 
-categorie_2 = st.sidebar.radio("Cercles", ("Tous","Lancement",'Pérennisation',
+categorie_2 = st.sidebar.radio("Cercles", ("Tous", "Ile-de-France", "Lancement",'Pérennisation',
                                             "Communication", 'Admin/Finance',
                                             ))
 
