@@ -3357,6 +3357,97 @@ if categorie_2 == 'Communication':
 
 # Newsletter
 
+    categorie = st.selectbox("Choisissez votre territoire :", ("France",
+                                                "Région SUD", 
+                                                "- Alpes-Maritimes (06)", "- Bouche-du-Rhône (13)", 
+                                                "Auvergne-Rhône-Alpes",
+                                                "- Ardèche (07)", "- Cantal (15)", "- Puy-de-Dôme (63)",
+                                                'Occitanie',
+                                                "- Hérault (34)",
+                                                "Nouvelle-Aquitaine",
+                                                "- Gironde (33)", "- Charente (16)", "- Haute-Vienne (87)", "- Dordogne (24)",
+                                                "Centre-Val-de-Loire",
+                                                "- Indre (36)", 
+                                                "Pays-de-la-Loire",
+                                                "- Loire-Atlantique (44)", 
+                                                "Normandie",
+                                                "- Seine-Maritime (76)",
+                                                "Ile-de-France",
+                                                "- Paris (75)", "- Seine-et-Marne (77)",
+                                                "- Yvelines (78)","- Essonne (91)", "- Hauts-de-Seine (92)",
+                                                "- Seine-Saint-Denis (93)","- Val-de-Marne (94)", "- Val-d'Oise (95)",
+                                                "Hauts-de-France",
+                                                "- Nord (59)",
+                                                "Grand-Est",
+                                                "- Bas-Rhin (67)",
+                                                "Bourgogne-Franche-Comté",
+                                                "- Côte-d'Or (21)"))
+
+    if categorie == "France":
+
+        df_newsletter_2 = df_newsletter.sum()
+
+    elif categorie == "Région SUD":
+
+        df_newsletter = df_newsletter[(df_newsletter.Territoire == "06") | (df_newsletter.Territoire == "13")]
+        df_newsletter_2 = df_newsletter.sum()
+        
+    elif categorie == "Auvergne-Rhône-Alpes":
+
+        df_newsletter = df_newsletter[(df_newsletter.Territoire == "07") | (df_newsletter.Territoire == "15") | (df_newsletter.Territoire == "63")]
+        df_newsletter_2 = df_newsletter.sum()
+        
+    elif categorie == "Occitanie":
+
+        df_newsletter = df_newsletter[(df_newsletter.Territoire == "34")]
+        df_newsletter_2 = df_newsletter.sum()
+        
+    elif categorie == "Nouvelle-Aquitaine":
+
+        df_newsletter = df_newsletter[(df_newsletter.Territoire == "33") | (df_newsletter.Territoire == "87") | (df_newsletter.Territoire == "16") | (df_newsletter.Territoire == "24")]
+        df_newsletter_2 = df_newsletter.sum()
+
+    elif categorie == "Centre-Val-de-Loire":
+      
+        df_newsletter = df_newsletter[(df_newsletter.Territoire == "36")]
+        df_newsletter_2 = df_newsletter.sum()
+        
+    elif categorie == "Pays-de-la-Loire":
+
+        df_newsletter = df_newsletter[(df_newsletter.Territoire == "44")]
+        df_newsletter_2 = df_newsletter.sum()
+        
+    elif categorie == "Normandie":
+      
+        df_newsletter = df_newsletter[(df_newsletter.Territoire == "76")]
+        df_newsletter_2 = df_newsletter.sum()
+
+    elif categorie == "Ile-de-France" or categorie == "Ile-de-France":
+      
+        df_newsletter = df_newsletter[(df_newsletter.Territoire == "75") | (df_newsletter.Territoire == "77") | (df_newsletter.Territoire == "78") 
+        | (df_newsletter.Territoire == "91")  | (df_newsletter.Territoire == "92")  | (df_newsletter.Territoire == "93")  | (df_newsletter.Territoire == "94")
+        | (df_newsletter.Territoire == "95")]
+        df_newsletter_2 = df_newsletter.sum()
+
+    elif categorie == "Hauts-de-France":
+
+        df_newsletter = df_newsletter[(df_newsletter.Territoire == "59")]
+        df_newsletter_2 = df_newsletter.sum()
+
+    elif categorie == "Grand-Est":
+
+        df_newsletter = df_newsletter[(df_newsletter.Territoire == "67")]
+        df_newsletter_2 = df_newsletter.sum()
+
+    elif categorie == "Bourgogne-Franche-Comté":
+
+        df_newsletter = df_newsletter[(df_newsletter.Territoire == "21")]
+        df_newsletter_2 = df_newsletter.sum()
+        
+    elif categorie.startswith("-"):
+
+        df_newsletter = df_newsletter[(df_newsletter.Territoire == (cat_dict[categorie]))].reset_index()
+        
 
     st.markdown("### **Nombre de lecteurs de la newsletter, de clics**")
 
