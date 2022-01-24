@@ -50,7 +50,7 @@ categorie = st.sidebar.selectbox("Choisissez votre territoire :", ("France",
                                             "Bourgogne-Franche-Comté",
                                             "- Côte-d'Or (21)"))
 
-categorie_2 = st.sidebar.radio("Cercles", ("Tous","Ile-de-France", "Lancement",'Pérennisation',
+categorie_2 = st.sidebar.radio("Cercles", ("Tous","Lancement",'Pérennisation',
                                             "Communication", 'Admin/Finance',
                                             ))
 
