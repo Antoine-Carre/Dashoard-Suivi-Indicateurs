@@ -3355,6 +3355,7 @@ if categorie_2 == 'Communication':
                                                 "Bourgogne-Franche-Comté",
                                                 "- Côte-d'Or (21)"))
 
+
 # Newsletter
 
     if categorie == "France":
