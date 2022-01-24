@@ -3329,6 +3329,32 @@ if categorie_2 == 'Ile-de-France':
 
 if categorie_2 == 'Communication':
     
+    categorie = st.selectbox("Choisissez votre territoire :", ("France",
+                                                "Région SUD", 
+                                                "- Alpes-Maritimes (06)", "- Bouche-du-Rhône (13)", 
+                                                "Auvergne-Rhône-Alpes",
+                                                "- Ardèche (07)", "- Cantal (15)", "- Puy-de-Dôme (63)",
+                                                'Occitanie',
+                                                "- Hérault (34)",
+                                                "Nouvelle-Aquitaine",
+                                                "- Gironde (33)", "- Charente (16)", "- Haute-Vienne (87)", "- Dordogne (24)",
+                                                "Centre-Val-de-Loire",
+                                                "- Indre (36)", 
+                                                "Pays-de-la-Loire",
+                                                "- Loire-Atlantique (44)", 
+                                                "Normandie",
+                                                "- Seine-Maritime (76)",
+                                                "Ile-de-France",
+                                                "- Paris (75)", "- Seine-et-Marne (77)",
+                                                "- Yvelines (78)","- Essonne (91)", "- Hauts-de-Seine (92)",
+                                                "- Seine-Saint-Denis (93)","- Val-de-Marne (94)", "- Val-d'Oise (95)",
+                                                "Hauts-de-France",
+                                                "- Nord (59)",
+                                                "Grand-Est",
+                                                "- Bas-Rhin (67)",
+                                                "Bourgogne-Franche-Comté",
+                                                "- Côte-d'Or (21)"))
+
 # Newsletter
 
 
