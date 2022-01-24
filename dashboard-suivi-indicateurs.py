@@ -2438,3 +2438,28 @@ if categorie_2 == 'Admin/Finance':
 
     st.plotly_chart(figBug, use_container_width=True)
 
+  
+    st.markdown("### **Nombre de partenariats financiers/institutionnels**")
+
+    df_partenariats_fin = df_Financements[['Statut modifié le','Statut']]
+    df_partenariats_fin.dropna(subset=["Statut"], inplace=True)
+    df_partenariats_fin = df_partenariats_fin[df_partenariats_fin.Statut.str.contains('Gagné')]
+    df_partenariats_fin['Statut modifié le'] = pd.to_datetime(df_partenariats_fin['Statut modifié le'])
+    df_partenariats_fin['Statut modifié le'] = df_partenariats_fin['Statut modifié le'].dt.strftime('%Y-%m')
+    df_partenariats_fin_vf = pd.DataFrame(df_partenariats_fin.groupby(['Statut modifié le','Statut'])['Statut'].count())
+
+    df_partenariats_fin_vf.rename(columns={ df_partenariats_fin_vf.columns[0]: "Nbre de partenariats" }, inplace = True)
+    df_partenariats_fin_vf.reset_index(inplace=True)
+
+    df_partenariats_fin_vf['Trimestre'] = pd.PeriodIndex(df_partenariats_fin_vf['Statut modifié le'], freq='Q')
+    df_partenariats_fin_trim = df_partenariats_fin_vf[['Trimestre','Statut','Nbre de partenariats']]
+    df_partenariats_fin_trim_vf = pd.DataFrame(df_partenariats_fin_trim.groupby(['Trimestre','Statut'])['Nbre de partenariats'].sum()).reset_index()
+    df_partenariats_fin_trim_vf['Trimestre'] = df_partenariats_fin_trim_vf.Trimestre.astype(str)
+
+    figPartFin = px.bar(df_partenariats_fin_trim_vf, x="Trimestre", y="Nbre de partenariats", color="Statut", color_discrete_sequence= px.colors.qualitative.Dark24, text="Nbre de partenariats")
+
+    figPartFin.update_layout(xaxis_title="", yaxis_title="Nombre de partenariats financiers/institutionnels",)
+    figPartFin.update_traces(hovertemplate = "Trimestre de la dernière modification : %{x}<br>Nbre de partenariats financiers/intitutionnels: %{value}")
+
+    st.plotly_chart(figPartFin, use_container_width=True)
+
