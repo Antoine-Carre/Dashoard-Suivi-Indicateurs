@@ -1801,7 +1801,7 @@ if categorie_2 == 'Tous':
 
     figHeb.update_xaxes(title_text="Mois où l'hébergement est disponible", title_font_family="Times New Roman")
     figHeb.update_yaxes(title_text="Nombre d'hébergements disponibles", title_font_family="Times New Roman")
-    figHeb.update_yaxes(categoryorder="category ascending")
+    figHeb.update_layout(yaxis_range=[0,12])
 
     annotationsHeb = dict(xref='paper', yref='paper', x=0.055, y=1,
                                 xanchor='center', yanchor='top',
