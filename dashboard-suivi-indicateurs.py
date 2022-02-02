@@ -96,7 +96,7 @@ lastMonth = today - pd.Timedelta(days=183)
 
 df_hebergeurs_dispo = pd.read_csv('./ressource/Hébergeur.euse.s-Tout DA.csv')
 df_hebergeurs_dispo_vf = df_hebergeurs_dispo[['Département','Disponibilité','Statut','Date de début']]
-df_hebergeurs_dispo_vf = df_hebergeurs_dispo_vf[(df_hebergeurs_dispo_vf.Disponibilité == "Disponible") & (df_hebergeurs_dispo_vf.Statut == "Validé")]
+df_hebergeurs_dispo_vf = df_hebergeurs_dispo_vf[(df_hebergeurs_dispo_vf.Disponibilité == "Disponible pour héberger") & (df_hebergeurs_dispo_vf.Statut == "Validé")]
 df_hebergeurs_dispo_vf['Date de début'] = pd.to_datetime(df_hebergeurs_dispo_vf['Date de début'])
 df_hebergeurs_dispo_vf['territory'] = df_hebergeurs_dispo_vf['Département'].map(Dep_to_num)
 df_hebergeurs_dispo_vf.dropna(subset=['Date de début'], inplace=True)
