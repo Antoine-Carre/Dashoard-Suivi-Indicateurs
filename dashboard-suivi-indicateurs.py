@@ -60,7 +60,7 @@ s = s.iloc[:-1,:]
 df_search_users = pd.read_csv("./ressource/df_search_users.csv")
 
 df_relais = pd.read_csv('./ressource/Organisme-allDep pas locked.csv')
-df_relais_clean = df_relais[['Territoire Rollup','Relation']].dropna(subset=['Territoire Rollup'])
+df_relais_clean = df_relais[['Territoire','Relation']].dropna(subset=['Territoire'])
 
 df_users_API = pd.read_csv("./ressource/df_users_API.csv")
 df_users_API_vf = pd.DataFrame(df_users_API.value_counts()).reset_index()
@@ -303,7 +303,7 @@ if categorie_2 == 'Tous':
 
         df_search_users = df_search_users[(df_search_users.Territoire == 6) | (df_search_users.Territoire == 13)]
 
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('06')) | (df_relais_clean['Territoire Rollup'].str.contains('13'))]
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire'].str.contains('06')) | (df_relais_clean['Territoire'].str.contains('13'))]
 
         df_users_API = df_users_API[(df_users_API['territories'] == "06") | (df_users_API['territories'] == "13")]
 
@@ -377,8 +377,8 @@ if categorie_2 == 'Tous':
 
         df_search_users = df_search_users[(df_search_users.Territoire == 7) | (df_search_users.Territoire == 15) | (df_search_users.Territoire == 63)]
 
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('07')) | (df_relais_clean['Territoire Rollup'].str.contains('15'))
-        | (df_relais_clean['Territoire Rollup'].str.contains('63'))]
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire'].str.contains('07')) | (df_relais_clean['Territoire'].str.contains('15'))
+        | (df_relais_clean['Territoire'].str.contains('63'))]
 
         df_users_API = df_users_API[(df_users_API['territories'] == "07") | (df_users_API['territories'] == "15") | (df_users_API['territories'] == "63")]
 
@@ -444,7 +444,7 @@ if categorie_2 == 'Tous':
 
         df_search_users = df_search_users[(df_search_users.Territoire == 34)]
 
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('34'))]
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire'].str.contains('34'))]
 
         df_users_API = df_users_API[(df_users_API['territories'] == "34")]
 
@@ -525,8 +525,8 @@ if categorie_2 == 'Tous':
 
         df_search_users = df_search_users[(df_search_users.Territoire == 33) | (df_search_users.Territoire == 87) | (df_search_users.Territoire == 16) | (df_search_users.Territoire == 24)]
 
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('33')) | (df_relais_clean['Territoire Rollup'].str.contains('87'))
-        | (df_relais_clean['Territoire Rollup'].str.contains('16')) | (df_relais_clean['Territoire Rollup'].str.contains('24'))]
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire'].str.contains('33')) | (df_relais_clean['Territoire'].str.contains('87'))
+        | (df_relais_clean['Territoire'].str.contains('16')) | (df_relais_clean['Territoire'].str.contains('24'))]
 
         df_users_API = df_users_API[(df_users_API['territories'] == "33") | (df_users_API['territories'] == "87") | (df_users_API['territories'] == "16")
         | (df_users_API['territories'] == "24")]
@@ -594,7 +594,7 @@ if categorie_2 == 'Tous':
 
         df_search_users = df_search_users[(df_search_users.Territoire == 36)]
 
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('36'))]
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire'].str.contains('36'))]
 
         df_users_API = df_users_API[(df_users_API['territories'] == "36")]
 
@@ -658,7 +658,7 @@ if categorie_2 == 'Tous':
 
         df_search_users = df_search_users[(df_search_users.Territoire == 44)]
 
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('44'))]
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire'].str.contains('44'))]
 
         df_users_API = df_users_API[(df_users_API['territories'] == "44")]
 
@@ -722,7 +722,7 @@ if categorie_2 == 'Tous':
 
         df_search_users = df_search_users[(df_search_users.Territoire == 76)]
 
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('76'))]
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire'].str.contains('76'))]
 
         df_users_API = df_users_API[(df_users_API['territories'] == "76")]
 
@@ -807,9 +807,9 @@ if categorie_2 == 'Tous':
         df_search_users = df_search_users[(df_search_users.Territoire == 75) | (df_search_users.Territoire == 77) | (df_search_users.Territoire == 78) | (df_search_users.Territoire == 91)
         | (df_search_users.Territoire == 92) | (df_search_users.Territoire == 93) | (df_search_users.Territoire == 93) | (df_search_users.Territoire == 95)]
 
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('75')) | (df_relais_clean['Territoire Rollup'].str.contains('77'))
-        | (df_relais_clean['Territoire Rollup'].str.contains('78')) | (df_relais_clean['Territoire Rollup'].str.contains('91')) | (df_relais_clean['Territoire Rollup'].str.contains('92'))
-        | (df_relais_clean['Territoire Rollup'].str.contains('93'))| (df_relais_clean['Territoire Rollup'].str.contains('94'))| (df_relais_clean['Territoire Rollup'].str.contains('95'))]
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire'].str.contains('75')) | (df_relais_clean['Territoire'].str.contains('77'))
+        | (df_relais_clean['Territoire'].str.contains('78')) | (df_relais_clean['Territoire'].str.contains('91')) | (df_relais_clean['Territoire'].str.contains('92'))
+        | (df_relais_clean['Territoire'].str.contains('93'))| (df_relais_clean['Territoire'].str.contains('94'))| (df_relais_clean['Territoire'].str.contains('95'))]
 
         df_users_API = df_users_API[(df_users_API['territories'] == "75") | (df_users_API['territories'] == "77") | (df_users_API['territories'] == "78")
         | (df_users_API['territories'] == "91") | (df_users_API['territories'] == "92") | (df_users_API['territories'] == "93") | (df_users_API['territories'] == "94")
@@ -896,7 +896,7 @@ if categorie_2 == 'Tous':
 
         df_search_users = df_search_users[(df_search_users.Territoire == 59)]
 
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('59'))]
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire'].str.contains('59'))]
 
         df_users_API = df_users_API[(df_users_API['territories'] == "59")]
 
@@ -960,7 +960,7 @@ if categorie_2 == 'Tous':
 
         df_search_users = df_search_users[(df_search_users.Territoire == 67)]
 
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('67'))]
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire'].str.contains('67'))]
 
         df_users_API = df_users_API[(df_users_API['territories'] == "67")]
 
@@ -1025,7 +1025,7 @@ if categorie_2 == 'Tous':
 
         df_search_users = df_search_users[(df_search_users.Territoire == 21)]
 
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('21'))]
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire'].str.contains('21'))]
 
         df_users_API = df_users_API[(df_users_API['territories'] == "21")]
 
@@ -1088,7 +1088,7 @@ if categorie_2 == 'Tous':
 
         df_search_users = df_search_users[(df_search_users.Territoire == int(cat_dict[categorie]))]
 
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains(cat_dict[categorie]))]
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire'].str.contains(cat_dict[categorie]))]
 
         df_users_API = df_users_API[df_users_API['territories'] == cat_dict[categorie]]
 
