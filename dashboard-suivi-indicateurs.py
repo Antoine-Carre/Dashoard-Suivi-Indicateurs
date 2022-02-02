@@ -111,12 +111,7 @@ df_hebergement_vf['Date début'] = pd.to_datetime(df_hebergement_vf['Date début
 df_hebergement_vf['Date début'] = df_hebergement_vf['Date début'] .dt.strftime('%Y-%m')
 df_hebergement_vf.dropna(subset=['Date début','Date fin'], inplace=True) 
 
-df_hebergement_final = df_hebergement_vf.join(
-    df_hebergement_vf.apply(lambda v: pd.Series(pd.date_range(v['Date début'], v['Date fin'], freq='M').to_period('M')), axis=1)
-    .apply(pd.value_counts, axis=1)
-    .fillna(0)
-    .astype(int)
-)
+df_hebergement_final = df_hebergement_vf[['territory']].join(df_hebergement_vf.apply(lambda v: pd.Series(pd.date_range(v['Date début'], v['Date fin'], freq='M').to_period('M')), axis=1).apply(pd.value_counts, axis=1).fillna(0).astype(int))
 
 df_hebergement = df_hebergement[['Territoire','Statut','Date début','Date fin']]
 df_hebergement['territory'] = df_hebergement['Territoire'].map(Dep_to_num)
