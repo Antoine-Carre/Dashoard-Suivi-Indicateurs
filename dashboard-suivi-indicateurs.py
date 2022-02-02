@@ -2080,9 +2080,9 @@ if categorie_2 == 'Ile-de-France':
         df_search_users = df_search_users[(df_search_users.Territoire == 75) | (df_search_users.Territoire == 77) | (df_search_users.Territoire == 78) | (df_search_users.Territoire == 91)
         | (df_search_users.Territoire == 92) | (df_search_users.Territoire == 93) | (df_search_users.Territoire == 93) | (df_search_users.Territoire == 95)]
 
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains('75')) | (df_relais_clean['Territoire Rollup'].str.contains('77'))
-        | (df_relais_clean['Territoire Rollup'].str.contains('78')) | (df_relais_clean['Territoire Rollup'].str.contains('91')) | (df_relais_clean['Territoire Rollup'].str.contains('92'))
-        | (df_relais_clean['Territoire Rollup'].str.contains('93'))| (df_relais_clean['Territoire Rollup'].str.contains('94'))| (df_relais_clean['Territoire Rollup'].str.contains('95'))]
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire'].str.contains('75')) | (df_relais_clean['Territoire'].str.contains('77'))
+        | (df_relais_clean['Territoire'].str.contains('78')) | (df_relais_clean['Territoire'].str.contains('91')) | (df_relais_clean['Territoire'].str.contains('92'))
+        | (df_relais_clean['Territoire'].str.contains('93'))| (df_relais_clean['Territoire'].str.contains('94'))| (df_relais_clean['Territoire'].str.contains('95'))]
 
         df_users_API = df_users_API[(df_users_API['territories'] == "75") | (df_users_API['territories'] == "77") | (df_users_API['territories'] == "78")
         | (df_users_API['territories'] == "91") | (df_users_API['territories'] == "92") | (df_users_API['territories'] == "93") | (df_users_API['territories'] == "94")
@@ -2454,7 +2454,7 @@ if categorie_2 == 'Ile-de-France':
     if not "EDITOR" in pd.DataFrame(df_users_pro_roles_n.role.value_counts()).T.columns.to_list():
         html_string_2 = f"""<br>
         <center><font face='Helvetica' size='7'>{0}</font>
-        <br/><font size='3'>comptes "Editeurs"<br></font></center>
+        <br/><font size='3'>comptes "Editeurs"<br></font></center>https://share.streamlit.io/antoine-carre/dashoard-suivi-indicateurs/main/dashboard-suivi-indicateurs.py
         """
     if not "EDITOR" in pd.DataFrame(df_users_pro_roles_2.role.value_counts()).T.columns.to_list():
         html_string_5 = html_string_2
