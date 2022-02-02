@@ -1832,6 +1832,7 @@ if categorie_2 == 'Tous':
     df_nuité["Date fin"] = pd.to_datetime(df_nuité["Date fin"])
 
     df_nuité['Date fin'].fillna(today, inplace=True)
+    df_nuité = df_nuité[~df_nuité['Date début'].isnull()]
 
 
     if not df_nuité.empty:
