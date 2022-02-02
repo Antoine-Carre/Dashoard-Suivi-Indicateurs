@@ -100,13 +100,7 @@ df_hebergeurs_dispo_vf = df_hebergeurs_dispo_vf[(df_hebergeurs_dispo_vf.Disponib
 df_hebergeurs_dispo_vf['Date de début'] = pd.to_datetime(df_hebergeurs_dispo_vf['Date de début'])
 df_hebergeurs_dispo_vf['territory'] = df_hebergeurs_dispo_vf['Département'].map(Dep_to_num)
 df_hebergeurs_dispo_vf.dropna(subset=['Date de début'], inplace=True)
-df_hebergeurs_dispo_final = df_hebergeurs_dispo_vf.join(
-    df_hebergeurs_dispo_vf.apply(lambda v: pd.Series(pd.date_range(v['Date de début'], today.strftime("%Y-%m"), freq='M').to_period('M')), axis=1)
-    .apply(pd.value_counts, axis=1)
-    .fillna(0)
-    .astype(int)
-)
-df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[:,4:]
+df_hebergeurs_dispo_final = df_hebergeurs_dispo_vf[['territory']].join(df_hebergeurs_dispo_vf.apply(lambda v: pd.Series(pd.date_range(v['Date de début'], datetime.date.today().strftime("%Y-%m-%d"), freq='M').to_period('M')), axis=1).apply(pd.value_counts, axis=1).fillna(0).astype(int)
 
 df_hebergement = pd.read_csv('./ressource/Hébergement-Tout.csv')
 df_hebergement_vf = df_hebergement[['Territoire','Statut','Date début','Date fin']]
