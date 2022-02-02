@@ -3190,6 +3190,7 @@ if categorie_2 == 'Ile-de-France':
 
     #df_fiche_serv_on_off = df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0]
     st.write(df_fiche_serv_on_off
+             
     col1, col2 = st.columns(2)
 
     html_string_l = f"""<br>
