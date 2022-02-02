@@ -103,8 +103,7 @@ df_hebergeurs_dispo_vf.dropna(subset=['Date de début'], inplace=True)
 df_hebergeurs_dispo_final = df_hebergeurs_dispo_vf.join(
     df_hebergeurs_dispo_vf.apply(lambda v: pd.Series(pd.date_range(v['Date de début'], today.strftime("%Y-%m"), freq='M').to_period('M')), axis=1)
     .apply(pd.value_counts, axis=1)
-    .fillna(0)
-    .astype(int)
+    .fillna(0).astype(int)
 )
 df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[:,4:]
 
