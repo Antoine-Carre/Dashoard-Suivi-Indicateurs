@@ -3184,6 +3184,8 @@ if categorie_2 == 'Ile-de-France':
         """
 
         st.markdown(html_string_k, unsafe_allow_html=True)
+        
+    st.write(df_fiche_serv_on_off
 
 
     st.markdown("### **Nombre de fiches et de services en ligne et en brouillon**")
