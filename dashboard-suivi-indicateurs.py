@@ -3717,7 +3717,7 @@ if categorie_2 == 'Admin/Finance':
 
     st.table(df_partenariat_dep_final)
 
-    df_relation = df_relation[['Territoire Rollup','Relation']]
+    df_relation = df_relation[['Territoire','Relation']]
     df_relation.dropna(subset=["Relation"], inplace=True)
 
     st.markdown("### **Nombre d'organismes \"co-construction\"**")
