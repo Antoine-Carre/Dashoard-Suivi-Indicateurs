@@ -1230,7 +1230,7 @@ if categorie_2 == 'Tous':
 
     elif not "EDITOR" in pd.DataFrame(df_users_pro_roles_test.role_x.value_counts()).T.columns.to_list() and len(pd.DataFrame(df_users_pro_roles_test.role_x.value_counts()).T.columns.to_list()) > 1:
 
-        st.markdown("## **Nombre de comptes professionnels *actifs* par mois (administrateur, éditeur, lecteur)**")
+        st.markdown("### **Nombre de comptes professionnels *actifs* par mois (administrateur, éditeur, lecteur)**")
         st.markdown("( compte actif = compte ayant fait au moins une recherche / une mise à jour dans le mois)")
 
         fig = go.Figure(data=[
@@ -1284,7 +1284,7 @@ if categorie_2 == 'Tous':
         st.plotly_chart(fig, use_container_width=True)
 
 
-    st.markdown("### **Nombre d'organisation créé par mois** (et celles ayant au moins un compte pro validé)")
+    st.markdown("### **Nombre d'organisations créées par mois** (et celles ayant au moins un compte pro validé)")
 
     df_orga_ceated_month = pd.DataFrame(df_orga_ceated.groupby('createdAt')['organization_id'].count()).reset_index()
 
@@ -1532,8 +1532,8 @@ if categorie_2 == 'Tous':
 
     col2.markdown(html_string_b, unsafe_allow_html=True)
     
-    st.markdown("### **Nombre d'utilisateurs* **")
-    st.markdown("\* ne sont comptabilisé ici que les utilisateurs qui ont accepter l'utilisation de cookies")
+    st.markdown("### **Nombre d'utilisateurs** *")
+    st.markdown("\* ne sont comptabilisé ici que les utilisateurs qui ont accepté l'utilisation de cookies")
 
     df4 = df4.iloc[:-1,:]
 
@@ -1566,6 +1566,7 @@ if categorie_2 == 'Tous':
         df_diff_pro_benef['Date'] = pd.to_datetime(df_diff_pro_benef.Date)
 
         df_diff_pro_benef = df_diff_pro_benef[df_diff_pro_benef['Date'] > "2017-01-01"]
+        df_diff_pro_benef = df_diff_pro_benef[df_diff_pro_benef['Date'] < "2022-02-01"]
 
         df_diff_pro_benef['Date'] = df_diff_pro_benef.Date.dt.strftime('%Y-%m')
 
@@ -1615,6 +1616,8 @@ if categorie_2 == 'Tous':
 
         df_diff_bénéf = pd.DataFrame(df_diff_pro_benef.groupby('Date')['Nb de bénéficiaires'].sum())
         df_diff_bénéf.reset_index(inplace=True)
+        df_diff_bénéf = df_diff_bénéf[df_diff_bénéf['Date'] < "2022-02-01"]
+
 
         df_diff_bénéf_cum = df_diff_bénéf.copy()
         df_diff_bénéf_cum['Nb de bénéficiaires'] = df_diff_bénéf_cum['Nb de bénéficiaires'].cumsum()
@@ -1661,6 +1664,8 @@ if categorie_2 == 'Tous':
         df_diff_action['Date'] = pd.to_datetime(df_diff_action['Date'])
         df_diff_action['Date'] = df_diff_action.Date.dt.strftime('%Y-%m')
         df_diff_action = df_diff_action[df_diff_action['Date'] > "2017-01-01"]
+        df_diff_action = df_diff_action[df_diff_action['Date'] < "2022-02-01"]
+
 
         df_diff_action = df_diff_action.groupby(by=[pd.Grouper(key="Date"), "Type"])["Diffusion_name"]
         df_diff_action = df_diff_action.count().reset_index()
