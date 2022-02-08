@@ -1865,7 +1865,7 @@ if categorie_2 == 'Tous':
         res_vf_2.rename(columns={'index':'Date'}, inplace=True)
         
         res_vf_2["Date"] = res_vf_2["Date"].astype(str)
-        res_vf_2 = res_vf_2.[res_vf_2["Date"] < "2022-01"]
+        res_vf_2 = res_vf_2[res_vf_2["Date"] < "2022-01"]
       
         figNuité = go.Figure(data=[
         go.Line(name='nombre de nuitées', x=res_vf_2.Date.astype(str), y=res_vf_2.Total, marker_color='#7201a8',
