@@ -3092,7 +3092,7 @@ if categorie_2 == 'Ile-de-France':
 # Nb d'hébergements
 
     st.markdown("### **MPLI : Nombre d'hébergements en cours**")
-    df_hebergement_final
+    st.table(df_hebergement_final)
     figHeb = go.Figure(data=[
         go.Line(name='Nombre d\'hébrgement diponibles', x=df_hebergement_final.index.astype(str), y=df_hebergement_final.Total, marker_color='#7201a8',
                 text=df_hebergement_final.Total,
