@@ -1799,6 +1799,7 @@ if categorie_2 == 'Tous':
 
  # Nb d'hébergements
     st.markdown('### MPLI: Répartition des hébergeur.euse.s disponible en France')
+    st.markdown("**Il s'agit ici des personnes inscrites comme disponibles dans l'onglets hébergeurs de Soliguide au 1er Février 2022**")
     st.markdown("Les zones en noir indiquent les départements où il n'y a aucun.e hébergeur.euse actuellement")
 
     source_code = HtmlFile.read() 
