@@ -3068,7 +3068,7 @@ if categorie_2 == 'Ile-de-France':
 
     annotationsHebDispo = dict(xref='paper', yref='paper', x=0.055, y=1,
                                 xanchor='center', yanchor='top',
-                                text='Fait le: ' + str("1 janvier 2022"),
+                                text='Fait le: ' + str("1 février 2022"),
                                 font=dict(family='Arial',
                                         size=12,
                                         color='rgb(150,150,150)'),
@@ -3086,14 +3086,14 @@ if categorie_2 == 'Ile-de-France':
     st.markdown("Les zones en noir indiques les départements où aucun.e hébergeur.euse n'a été référencé.")
     
     source_code = HtmlFile.read() 
-    components.html(source_code, height = 600)
-
+    components.html(source_code)
 
 
 # Nb d'hébergements
 
     st.markdown("### **MPLI : Nombre d'hébergements en cours**")
-
+    df_hebergement_final = df_hebergement_final.loc[: "2022-02"]
+    st.write(df_hebergement_final)
     figHeb = go.Figure(data=[
         go.Line(name='Nombre d\'hébrgement diponibles', x=df_hebergement_final.index.astype(str), y=df_hebergement_final.Total, marker_color='#7201a8',
                 text=df_hebergement_final.Total,
@@ -3106,7 +3106,7 @@ if categorie_2 == 'Ile-de-France':
 
     annotationsHeb = dict(xref='paper', yref='paper', x=0.055, y=1,
                                 xanchor='center', yanchor='top',
-                                text='Fait le: ' + str("1 janvier 2022"),
+                                text='Fait le: ' + str("1 février 2022"),
                                 font=dict(family='Arial',
                                         size=12,
                                         color='rgb(150,150,150)'),
