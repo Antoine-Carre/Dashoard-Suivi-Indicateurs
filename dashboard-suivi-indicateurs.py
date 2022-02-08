@@ -1771,7 +1771,8 @@ if categorie_2 == 'Tous':
 # Nb d'hébergeurs disponibles
 
     st.markdown("### **MPLI : Nombre d'hébergeurs disponibles**")
-
+    df_hebergeurs_dispo_final.index = df_hebergeurs_dispo_final.index.astype(str)
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.loc[:"2022-01"]
     figHebDispo = go.Figure(data=[
         go.Line(name='Nombre d\'hébrgement diponibles', x=df_hebergeurs_dispo_final.index.astype(str), y=df_hebergeurs_dispo_final.Total, marker_color='#7201a8',
                 text=df_hebergeurs_dispo_final.Total,
