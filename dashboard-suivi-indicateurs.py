@@ -1797,6 +1797,13 @@ if categorie_2 == 'Tous':
 
     st.plotly_chart(figHebDispo, use_container_width=True)
 
+ # Nb d'hébergements
+    st.markdown('### MPLI: Répartition des hébergeur.euse.s disponible en France')
+    st.markdown("Les zones en noir indiquent les départements où il n'y a aucun.e hébergeur.euse actuellement")
+
+    source_code = HtmlFile.read() 
+    components.html(source_code, height = 600)
+
 # Nb d'hébergements
 
     st.markdown("### **MPLI : Nombre d'hébergements en cours**")
