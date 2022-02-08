@@ -1400,7 +1400,7 @@ if categorie_2 == 'Tous':
 
     annotationsSearch = dict(xref='paper', yref='paper', x=0.055, y=1,
                                 xanchor='center', yanchor='top',
-                                text='Fait le: ' + str("1 janvier 2022"),
+                                text='Fait le: ' + str("1 fevrier 2022"),
                                 font=dict(family='Arial',
                                         size=12,
                                         color='rgb(150,150,150)'),
@@ -1490,7 +1490,7 @@ if categorie_2 == 'Tous':
 
     annotationsSearch_user = dict(xref='paper', yref='paper', x=0.055, y=1,
                                 xanchor='center', yanchor='top',
-                                text='Fait le: ' + str("1 janvier 2022"),
+                                text='Fait le: ' + str("1 fevrier 2022"),
                                 font=dict(family='Arial',
                                         size=12,
                                         color='rgb(150,150,150)'),
@@ -1543,7 +1543,7 @@ if categorie_2 == 'Tous':
     fig4.update_yaxes(title_text="Nombre d'utilisateurs/sessions/pages vues", title_font_family="Times New Roman")
     annotations = dict(xref='paper', yref='paper', x=0.055, y=1,
                                  xanchor='center', yanchor='top',
-                                 text='Fait le: ' + str("1 janvier 2022"),
+                                 text='Fait le: ' + str("1 fevrier 2022"),
                                  font=dict(family='Arial',
                                            size=12,
                                            color='rgb(150,150,150)'),
@@ -1800,7 +1800,9 @@ if categorie_2 == 'Tous':
 # Nb d'hébergements
 
     st.markdown("### **MPLI : Nombre d'hébergements en cours**")
-
+    df_hebergement_final.index = df_hebergement_final.index.astype(str)
+    df_hebergement_final = df_hebergement_final.loc[:"2022-01"]
+    
     figHeb = go.Figure(data=[
         go.Line(name='Nombre d\'hébrgement diponibles', x=df_hebergement_final.index.astype(str), y=df_hebergement_final.Total, marker_color='#7201a8',
                 text=df_hebergement_final.Total,
@@ -1813,7 +1815,7 @@ if categorie_2 == 'Tous':
     
     annotationsHeb = dict(xref='paper', yref='paper', x=0.055, y=1,
                                 xanchor='center', yanchor='top',
-                                text='Fait le: ' + str("1 janvier 2022"),
+                                text='Fait le: ' + str("1 fevrier 2022"),
                                 font=dict(family='Arial',
                                         size=12,
                                         color='rgb(150,150,150)'),
@@ -1861,7 +1863,10 @@ if categorie_2 == 'Tous':
         res_vf_2 = res_vf_2.sort_index()
         res_vf_2.reset_index(inplace=True)
         res_vf_2.rename(columns={'index':'Date'}, inplace=True)
-
+        
+        res_vf_2["Date"] = res_vf_2["Date"].astype(str)
+        res_vf_2 = res_vf_2.[res_vf_2["Date"] < "2022-01"]
+      
         figNuité = go.Figure(data=[
         go.Line(name='nombre de nuitées', x=res_vf_2.Date.astype(str), y=res_vf_2.Total, marker_color='#7201a8',
             text=res_vf_2.Total,
@@ -1875,7 +1880,7 @@ if categorie_2 == 'Tous':
 
         annotationsHeb = dict(xref='paper', yref='paper', x=0.055, y=1,
                                     xanchor='center', yanchor='top',
-                                    text='Fait le: ' + str("1 janvier 2022"),
+                                    text='Fait le: ' + str("1 fevrier 2022"),
                                     font=dict(family='Arial',
                                             size=12,
                                             color='rgb(150,150,150)'),
@@ -1983,7 +1988,7 @@ if categorie_2 == 'Tous':
 
     annotationsServFiches = dict(xref='paper', yref='paper', x=0.055, y=1,
                                     xanchor='center', yanchor='top',
-                                    text='Fait le: ' + str("1 janvier 2022"),
+                                    text='Fait le: ' + str("1 fevrier 2022"),
                                     font=dict(family='Arial',
                                             size=12,
                                             color='rgb(150,150,150)'),
