@@ -162,6 +162,9 @@ df_relation = pd.read_csv('./ressource/Organisme-allDep pas locked.csv')
 
 df_remontées = pd.read_csv('./ressource/🧐 Remontées-Tout - DA.csv')
 
+HtmlFile = open("./ressource/MPLI_hebergeurs.html", 'r', encoding='utf-8')
+
+
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
             "- Bouche-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
             "- Loire-Atlantique (44)" : "44","- Nord (59)":"59" , "- Puy-de-Dôme (63)":"63","- Haute-Vienne (87)":"87",
@@ -3071,6 +3074,16 @@ if categorie_2 == 'Ile-de-France':
     figHebDispo.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotationsHebDispo])
 
     st.plotly_chart(figHebDispo, use_container_width=True)
+    
+# carte des hébergeurs disponible
+
+    st.markdown("### **MPLI : Carte de France des différents départements des hébergeur.euse.s**")
+    st.markdown("Les zones en noir indiques les départements où aucun.e hébergeur.euse n'a été référencé.")
+    
+    source_code = HtmlFile.read() 
+    components.html(source_code, height = 600)
+
+
 
 # Nb d'hébergements
 
