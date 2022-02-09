@@ -28,6 +28,11 @@ categorie_2 = st.sidebar.radio("Cercles", ("Tous", "Ile-de-France", "Lancement",
                                             "Communication", 'Admin/Finance',
                                             ))
 
+st.sidebar.write("[Lien vers la documentation et les explications](https://www.notion.so/Suivi-des-indicateurs-mensuels-process-b285b4b9bb3b48f997f7cd8b728605d1)")
+st.sidebar.write("[Lien vers les chiffres](https://airtable.com/appfuLygVTjBO0qk1/tblnFpLaXocYAgoxG/viwXZ2ZkTM5pwPa8Q?blocks=hide)")
+
+
+
 
 ##########
 ## DATA ##
@@ -184,10 +189,6 @@ dict_region = {"33" : "Nouvelle-Aquitaine","87" : "Nouvelle-Aquitaine", "16" : "
  
 
 ## Compte pro invité et validé ##
-
-st.write("[Lien vers la documentation et les explications](https://www.notion.so/Suivi-des-indicateurs-mensuels-process-b285b4b9bb3b48f997f7cd8b728605d1)")
-st.write("[Lien vers les chiffres](https://airtable.com/appfuLygVTjBO0qk1/tblnFpLaXocYAgoxG/viwXZ2ZkTM5pwPa8Q?blocks=hide)")
-
 
 ##########
 ## Tous ##
