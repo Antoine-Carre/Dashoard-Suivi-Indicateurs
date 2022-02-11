@@ -10,7 +10,7 @@ import streamlit.components.v1 as components
 
 
 # option
-st.set_page_config(page_title="Dasboard des indicateurs - Janvier 2022",
+st.set_page_config(page_title="Dasboard des indicateurs - Février 2022",
                    page_icon="https://pbs.twimg.com/profile_images/1321098074765361153/F4UFTeix.png",
                    initial_sidebar_state="expanded",
                    layout="wide",)
@@ -196,7 +196,7 @@ dict_region = {"33" : "Nouvelle-Aquitaine","87" : "Nouvelle-Aquitaine", "16" : "
 
 if categorie_2 == 'Tous':
 
-    categorie = st.selectbox("Choisissez votre territoire :", ("France",
+    categorie = st.selectbox("Choisissez votre territoire :", ("France", "France Relance",
                                                 "Région SUD", 
                                                 "- Alpes-Maritimes (06)", "- Bouche-du-Rhône (13)", 
                                                 "Auvergne-Rhône-Alpes",
@@ -276,6 +276,132 @@ if categorie_2 == 'Tous':
         df_exhaustivity = df_exhaustivity
 
         df_categorie_vf = df_categorie_vf
+
+    elif categorie == "France Relance":
+        df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "07") | (df_users_pro_roles.territories == "13")
+                                               | (df_users_pro_roles.territories == "15")| (df_users_pro_roles.territories == "63")
+                                               | (df_users_pro_roles.territories == "34")| (df_users_pro_roles.territories == "76")
+                                               | (df_users_pro_roles.territories == "59")| (df_users_pro_roles.territories == "21")].dropna()
+        df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 7) | (df_users_pro_roles_test.territory == 13)
+                                                         | (df_users_pro_roles_test.territory == 15)| (df_users_pro_roles_test.territory == 63)
+                                                         | (df_users_pro_roles_test.territory == 34)| (df_users_pro_roles_test.territory == 76)
+                                                         | (df_users_pro_roles_test.territory == 59)| (df_users_pro_roles_test.territory == 21)].dropna()
+        df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "07") | (df_orga_ceated.territories == "13")
+                                       | (df_orga_ceated.territories == "15")| (df_orga_ceated.territories == "63")
+                                       | (df_orga_ceated.territories == "34")| (df_orga_ceated.territories == "76")
+                                       | (df_orga_ceated.territories == "59")| (df_orga_ceated.territories == "21")].dropna()
+        df_orga_2 = df_orga_2[(df_orga_2.territory == 7) | (df_orga_2.territory == 13)| (df_orga_2.territory == 15)|  (df_orga_2.territory == 63)
+                             | (df_orga_2.territory == 34)| (df_orga_2.territory == 76)| (df_orga_2.territory == 59)| (df_orga_2.territory == 21)].dropna()
+        df_orga_auto = df_orga_auto[(df_orga_auto.territory == 7) | (df_orga_auto.territory == 13) | (df_orga_auto.territory == 15)
+                                   | (df_orga_auto.territory == 63) | (df_orga_auto.territory == 34) | (df_orga_auto.territory == 76)
+                                   | (df_orga_auto.territory == 59)| (df_orga_auto.territory == 21)].dropna()
+        df_history_data = df_history_data[(df_history_data.territoire== 7) | (df_history_data.territoire == 13)  | (df_history_data.territoire == 15)
+                                          | (df_history_data.territoire == 63) | (df_history_data.territoire == 34) | (df_history_data.territoire == 76)
+                                          | (df_history_data.territoire == 59) | (df_history_data.territoire == 21)].dropna()
+
+        s1 = pd.concat([s.filter(regex="07"), s.filter(regex="13"),  s.filter(regex="15"),  s.filter(regex="63"),  s.filter(regex="34"),
+                        s.filter(regex="76"),  s.filter(regex="59"),  s.filter(regex="21")], axis=0)
+        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+        s1 = s1.groupby(s1['datePresentation']).sum()
+        s1 = s1.T
+        s1.index = s1.iloc[:, :].index.str[:-8].tolist()
+        s1 = s1.groupby(s1.index).sum()
+        s1 = s1.T.reset_index()
+        s1.replace({0:np.nan}, inplace=True)
+
+        s1_cum = s1[['datePresentation','Recherches']]
+        s1_cum['Recherches cumulé'] = s1_cum['Recherches'].cumsum()
+
+        df_search_users = df_search_users[(df_search_users.Territoire == 7) | (df_search_users.Territoire == 13)  | (df_search_users.Territoire == 15)
+                                          | (df_search_users.Territoire == 63)  | (df_search_users.Territoire == 34)  | (df_search_users.Territoire == 76)
+                                          | (df_search_users.Territoire == 59)  | (df_search_users.Territoire == 21)]
+
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire'].str.contains('07')) | (df_relais_clean['Territoire'].str.contains('13'))
+                                          | (df_relais_clean['Territoire'].str.contains('15')) | (df_relais_clean['Territoire'].str.contains('63'))
+                                          | (df_relais_clean['Territoire'].str.contains('34')) | (df_relais_clean['Territoire'].str.contains('76'))
+                                          | (df_relais_clean['Territoire'].str.contains('59')) | (df_relais_clean['Territoire'].str.contains('21'))]
+
+        df_users_API = df_users_API[(df_users_API['territories'] == "07") | (df_users_API['territories'] == "13") | (df_users_API['territories'] == "15")
+                                    | (df_users_API['territories'] == "63") | (df_users_API['territories'] == "34") | (df_users_API['territories'] == "76")
+                                    | (df_users_API['territories'] == "59") | (df_users_API['territories'] == "21")]
+
+        df4 = df4[(df4['territoire'].str.contains("07")) | (df4['territoire'].str.contains("13")) | (df4['territoire'].str.contains("15"))
+                  | (df4['territoire'].str.contains("63")) | (df4['territoire'].str.contains("34")) | (df4['territoire'].str.contains("76"))
+                  | (df4['territoire'].str.contains("59")) | (df4['territoire'].str.contains("21"))]
+        df4 = df4.groupby('Unnamed: 0').sum().reset_index()
+
+        df_diff = df_diff[(df_diff.Territoire.str.contains('07')) | (df_diff.Territoire.str.contains('13')) | (df_diff.Territoire.str.contains('15'))
+                          | (df_diff.Territoire.str.contains('63')) | (df_diff.Territoire.str.contains('34')) | (df_diff.Territoire.str.contains('76'))
+                          | (df_diff.Territoire.str.contains('59')) | (df_diff.Territoire.str.contains('21'))]
+
+        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 7) | (df_fiches_total.territory == 13) | (df_fiches_total.territory == 15)
+                                          | (df_fiches_total.territory == 63) | (df_fiches_total.territory == 34) | (df_fiches_total.territory == 76)
+                                          | (df_fiches_total.territory == 59) | (df_fiches_total.territory == 21)]
+
+        df_newsletter = df_newsletter[(df_newsletter.Territoire == "07") | (df_newsletter.Territoire == "13") | (df_newsletter.Territoire == "15")
+                                      | (df_newsletter.Territoire == "63") | (df_newsletter.Territoire == "34") | (df_newsletter.Territoire == "76")
+                                      | (df_newsletter.Territoire == "59") | (df_newsletter.Territoire == "21")]
+        df_newsletter_2 = df_newsletter.sum()
+
+        df_listing_count_vf = df_listing_count_vf[(df_listing_count_vf.Territoire == "07") | (df_listing_count_vf.Territoire == "13")
+                                                  | (df_listing_count_vf.Territoire == "15") | (df_listing_count_vf.Territoire == "63")
+                                                  | (df_listing_count_vf.Territoire == "34") | (df_listing_count_vf.Territoire == "76")
+                                                  | (df_listing_count_vf.Territoire == "59") | (df_listing_count_vf.Territoire == "21")]
+
+        df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "07") | (df_hebergeurs_dispo_final.territory == "13")
+                                                              | (df_hebergeurs_dispo_final.territory == "15") | (df_hebergeurs_dispo_final.territory == "63")
+                                                              | (df_hebergeurs_dispo_final.territory == "34") | (df_hebergeurs_dispo_final.territory == "76")
+                                                              | (df_hebergeurs_dispo_final.territory == "59") | (df_hebergeurs_dispo_final.territory == "21")]
+        df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
+
+        df_hebergeurs_dispo_final.loc['Total'] = df_hebergeurs_dispo_final.sum()
+        df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[-1:]
+        df_hebergeurs_dispo_final.columns = df_hebergeurs_dispo_final.columns.astype('datetime64[ns]')
+
+        df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.T
+
+        df_hebergement_final = df_hebergement_final[(df_hebergement_final.territory == "07") | (df_hebergement_final.territory == "13")
+                                                    | (df_hebergement_final.territory == "15") | (df_hebergement_final.territory == "63")
+                                                    | (df_hebergement_final.territory == "34") | (df_hebergement_final.territory == "76")
+                                                    | (df_hebergement_final.territory == "59") | (df_hebergement_final.territory == "21")]
+        df_hebergement_final = df_hebergement_final.iloc[:,5:]
+        df_hebergement_final.index = df_hebergement_final.index.astype(str)
+        df_hebergement_final.loc['Total'] = df_hebergement_final.sum()
+        df_hebergement_final = df_hebergement_final.iloc[-1:]
+        df_hebergement_final = df_hebergement_final.astype(str)
+        df_hebergement_final.columns = df_hebergement_final.columns.astype('datetime64[ns]')
+        df_hebergement_final = df_hebergement_final.T
+        
+        df_hebergement = df_hebergement[(df_hebergement.territory == "07") | (df_hebergement.territory == "13") | (df_hebergement.territory == "15")
+                                        | (df_hebergement.territory == "63") | (df_hebergement.territory == "34") | (df_hebergement.territory == "76")
+                                        | (df_hebergement.territory == "59") | (df_hebergement.territory == "21")]
+
+        df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "07") | (df_maj_6_months.index == "13") | (df_maj_6_months.index == "15")
+                                          | (df_maj_6_months.index == "63") | (df_maj_6_months.index == "34") | (df_maj_6_months.index == "76")
+                                          | (df_maj_6_months.index == "59") | (df_maj_6_months.index == "21")]
+        df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
+        df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
+
+        df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == 7) | (df_fiche_serv_on_off.territory == 13)
+                                                    | (df_fiche_serv_on_off.territory == 15) | (df_fiche_serv_on_off.territory == 63)
+                                                    | (df_fiche_serv_on_off.territory == 34) | (df_fiche_serv_on_off.territory == 76)
+                                                    | (df_fiche_serv_on_off.territory == 59) | (df_fiche_serv_on_off.territory == 21)]
+
+        df_ville.dropna(inplace=True)
+        df_ville = df_ville[(df_ville['territory'].str.startswith('07')) | (df_ville['territory'].str.startswith('13'))| (df_ville['territory'].str.startswith('15'))
+                           | (df_ville['territory'].str.startswith('63'))| (df_ville['territory'].str.startswith('34'))| (df_ville['territory'].str.startswith('59'))
+                           | (df_ville['territory'].str.startswith('21'))]
+
+        df_ville_vf = df_ville.groupby(['codePostal','ville']).sum().reset_index()
+        df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
+
+        df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 7) | (df_exhaustivity.Département == 13)| (df_exhaustivity.Département == 15)
+                                         | (df_exhaustivity.Département == 63)| (df_exhaustivity.Département == 34)| (df_exhaustivity.Département == 76)
+                                         | (df_exhaustivity.Département == 59)| (df_exhaustivity.Département == 21)]
+
+        df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "07") | (df_categorie_vf.territory == "13") | (df_categorie_vf.territory == "15")
+                                          | (df_categorie_vf.territory == "63") | (df_categorie_vf.territory == "34") | (df_categorie_vf.territory == "76")
+                                          | (df_categorie_vf.territory == "59") | (df_categorie_vf.territory == "21")]
 
     elif categorie == "Région SUD":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "06") | (df_users_pro_roles.territories == "13")].dropna()
