@@ -2101,7 +2101,7 @@ if categorie_2 == 'Tous':
     df_hebergees.dropna(subset=['Statut'], inplace=True)
 
     html_string_X = f"""<br>
-    <center><font face='Helvetica' size='6'>{((df_hebergees[df_hebergees["Statut"] == "Sortie dynamique"]['Statut'].count())/(df_hebergees[df_hebergees.Statut.str.contains("Sortie")]["Statut"].count())*100)}</font>
+    <center><font face='Helvetica' size='6'>{round((df_hebergees[df_hebergees["Statut"] == "Sortie dynamique"]['Statut'].count())/(df_hebergees[df_hebergees.Statut.str.contains("Sortie")]["Statut"].count())*100,2)} %</font>
     <br/><font size='3'>de sorties dynamiques<br></font></center>"
     """
     col2.markdown(html_string_X, unsafe_allow_html=True)
