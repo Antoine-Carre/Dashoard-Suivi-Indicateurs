@@ -2081,7 +2081,7 @@ if categorie_2 == 'Tous':
     st.markdown("### **MPLI : Nombre de partenariats d'orientation**")
 
     html_string_w = f"""<br>
-    <center><font face='Helvetica' size='6'>{df_hebergees['Partenaire d'orientation'].nunique()}</font>
+    <center><font face='Helvetica' size='6'>{df_hebergees["Partenaire d'orientation"].nunique()}</font>
     <br/><font size='3'>partenariats d'orientation MPLI<br></font></center>
     """
                  
