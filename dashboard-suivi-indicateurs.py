@@ -180,7 +180,7 @@ cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":
             "- Hauts-de-Seine (92)":"92","- Seine-Saint-Denis (93)": "93","- Val-de-Marne (94)": "94", 
             "- Val-d'Oise (95)":"95"}
 
-cat2_dict = {"France":'France', "- Alpes-Maritimes (06)" :"Alpes-Maritimes", "- Ardèche (07)":"Ardèche",
+cat2_dict = {"- Alpes-Maritimes (06)" :"Alpes-Maritimes", "- Ardèche (07)":"Ardèche",
             "- Bouche-du-Rhône (13)": "Bouche-du-Rhône","- Cantal (15)":"Cantal","- Charente (16)":"Charente","- Côte-d'Or (21)" : "Côte-d'Or", 
              "- Dordogne (24)":"Dordogne","- Gironde (33)":"Gironde","- Hérault (34)":"Hérault","- Indre (36)":"Indre",
             "- Loire-Atlantique (44)" : "44","- Nord (59)":"59" , "- Puy-de-Dôme (63)":"63","- Haute-Vienne (87)":"87",
@@ -2082,8 +2082,10 @@ if categorie_2 == 'Tous':
 
     html_string_w = f"""<br>
     <center><font face='Helvetica' size='6'>{df_hebergees["Partenaire d'orientation"].nunique()}</font>
-    <br/><font size='3'>partenariats d'orientation MPLI<br></font></center>
+    <br/><font size='3'>partenariats d'orientation MPLI<br></font></center>"
     """
+    st.markdown(html_string_w, unsafe_allow_html=True)
+
                  
     st.markdown("### **Pourcentage de fiches mises à jour dans les 6 derniers mois**")
 
