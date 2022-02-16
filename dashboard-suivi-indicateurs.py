@@ -389,10 +389,10 @@ if categorie_2 == 'Tous':
                                         | (df_hebergement.territory == "63") | (df_hebergement.territory == "34") | (df_hebergement.territory == "76")
                                         | (df_hebergement.territory == "59") | (df_hebergement.territory == "21")]
         
-        df_hebergees = df_hebergees([(df_hebergees.Département== "Ardèche") | (df_hebergees.Département== "Bouches-du-Rhône")
+        df_hebergees = df_hebergees[(df_hebergees.Département== "Ardèche") | (df_hebergees.Département== "Bouches-du-Rhône")
                                     | (df_hebergees.Département== "Cantal") | (df_hebergees.Département== "Puy-de-Dôme") 
                                     | (df_hebergees.Département== "Hérault") | (df_hebergees.Département== "Seine-Maritime") 
-                                    | (df_hebergees.Département== "Nord") | (df_hebergees.Département== "Côte-d'Or")])
+                                    | (df_hebergees.Département== "Nord") | (df_hebergees.Département== "Côte-d'Or")]
 
 
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "07") | (df_maj_6_months.index == "13") | (df_maj_6_months.index == "15")
