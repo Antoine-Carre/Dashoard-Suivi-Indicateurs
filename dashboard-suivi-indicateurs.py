@@ -121,6 +121,8 @@ df_hebergement_final = df_hebergement_vf[['territory']].join(df_hebergement_vf.a
 df_hebergement = df_hebergement[['Territoire','Statut','Date début','Date fin']]
 df_hebergement['territory'] = df_hebergement['Territoire'].map(Dep_to_num)
 
+df_hebergees = pd.read_csv('./ressource/Hébergées-Tout.csv')
+
 df_maj_6_months = pd.read_csv("./ressource/mise_a_jour_6_mois.csv")
 df_maj_6_months.set_index('territoire', inplace=True)
 
@@ -266,6 +268,8 @@ if categorie_2 == 'Tous':
         
         df_hebergement = df_hebergement
 
+        df_hebergees = df_hebergees
+        
         df_maj_6_months = df_maj_6_months
 
         df_fiche_serv_on_off = df_fiche_serv_on_off
@@ -375,6 +379,12 @@ if categorie_2 == 'Tous':
         df_hebergement = df_hebergement[(df_hebergement.territory == "07") | (df_hebergement.territory == "13") | (df_hebergement.territory == "15")
                                         | (df_hebergement.territory == "63") | (df_hebergement.territory == "34") | (df_hebergement.territory == "76")
                                         | (df_hebergement.territory == "59") | (df_hebergement.territory == "21")]
+        
+        df_hebergees = df_hebergees([(df_hebergees.Département== "Ardèche") | (df_hebergees.Département== "Bouches-du-Rhône")
+                                    | (df_hebergees.Département== "Cantal") | (df_hebergees.Département== "Puy-de-Dôme") 
+                                    | (df_hebergees.Département== "Hérault") | (df_hebergees.Département== "Seine-Maritime") 
+                                    | (df_hebergees.Département== "Nord") | (df_hebergees.Département== "Côte-d'Or")])
+
 
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "07") | (df_maj_6_months.index == "13") | (df_maj_6_months.index == "15")
                                           | (df_maj_6_months.index == "63") | (df_maj_6_months.index == "34") | (df_maj_6_months.index == "76")
@@ -461,6 +471,8 @@ if categorie_2 == 'Tous':
         
         df_hebergement = df_hebergement[(df_hebergement.territory == "06") | (df_hebergement.territory == "13")]
 
+        df_hebergees = df_hebergees([(df_hebergees.Département== "Alpes-Maritimes") | (df_hebergees.Département== "Bouches-du-Rhône")])
+
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "06") | (df_maj_6_months.index == "13")]
         df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
         df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
@@ -536,6 +548,8 @@ if categorie_2 == 'Tous':
         
         df_hebergement = df_hebergement[(df_hebergement.territory == "07") | (df_hebergement.territory == "15") | (df_hebergement.territory == "63")]
 
+        df_hebergees = df_hebergees([(df_hebergees.Département== "Ardèche") | (df_hebergees.Département== "Cantal") | (df_hebergees.Département== "Puy-de-Dôme")])
+
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "07") | (df_maj_6_months.index == "15") | (df_maj_6_months.index == "63")]
         df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
         df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
@@ -599,6 +613,7 @@ if categorie_2 == 'Tous':
         
         df_hebergement = df_hebergement[(df_hebergement.territory == "34")]
 
+        df_hebergees = df_hebergees([(df_hebergees.Département== "Hérault")])
 
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "34")]
         df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
@@ -685,6 +700,8 @@ if categorie_2 == 'Tous':
 
         df_hebergement = df_hebergement[(df_hebergement.territory == "33") | (df_hebergement.territory == "87") | (df_hebergement.territory == "16") | (df_hebergement.territory == "24")]
 
+        df_hebergees = df_hebergees([(df_hebergees.Département== "Gironde") | (df_hebergees.Département== "Haute-Vienne") | (df_hebergees.Département== "Charente") | (df_hebergees.Département== "Dordogne")])
+
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "33") | (df_maj_6_months.index == "87") | (df_maj_6_months.index == "16") | (df_maj_6_months.index == "24")]
         df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
         df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
@@ -748,6 +765,8 @@ if categorie_2 == 'Tous':
         df_hebergement_final = df_hebergement_final.T
 
         df_hebergement = df_hebergement[(df_hebergement.territory == "36")]
+        
+        df_hebergees = df_hebergees([(df_hebergees.Département== "Indre")])
 
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "36")]
         df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
@@ -812,6 +831,8 @@ if categorie_2 == 'Tous':
         df_hebergement_final = df_hebergement_final.T
 
         df_hebergement = df_hebergement[(df_hebergement.territory == "44")]
+        
+        df_hebergees = df_hebergees([(df_hebergees.Département== "Loire-Atlantique")])
 
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "44")]
         df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
@@ -876,6 +897,8 @@ if categorie_2 == 'Tous':
         df_hebergement_final = df_hebergement_final.T
 
         df_hebergement = df_hebergement[(df_hebergement.territory == "76")]
+
+        df_hebergees = df_hebergees([(df_hebergees.Département== "Seine-Maritime")])
 
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "76")]
         df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
@@ -980,6 +1003,10 @@ if categorie_2 == 'Tous':
         | (df_hebergement.territory == "91") | (df_hebergement.territory == "92") | (df_hebergement.territory == "93") | (df_hebergement.territory == "94")
         | (df_hebergement.territory == "95")]
 
+        df_hebergees = df_hebergees([(df_hebergees.Département== "Paris") | (df_hebergees.Département== "Seine-et-Marne") | (df_hebergees.Département== "Yvelines") 
+                                     | (df_hebergees.Département== "Hauts-de-Seine") | (df_hebergees.Département== "Essonne") | (df_hebergees.Département== "Seine-Saint-Denis")
+                                    | (df_hebergees.Département== "Val-de-Marne") | (df_hebergees.Département== "Val d'Oise")])
+
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "75") | (df_maj_6_months.index == "77") | (df_maj_6_months.index == "78") | (df_maj_6_months.index == "91")
         | (df_maj_6_months.index == "92") | (df_maj_6_months.index == "93") | (df_maj_6_months.index == "94") | (df_maj_6_months.index == "95")]
         df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
@@ -1051,6 +1078,7 @@ if categorie_2 == 'Tous':
 
         df_hebergement = df_hebergement[(df_hebergement.territory == "59")] 
 
+        df_hebergees = df_hebergees[(df_hebergees.Département== "Nord")]
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "59")]
         df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
         df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
@@ -1116,6 +1144,8 @@ if categorie_2 == 'Tous':
 
         df_hebergement = df_hebergement[(df_hebergement.territory == "67")] 
 
+        df_hebergees = df_hebergees[(df_hebergees.Département== "Bas-Rhin")]
+        
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "67")]
         df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
         df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
@@ -1179,6 +1209,8 @@ if categorie_2 == 'Tous':
         df_hebergement_final = df_hebergement_final.T
         
         df_hebergement = df_hebergement[(df_hebergement.territory == "21")] 
+        
+        df_hebergees = df_hebergees[(df_hebergees.Département== "Côte-d'Or")]
 
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "21")]
         df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
@@ -1242,6 +1274,8 @@ if categorie_2 == 'Tous':
         df_hebergement_final = df_hebergement_final.T
 
         df_hebergement = df_hebergement[(df_hebergement.territory == cat_dict[categorie])] 
+        
+        df_hebergees = df_hebergees[(df_hebergees.Département== [categorie].str[2:-5])]
 
         df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == int(cat_dict[categorie]))]
 
@@ -3324,6 +3358,9 @@ if categorie_2 == 'Ile-de-France':
 
     else:
         st.markdown("Aucune nuité enregistrée sur ce territoire")
+        
+    st.markdown("### **Nombre de partenariat d'orientation**")
+
 
     st.markdown("### **Pourcentage de fiches mises à jour dans les 6 derniers mois**")
 
