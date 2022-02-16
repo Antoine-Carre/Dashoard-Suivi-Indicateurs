@@ -173,7 +173,7 @@ HtmlFile = open("./ressource/MPLI_hebergeurs.html", 'r', encoding='utf-8')
 
 
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
-            "- Bouche-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
+            "- Bouches-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
             "- Loire-Atlantique (44)" : "44","- Nord (59)":"59" , "- Puy-de-Dôme (63)":"63","- Haute-Vienne (87)":"87",
             "- Bas-Rhin (67)":"67", "- Paris (75)" : "75", "- Seine-Maritime (76)":"76",
             "- Seine-et-Marne (77)":'77', "- Yvelines (78)":"78", "- Essonne (91)" :"91", 
@@ -181,9 +181,9 @@ cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":
             "- Val-d'Oise (95)":"95"}
 
 cat2_dict = {"- Alpes-Maritimes (06)" :"Alpes-Maritimes", "- Ardèche (07)":"Ardèche",
-            "- Bouche-du-Rhône (13)": "Bouche-du-Rhône","- Cantal (15)":"Cantal","- Charente (16)":"Charente","- Côte-d'Or (21)" : "Côte-d'Or", 
+            "- Bouches-du-Rhône (13)": "Bouches-du-Rhône","- Cantal (15)":"Cantal","- Charente (16)":"Charente","- Côte-d'Or (21)" : "Côte-d'Or", 
              "- Dordogne (24)":"Dordogne","- Gironde (33)":"Gironde","- Hérault (34)":"Hérault","- Indre (36)":"Indre",
-            "- Loire-Atlantique (44)" : "44","- Nord (59)":"59" , "- Puy-de-Dôme (63)":"63","- Haute-Vienne (87)":"87",
+            "- Loire-Atlantique (44)" : "Loire-Atlantique","- Nord (59)":"Nord" , "- Puy-de-Dôme (63)":"Puy-de-Dôme","- Haute-Vienne (87)":"Haute-Vienne",
             "- Bas-Rhin (67)":"Bas-Rhin", "- Paris (75)" : "Paris", "- Seine-Maritime (76)":"Seine-Maritime",
             "- Seine-et-Marne (77)":'Seine-et-Marne', "- Yvelines (78)":"Yvelines", "- Essonne (91)" :"Essonne", 
             "- Hauts-de-Seine (92)":"Hauts-de-Seine","- Seine-Saint-Denis (93)": "Seine-Saint-Denis","- Val-de-Marne (94)": "Val-de-Marne", 
@@ -209,7 +209,7 @@ if categorie_2 == 'Tous':
 
     categorie = st.selectbox("Choisissez votre territoire :", ("France", "France Relance",
                                                 "Région SUD", 
-                                                "- Alpes-Maritimes (06)", "- Bouche-du-Rhône (13)", 
+                                                "- Alpes-Maritimes (06)", "- Bouches-du-Rhône (13)", 
                                                 "Auvergne-Rhône-Alpes",
                                                 "- Ardèche (07)", "- Cantal (15)", "- Puy-de-Dôme (63)",
                                                 'Occitanie',
