@@ -2587,7 +2587,7 @@ if categorie_2 == 'Ile-de-France':
 
         df_search_users = df_search_users[(df_search_users.Territoire == int(cat_dict[categorie]))]
 
-        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire Rollup'].str.contains(cat_dict[categorie]))]
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire'].str.contains(cat_dict[categorie]))]
 
         df_users_API = df_users_API[df_users_API['territories'] == cat_dict[categorie]]
 
