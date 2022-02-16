@@ -2094,15 +2094,19 @@ if categorie_2 == 'Tous':
     
     html_string_Y = f"""<br>
     <center><font face='Helvetica' size='6'>{df_hebergees[df_hebergees["Statut"] == "Sortie dynamique"]['Statut'].count()}</font>
-    <br/><font size='3'>partenariats d'orientation MPLI<br></font></center>"
+    <br/><font size='3'>sorties dynamiques<br></font></center>"
     """
     col1.markdown(html_string_Y, unsafe_allow_html=True)
 
+    df_hebergees.dropna(subset=['Statut'], inplace=True)
 
+    html_string_X = f"""<br>
+    <center><font face='Helvetica' size='6'>{((df_hebergees[df_hebergees["Statut"] == "Sortie dynamique"]['Statut'].count())/(df_hebergees[df_hebergees.Statut.str.contains("Sortie")]["Statut"].count())*100)}</font>
+    <br/><font size='3'>de sorties dynamiques<br></font></center>"
+    """
+    col2.markdown(html_string_X, unsafe_allow_html=True)
     
-
-
-                 
+    
     st.markdown("### **Pourcentage de fiches mises à jour dans les 6 derniers mois**")
 
     if not categorie.startswith("-"):
