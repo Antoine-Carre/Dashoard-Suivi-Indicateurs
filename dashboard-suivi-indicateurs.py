@@ -471,7 +471,7 @@ if categorie_2 == 'Tous':
         
         df_hebergement = df_hebergement[(df_hebergement.territory == "06") | (df_hebergement.territory == "13")]
 
-        df_hebergees = df_hebergees([(df_hebergees.Département== "Alpes-Maritimes") | (df_hebergees.Département== "Bouches-du-Rhône")])
+        df_hebergees = df_hebergees[(df_hebergees.Département== "Alpes-Maritimes") | (df_hebergees.Département== "Bouches-du-Rhône")]
 
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "06") | (df_maj_6_months.index == "13")]
         df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
@@ -548,7 +548,7 @@ if categorie_2 == 'Tous':
         
         df_hebergement = df_hebergement[(df_hebergement.territory == "07") | (df_hebergement.territory == "15") | (df_hebergement.territory == "63")]
 
-        df_hebergees = df_hebergees([(df_hebergees.Département== "Ardèche") | (df_hebergees.Département== "Cantal") | (df_hebergees.Département== "Puy-de-Dôme")])
+        df_hebergees = df_hebergees[(df_hebergees.Département== "Ardèche") | (df_hebergees.Département== "Cantal") | (df_hebergees.Département== "Puy-de-Dôme")]
 
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "07") | (df_maj_6_months.index == "15") | (df_maj_6_months.index == "63")]
         df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
@@ -613,7 +613,7 @@ if categorie_2 == 'Tous':
         
         df_hebergement = df_hebergement[(df_hebergement.territory == "34")]
 
-        df_hebergees = df_hebergees([(df_hebergees.Département== "Hérault")])
+        df_hebergees = df_hebergees[(df_hebergees.Département== "Hérault")]
 
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "34")]
         df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
@@ -700,7 +700,7 @@ if categorie_2 == 'Tous':
 
         df_hebergement = df_hebergement[(df_hebergement.territory == "33") | (df_hebergement.territory == "87") | (df_hebergement.territory == "16") | (df_hebergement.territory == "24")]
 
-        df_hebergees = df_hebergees([(df_hebergees.Département== "Gironde") | (df_hebergees.Département== "Haute-Vienne") | (df_hebergees.Département== "Charente") | (df_hebergees.Département== "Dordogne")])
+        df_hebergees = df_hebergees[(df_hebergees.Département== "Gironde") | (df_hebergees.Département== "Haute-Vienne") | (df_hebergees.Département== "Charente") | (df_hebergees.Département== "Dordogne")]
 
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "33") | (df_maj_6_months.index == "87") | (df_maj_6_months.index == "16") | (df_maj_6_months.index == "24")]
         df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
@@ -766,7 +766,7 @@ if categorie_2 == 'Tous':
 
         df_hebergement = df_hebergement[(df_hebergement.territory == "36")]
         
-        df_hebergees = df_hebergees([(df_hebergees.Département== "Indre")])
+        df_hebergees = df_hebergees[(df_hebergees.Département== "Indre")]
 
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "36")]
         df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
@@ -832,7 +832,7 @@ if categorie_2 == 'Tous':
 
         df_hebergement = df_hebergement[(df_hebergement.territory == "44")]
         
-        df_hebergees = df_hebergees([(df_hebergees.Département== "Loire-Atlantique")])
+        df_hebergees = df_hebergees[(df_hebergees.Département== "Loire-Atlantique")]
 
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "44")]
         df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
@@ -1003,9 +1003,9 @@ if categorie_2 == 'Tous':
         | (df_hebergement.territory == "91") | (df_hebergement.territory == "92") | (df_hebergement.territory == "93") | (df_hebergement.territory == "94")
         | (df_hebergement.territory == "95")]
 
-        df_hebergees = df_hebergees([(df_hebergees.Département== "Paris") | (df_hebergees.Département== "Seine-et-Marne") | (df_hebergees.Département== "Yvelines") 
+        df_hebergees = df_hebergees[(df_hebergees.Département== "Paris") | (df_hebergees.Département== "Seine-et-Marne") | (df_hebergees.Département== "Yvelines") 
                                      | (df_hebergees.Département== "Hauts-de-Seine") | (df_hebergees.Département== "Essonne") | (df_hebergees.Département== "Seine-Saint-Denis")
-                                    | (df_hebergees.Département== "Val-de-Marne") | (df_hebergees.Département== "Val d'Oise")])
+                                    | (df_hebergees.Département== "Val-de-Marne") | (df_hebergees.Département== "Val d'Oise")]
 
         df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "75") | (df_maj_6_months.index == "77") | (df_maj_6_months.index == "78") | (df_maj_6_months.index == "91")
         | (df_maj_6_months.index == "92") | (df_maj_6_months.index == "93") | (df_maj_6_months.index == "94") | (df_maj_6_months.index == "95")]
