@@ -180,6 +180,15 @@ cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":
             "- Hauts-de-Seine (92)":"92","- Seine-Saint-Denis (93)": "93","- Val-de-Marne (94)": "94", 
             "- Val-d'Oise (95)":"95"}
 
+cat2_dict = {"France":'France', "- Alpes-Maritimes (06)" :"Alpes-Maritimes", "- Ardèche (07)":"Ardèche",
+            "- Bouche-du-Rhône (13)": "Bouche-du-Rhône","- Cantal (15)":"Cantal","- Charente (16)":"Charente","- Côte-d'Or (21)" : "Côte-d'Or", 
+             "- Dordogne (24)":"Dordogne","- Gironde (33)":"Gironde","- Hérault (34)":"Hérault","- Indre (36)":"Indre",
+            "- Loire-Atlantique (44)" : "44","- Nord (59)":"59" , "- Puy-de-Dôme (63)":"63","- Haute-Vienne (87)":"87",
+            "- Bas-Rhin (67)":"Bas-Rhin", "- Paris (75)" : "Paris", "- Seine-Maritime (76)":"Seine-Maritime",
+            "- Seine-et-Marne (77)":'Seine-et-Marne', "- Yvelines (78)":"Yvelines", "- Essonne (91)" :"Essonne", 
+            "- Hauts-de-Seine (92)":"Hauts-de-Seine","- Seine-Saint-Denis (93)": "Seine-Saint-Denis","- Val-de-Marne (94)": "Val-de-Marne", 
+            "- Val-d'Oise (95)":"Val-d'Oise"}
+
 dict_region = {"33" : "Nouvelle-Aquitaine","87" : "Nouvelle-Aquitaine", "16" : "Nouvelle-Aquitaine",
               "24" : "Nouvelle-Aquitaine", "44" : "Pays-de-la-Loire", "67" : "Grand-Est",
                "75" : "Ile-de-France", "77" : "Ile-de-France", "78" : "Ile-de-France", "91" : "Ile-de-France",
@@ -1275,7 +1284,7 @@ if categorie_2 == 'Tous':
 
         df_hebergement = df_hebergement[(df_hebergement.territory == cat_dict[categorie])] 
         
-        df_hebergees = df_hebergees[(df_hebergees.Département== [categorie].str[2:-5])]
+        df_hebergees = df_hebergees[(df_hebergees.Département== cat2_dict[categorie])]
 
         df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == int(cat_dict[categorie]))]
 
