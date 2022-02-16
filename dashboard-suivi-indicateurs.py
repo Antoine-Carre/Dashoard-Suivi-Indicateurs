@@ -2076,7 +2076,15 @@ if categorie_2 == 'Tous':
 
     else:
         st.markdown("Aucune nuité enregistrée sur ce territoire")
+        
+        
+    st.markdown("### **MPLI : Nombre de partenariats d'orientation**")
 
+    html_string_w = f"""<br>
+    <center><font face='Helvetica' size='6'>{df_hebergees['Partenaire d'orientation'].nunique()}</font>
+    <br/><font size='3'>partenariat.s d'orientation MPLI<br></font></center>"
+    """
+                 
     st.markdown("### **Pourcentage de fiches mises à jour dans les 6 derniers mois**")
 
     if not categorie.startswith("-"):
