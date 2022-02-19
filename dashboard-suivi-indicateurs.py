@@ -171,8 +171,6 @@ df_remontées = pd.read_csv('./ressource/🧐 Remontées-Tout - DA.csv')
 
 HtmlFile = open("./ressource/MPLI_hebergeurs.html", 'r', encoding='utf-8')
 
-HtmlFile2 = open(https://public.tableau.com/views/RecherchesSoliguide/Tableaudebord1?:language=fr-FR&:display_count=n&:origin=viz_share_link, 'r', encoding='utf-8')
-
 
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
             "- Bouches-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
@@ -3552,9 +3550,6 @@ if categorie_2 == 'Ile-de-France':
     """
 
     col2.markdown(html_string_h, unsafe_allow_html=True)
-
-    source_code = HtmlFile2.read() 
-    components.html(source_code)
 
 
 if categorie_2 == 'Communication':
