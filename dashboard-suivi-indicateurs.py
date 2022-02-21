@@ -2258,8 +2258,8 @@ if categorie_2 == 'Tous':
     col2.markdown(html_string_h, unsafe_allow_html=True)
 
     st.markdown("### **Nombre de recherches réalisées par communes :**")
-    st.markdown("**Attention :**Ici ne sont comptabilisées que les recherches effectuées sur Soliguide pour lesquels les villes, adresses, ou codes postaux ont été saisie dans la recherche. Toutes les recherches par département ou par région ne sont évidemment pas inclues")
-    st.markdown("Vous pouvez choisir la période que vous souhaitez en saisissant une date de début et une date de fin de période")
+    st.markdown("**Attention :** Ici ne sont comptabilisées que les recherches effectuées sur Soliguide pour lesquels les villes, adresses, ou codes postaux ont été saisie dans la recherche. Toutes les recherches par département ou par région ne sont évidemment pas inclues")
+    st.markdown("Vous pouvez choisir la période que vous souhaitez, à partir du 25 mars 2021, en saisissant une date de début et une date de fin de période")
     st.markdown("Vous pouvez zoomer de plusieurs façon en sélectionnant les outils sous la flèches en haut à gauche de la carte (par exemple le carré avec la loupe vous permet de sélectionner un territoire")
 
     def main():
