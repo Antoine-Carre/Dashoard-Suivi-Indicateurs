@@ -3789,7 +3789,7 @@ if categorie_2 == 'Lancement':
                                                                "- Puy-de-Dôme (63)", "- Hérault (34)","- Charente (16)", "- Haute-Vienne (87)", 
                                                                "- Dordogne (24)", "- Seine-Maritime (76)", "- Nord (59)", "- Côte-d'Or (21)"))
     
-    elif categorie == "France Relance":
+    if categorie == "France Relance":
       df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == 7) | (df_fiche_serv_on_off.territory == 13)
                                                       | (df_fiche_serv_on_off.territory == 15) | (df_fiche_serv_on_off.territory == 63)
                                                       | (df_fiche_serv_on_off.territory == 34) | (df_fiche_serv_on_off.territory == 76)
