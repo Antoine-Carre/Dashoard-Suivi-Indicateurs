@@ -173,8 +173,6 @@ HtmlFile = open("./ressource/MPLI_hebergeurs.html", 'r', encoding='utf-8')
 
 df_crisp = pd.read_csv('./ressource/Extractions Crisp-Complete view.csv')
 #df_conversation_crisp = pd.DataFrame(df_crisp['Département de la demande'].value_counts).reset_index()
-df_crisp
-
 
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
             "- Bouches-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
@@ -294,7 +292,7 @@ if categorie_2 == 'Tous':
 
         df_categorie_vf = df_categorie_vf
         
-        df_conversation_crisp = df_conversation_crisp
+        #df_conversation_crisp = df_conversation_crisp
 
     elif categorie == "France Relance":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "07") | (df_users_pro_roles.territories == "13")
