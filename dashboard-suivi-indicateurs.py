@@ -428,9 +428,10 @@ if categorie_2 == 'Tous':
                                           | (df_categorie_vf.territory == "63") | (df_categorie_vf.territory == "34") | (df_categorie_vf.territory == "76")
                                           | (df_categorie_vf.territory == "59") | (df_categorie_vf.territory == "21")]
         
-        df_conversation_crisp_vf = df_conversation_crisp[(df_conversation_crisp.Territoire == "07") | (df_conversation_crisp.Territoire == "13") | (df_conversation_crisp.Territoire == "15")
-                                          | (df_conversation_crisp.Territoire == "63") | (df_conversation_crisp.Territoire == "34") | (df_categorie_vf.Territoire == "76")]
+        df_conversation_crisp_vf = df_conversation_crisp[(df_conversation_crisp.Territoire == "07") | (df_conversation_crisp.Territoire == "13")]
 
+        
+ 
         
     elif categorie == "Région SUD":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "06") | (df_users_pro_roles.territories == "13")].dropna()
