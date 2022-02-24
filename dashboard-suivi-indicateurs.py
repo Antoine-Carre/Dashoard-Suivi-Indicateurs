@@ -2322,10 +2322,18 @@ if categorie_2 == 'Tous':
     
     st.markdown("### **Répartition es conversations Crisp**")
     
-    df_conversation_type_crisp_final = pd.DataFrame(df_crisp.groupby('Type de demande')['Titre'].sum()).reset_index()
+    df_conversation_type_crisp = df_crisp[['Type de demande','Département','Titre']]
+    
+    df_conversation_type_crisp['Type de demande'] = df_conversation_type_crisp['Type de demande'].str.split(',')
+    df_conversation_type_crisp = df_conversation_type_crisp.explode('Type de demande')
+    df_conversation_type_crisp_vf = df_conversation_type_crisp.groupby(['Département','Type de demande'])['Titre'].count().reset_index()
+
+    df_conversation_type_crisp_final = pd.DataFrame(df_conversation_type_crisp_vf.groupby('Type de demande')['Titre'].sum()).reset_index()
     df_conversation_type_crisp_final.rename(columns={'Titre':'Nombre de conversations'}, inplace=True)
     df_conversation_type_crisp_final.sort_values(by="Nombre de conversations", inplace=True)
+    
     fig = px.bar(df_conversation_type_crisp_final, y= "Type de demande", x="Nombre de conversations")
+    
     st.plotly_chart(fig, use_container_width=True)
 
     
