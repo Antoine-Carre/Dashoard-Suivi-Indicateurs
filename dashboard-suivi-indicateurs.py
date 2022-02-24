@@ -173,6 +173,7 @@ HtmlFile = open("./ressource/MPLI_hebergeurs.html", 'r', encoding='utf-8')
 
 df_crisp = pd.read_csv('./ressource/Extractions Crisp-Complete view.csv')
 df_conversation_crisp = pd.DataFrame(df_crisp['Département de la demande'].value_counts).reset_index()
+st.write(df_conversation_crisp)
 
 
 
@@ -428,7 +429,6 @@ if categorie_2 == 'Tous':
                                           | (df_categorie_vf.territory == "63") | (df_categorie_vf.territory == "34") | (df_categorie_vf.territory == "76")
                                           | (df_categorie_vf.territory == "59") | (df_categorie_vf.territory == "21")]
         
-    st.write(df_conversation_crisp)
 
     elif categorie == "Région SUD":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "06") | (df_users_pro_roles.territories == "13")].dropna()
