@@ -172,8 +172,8 @@ df_remontées = pd.read_csv('./ressource/🧐 Remontées-Tout - DA.csv')
 HtmlFile = open("./ressource/MPLI_hebergeurs.html", 'r', encoding='utf-8')
 
 df_crisp = pd.read_csv('./ressource/Extractions Crisp-Complete view.csv')
-df_conversation_crisp = pd.DataFrame(df_crisp['Département de la demande'].value_counts).reset_index()
-df_conversation_crisp
+#df_conversation_crisp = pd.DataFrame(df_crisp['Département de la demande'].value_counts).reset_index()
+df_crisp
 
 
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
