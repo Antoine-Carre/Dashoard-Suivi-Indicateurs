@@ -2262,6 +2262,11 @@ if categorie_2 == 'Tous':
         components.html(html_temp, height = 1000)
     if __name__ == "__main__":    
         main()
+        
+    st.markdown("### **Nombre de conversation CRISP par territoire**")
+    st.markdown("**Attention :** Les données viennent de Airtable - MEIS - Extractions Crisp, pour filtrer et voir les données uniquement sur votre territoire veuillez l'indique dans le filtre, à coté de *contains*")
+       
+    components.iframe("https://airtable.com/appMVGoOWMbshVit6/pagdt9eRBXDINjZzW", height = 1000)
 
 ###################
 ## Ile-de-France ##
