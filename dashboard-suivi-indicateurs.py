@@ -210,14 +210,7 @@ if categorie_2 == 'Tous':
 
     categorie = st.selectbox("Choisissez votre territoire :", ("France", "France Relance",
                                                 "Région SUD", 
-                                                "- Alpes-Maritimes (06)", "- 
-                                                               
-                                                               
-                                                               
-                                                               
-                                                               
-                                                               
-                                                               -du-Rhône (13)", 
+                                                "- Alpes-Maritimes (06)", "- Bouches-du-Rhône (13)", 
                                                 "Auvergne-Rhône-Alpes",
                                                 "- Ardèche (07)", "- Cantal (15)", "- Puy-de-Dôme (63)",
                                                 'Occitanie',
