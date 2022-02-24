@@ -3785,20 +3785,41 @@ if categorie_2 == 'Communication':
 if categorie_2 == 'Lancement':
 
 
-    categorie = st.selectbox("Choisissez votre territoire :", ("France Relance", "Région SUD", 
-                                                "- Bouche-du-Rhône (13)", 
-                                                "Auvergne-Rhône-Alpes",
-                                                "- Ardèche (07)", "- Cantal (15)", "- Puy-de-Dôme (63)",
-                                                'Occitanie',
-                                                "- Hérault (34)",
-                                                "Nouvelle-Aquitaine",
-                                                "- Charente (16)", "- Haute-Vienne (87)", "- Dordogne (24)",
-                                                "Normandie",
-                                                "- Seine-Maritime (76)",
-                                                "Hauts-de-France",
-                                                "- Nord (59)",
-                                                "Bourgogne-Franche-Comté",
-                                                "- Côte-d'Or (21)"))
+    categorie = st.selectbox("Choisissez votre territoire :", ("France Relance", "- Bouche-du-Rhône (13)", "- Ardèche (07)", "- Cantal (15)", 
+                                                               "- Puy-de-Dôme (63)", "- Hérault (34)","- Charente (16)", "- Haute-Vienne (87)", 
+                                                               "- Dordogne (24)", "- Seine-Maritime (76)", "- Nord (59)", "- Côte-d'Or (21)"))
+    
+    elif categorie == "France Relance":
+      df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == 7) | (df_fiche_serv_on_off.territory == 13)
+                                                      | (df_fiche_serv_on_off.territory == 15) | (df_fiche_serv_on_off.territory == 63)
+                                                      | (df_fiche_serv_on_off.territory == 34) | (df_fiche_serv_on_off.territory == 76)
+                                                      | (df_fiche_serv_on_off.territory == 59) | (df_fiche_serv_on_off.territory == 21)]
+
+    elif categorie.startswith("-"):
+      df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == int(cat_dict[categorie]))]
+
+    
+
+    st.markdown("### **Nombre de fiches et de services en ligne et en brouillon**")
+
+    #df_fiche_serv_on_off = df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0]
+    
+    col1, col2 = st.columns(2)
+
+    html_string_l = f"""<br>
+    <center><font face='Helvetica' size='7'>{df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0].statut.count()}</font>
+    <br/><font size='3'>Nombre de fiches en ligne<br></font></center>
+    """
+
+    col1.markdown(html_string_l, unsafe_allow_html=True)
+
+    html_string_m = f"""<br>
+    <center><font face='Helvetica' size='7'>{df_fiche_serv_on_off[df_fiche_serv_on_off.statut == 0].statut.count()}</font>
+    <br/><font size='3'>Nombre de fiches en brouillon<br></font></center>
+    """
+
+    col2.markdown(html_string_m, unsafe_allow_html=True)
+
     
     expander = st.expander("Définition et calcul")
     expander.write("""Le pourcentage d'exhaustivité des territoires est basé sur le nombre de types de services référencés sur chaque territoire.  
