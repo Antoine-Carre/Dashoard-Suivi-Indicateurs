@@ -210,7 +210,14 @@ if categorie_2 == 'Tous':
 
     categorie = st.selectbox("Choisissez votre territoire :", ("France", "France Relance",
                                                 "Région SUD", 
-                                                "- Alpes-Maritimes (06)", "- Bouches-du-Rhône (13)", 
+                                                "- Alpes-Maritimes (06)", "- 
+                                                               
+                                                               
+                                                               
+                                                               
+                                                               
+                                                               
+                                                               -du-Rhône (13)", 
                                                 "Auvergne-Rhône-Alpes",
                                                 "- Ardèche (07)", "- Cantal (15)", "- Puy-de-Dôme (63)",
                                                 'Occitanie',
@@ -1641,6 +1648,7 @@ if categorie_2 == 'Tous':
     df_search_users['createdAt'] = df_search_users.createdAt.dt.strftime('%Y-%m')
     df_search_users.fillna('inconnu', inplace=True)
 
+    df_search_users['status'] = df_search_users.status.fillna('inconnu')
     df_search_users = df_search_users.join(pd.get_dummies(df_search_users['status']))
     df_search_users.drop(columns=['categorie','status'], inplace=True)
     df_search_users_month = df_search_users.groupby('createdAt').sum()
