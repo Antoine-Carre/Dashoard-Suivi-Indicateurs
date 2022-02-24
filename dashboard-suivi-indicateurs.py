@@ -172,8 +172,6 @@ df_remontées = pd.read_csv('./ressource/🧐 Remontées-Tout - DA.csv')
 HtmlFile = open("./ressource/MPLI_hebergeurs.html", 'r', encoding='utf-8')
 
 df_crisp = pd.read_csv('./ressource/Extractions Crisp-Complete view.csv')
-df_conversation_crisp = pd.DataFrame(df_crisp['Département de la demande'].value_counts()).reset_index()
-df_conversation_crisp.rename(columns={"index":"Territoire","Département de la demande":"Nombre de conversations"}, inplace=True)
 
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
             "- Bouches-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
@@ -293,7 +291,7 @@ if categorie_2 == 'Tous':
 
         df_categorie_vf = df_categorie_vf
         
-        df_conversation_crisp_vf = df_conversation_crisp
+        df_crisp = df_crisp
         
 
     elif categorie == "France Relance":
@@ -428,10 +426,10 @@ if categorie_2 == 'Tous':
                                           | (df_categorie_vf.territory == "63") | (df_categorie_vf.territory == "34") | (df_categorie_vf.territory == "76")
                                           | (df_categorie_vf.territory == "59") | (df_categorie_vf.territory == "21")]
         
-        df_conversation_crisp_vf = df_conversation_crisp[(df_conversation_crisp.Territoire == "07") | (df_conversation_crisp.Territoire == "13")
-                                                        | (df_conversation_crisp.Territoire == "15") | (df_conversation_crisp.Territoire == "63")
-                                                        | (df_conversation_crisp.Territoire == "34") | (df_conversation_crisp.Territoire == "76")
-                                                        |(df_conversation_crisp.Territoire == "59") | (df_conversation_crisp.Territoire == "21")]
+        df_crisp = df_crisp[(df_crisp['Département de la demande'] == "07") | (df_crisp['Département de la demande'] == "13")
+                                                        | (df_crisp['Département de la demande'] == "15") | (df_crisp['Département de la demande'] == "63")
+                                                        | (df_crisp['Département de la demande'] == "34") | (df_crisp['Département de la demande'] == "76")
+                                                        |(df_crisp['Département de la demande'] == "59") | (df_crisp['Département de la demande'] == "21")]
 
         
  
@@ -513,7 +511,7 @@ if categorie_2 == 'Tous':
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "06") | (df_categorie_vf.territory == "13")]
 
         
-        df_conversation_crisp_vf = df_conversation_crisp[(df_conversation_crisp.Territoire == "06") | (df_conversation_crisp.Territoire == "13")]
+        df_crisp = df_crisp[(df_crisp['Département de la demande'] == "06") | (df_crisp['Département de la demande'] == "13")]
         
         
     elif categorie == "Auvergne-Rhône-Alpes":
@@ -594,7 +592,7 @@ if categorie_2 == 'Tous':
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "07") | (df_categorie_vf.territory == "15") | (df_categorie_vf.territory == "63")]
         
         
-        df_conversation_crisp_vf = df_conversation_crisp[(df_conversation_crisp.Territoire == "07") | (df_conversation_crisp.Territoire == "15") | (df_conversation_crisp.Territoire == "63")]
+        df_crisp = df_crisp[(df_crisp['Département de la demande'] == "07") | (df_crisp['Département de la demande'] == "15") | (df_conversation_crisp.Territoire == "63")]
         
     elif categorie == "Occitanie":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "34")].dropna()
@@ -667,7 +665,7 @@ if categorie_2 == 'Tous':
 
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "34")]
         
-        df_conversation_crisp_vf = df_conversation_crisp[(df_conversation_crisp.Territoire == "34") ]
+        df_crisp = df_crisp[(df_crisp['Département de la demande'] == "34") ]
 
         
     elif categorie == "Nouvelle-Aquitaine":
@@ -752,8 +750,8 @@ if categorie_2 == 'Tous':
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "33") | (df_categorie_vf.territory == "87") | (df_categorie_vf.territory == "16") | (df_categorie_vf.territory == "24")]
 
         
-        df_conversation_crisp_vf = df_conversation_crisp[(df_conversation_crisp.Territoire == "33") | (df_conversation_crisp.Territoire == "87") | (df_conversation_crisp.Territoire == "16")
-                                          | (df_conversation_crisp.Territoire == "24")]
+        df_crisp = df_crisp[(df_crisp['Département de la demande'] == "33") | (df_crisp['Département de la demande'] == "87") | (df_crisp['Département de la demande'] == "16")
+                                          | (df_crisp['Département de la demande'] == "24")]
         
     elif categorie == "Centre-Val-de-Loire":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "36")].dropna()
@@ -822,7 +820,7 @@ if categorie_2 == 'Tous':
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "36")]
         
         
-        df_conversation_crisp_vf = df_conversation_crisp[(df_conversation_crisp.Territoire == "36")]
+        df_crisp = df_crisp[(df_crisp['Département de la demande'] == "36")]
 
     elif categorie == "Pays-de-la-Loire":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "44")].dropna()
@@ -891,7 +889,7 @@ if categorie_2 == 'Tous':
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "44")]
         
         
-        df_conversation_crisp_vf = df_conversation_crisp[(df_conversation_crisp.Territoire == "44")]
+        df_crisp = df_crisp[(df_crisp['Département de la demande'] == "44")]
 
     elif categorie == "Normandie":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "76")].dropna()
@@ -1077,9 +1075,9 @@ if categorie_2 == 'Tous':
         | (df_categorie_vf.territory == "95")]
         
         
-        df_conversation_crisp_vf = df_conversation_crisp[(df_conversation_crisp.Territoire == "75") | (df_conversation_crisp.Territoire == "77") | (df_conversation_crisp.Territoire == "78")
-                                          | (df_conversation_crisp.Territoire == "91") | (df_conversation_crisp.Territoire == "92") | (df_conversation_crisp.Territoire == "93")
-                                          | (df_conversation_crisp.Territoire == "94") | (df_conversation_crisp.Territoire == "95")]
+        df_crisp = df_crisp[(df_crisp['Département de la demande'] == "75") | (df_crisp['Département de la demande'] == "77") | (df_crisp['Département de la demande'] == "78")
+                                          | (df_crisp['Département de la demande'] == "91") | (df_crisp['Département de la demande'] == "92") | (df_crisp['Département de la demande'] == "93")
+                                          | (df_crisp['Département de la demande'] == "94") | (df_crisp['Département de la demande'] == "95")]
 
     elif categorie == "Hauts-de-France":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "59")].dropna()
@@ -1146,7 +1144,7 @@ if categorie_2 == 'Tous':
 
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "59")]
         
-        df_conversation_crisp_vf = df_conversation_crisp[(df_conversation_crisp.Territoire == "59")]
+        df_crisp = df_crisp[(df_crisp['Département de la demande'] == "59")]
 
     elif categorie == "Grand-Est":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "67")].dropna()
@@ -1215,7 +1213,7 @@ if categorie_2 == 'Tous':
 
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "67")]
         
-        df_conversation_crisp_vf = df_conversation_crisp[(df_conversation_crisp.Territoire == "67")]
+        df_crisp = df_crisp[(df_crisp['Département de la demande'] == "67")]
 
     elif categorie == "Bourgogne-Franche-Comté":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "21")].dropna()
@@ -1283,7 +1281,7 @@ if categorie_2 == 'Tous':
 
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "21")]
         
-        df_conversation_crisp_vf = df_conversation_crisp[(df_conversation_crisp.Territoire == "21")]
+        df_crisp = df_crisp[(df_crisp['Département de la demande'] == "21")]
 
     elif categorie.startswith("-"):
         df_users_pro_roles = df_users_pro_roles[df_users_pro_roles.territories == cat_dict[categorie]].dropna()
@@ -1346,7 +1344,7 @@ if categorie_2 == 'Tous':
 
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == cat_dict[categorie])]
         
-        df_conversation_crisp_vf = df_conversation_crisp[(df_conversation_crisp.Territoire == cat_dict[categorie])]
+        df_crisp = df_crisp[(df_crisp['Département de la demande'] == cat_dict[categorie])]
 
 ###
 
@@ -2316,8 +2314,21 @@ if categorie_2 == 'Tous':
     st.markdown("### **Nombre de conversation CRISP par territoire**")
     st.markdown("**Attention :** Les données viennent de Airtable - MEIS - Extractions Crisp")
     
+    df_conversation_crisp = pd.DataFrame(df_crisp['Département de la demande'].value_counts()).reset_index()
+    df_conversation_crisp.rename(columns={"index":"Territoire","Département de la demande":"Nombre de conversations"}, inplace=True)
+    
     figCrisp = px.bar(df_conversation_crisp_vf, x= "Territoire", y="Nombre de conversations")
     st.plotly_chart(figCrisp, use_container_width=True)
+    
+    st.markdown("### **Répartition es conversations Crisp**")
+    
+    df_conversation_type_crisp_final = pd.DataFrame(df_crisp.groupby('Type de demande')['Titre'].sum()).reset_index()
+    df_conversation_type_crisp_final.rename(columns={'Titre':'Nombre de conversations'}, inplace=True)
+    df_conversation_type_crisp_final.sort_values(by="Nombre de conversations", inplace=True)
+    fig = px.bar(df_conversation_type_crisp_final, y= "Type de demande", x="Nombre de conversations")
+    st.plotly_chart(fig, use_container_width=True)
+
+    
     
 ###################
 ## Ile-de-France ##
