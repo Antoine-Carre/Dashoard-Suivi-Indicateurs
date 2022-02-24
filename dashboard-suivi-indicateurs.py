@@ -3785,7 +3785,7 @@ if categorie_2 == 'Communication':
 if categorie_2 == 'Lancement':
 
 
-    categorie = st.selectbox("Choisissez votre territoire :", ("France Relance", "- Bouche-du-Rhône (13)", "- Ardèche (07)", "- Cantal (15)", 
+    categorie = st.selectbox("Choisissez votre territoire :", ("France Relance", "- Bouches-du-Rhône (13)", "- Ardèche (07)", "- Cantal (15)", 
                                                                "- Puy-de-Dôme (63)", "- Hérault (34)","- Charente (16)", "- Haute-Vienne (87)", 
                                                                "- Dordogne (24)", "- Seine-Maritime (76)", "- Nord (59)", "- Côte-d'Or (21)"))
     
