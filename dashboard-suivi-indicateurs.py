@@ -1636,14 +1636,6 @@ if categorie_2 == 'Tous':
 
     st.markdown('#### *-par type d\'utilisateur : *')
 
-    df_search_users['createdAt'] = pd.to_datetime(df_search_users['createdAt'])
-    df_search_users = df_search_users[df_search_users.createdAt < "2022-01-01"]
-    df_search_users['createdAt'] = df_search_users.createdAt.dt.strftime('%Y-%m')
-    df_search_users.fillna('inconnu', inplace=True)
-
-    df_search_users['status'] = df_search_users.status.fillna('inconnu')
-    df_search_users = df_search_users.join(pd.get_dummies(df_search_users['status']))
-    df_search_users.drop(columns=['categorie','status'], inplace=True)
     df_search_users_month = df_search_users.groupby('createdAt').sum()
     df_search_users_month.reset_index(inplace=True)
 
