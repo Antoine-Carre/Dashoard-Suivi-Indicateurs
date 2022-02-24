@@ -171,6 +171,10 @@ df_remontées = pd.read_csv('./ressource/🧐 Remontées-Tout - DA.csv')
 
 HtmlFile = open("./ressource/MPLI_hebergeurs.html", 'r', encoding='utf-8')
 
+df_crisp = pd.read_csv('./ressource/Extractions Crisp-Complete view.csv')
+df_conversation_crisp = pd.DataFrame(df_crisp['Département de la demande'].value_counts).reset_index()
+
+
 
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
             "- Bouches-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
@@ -289,6 +293,8 @@ if categorie_2 == 'Tous':
         df_exhaustivity = df_exhaustivity
 
         df_categorie_vf = df_categorie_vf
+        
+        df_conversation_crisp = df_conversation_crisp
 
     elif categorie == "France Relance":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "07") | (df_users_pro_roles.territories == "13")
@@ -421,6 +427,8 @@ if categorie_2 == 'Tous':
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "07") | (df_categorie_vf.territory == "13") | (df_categorie_vf.territory == "15")
                                           | (df_categorie_vf.territory == "63") | (df_categorie_vf.territory == "34") | (df_categorie_vf.territory == "76")
                                           | (df_categorie_vf.territory == "59") | (df_categorie_vf.territory == "21")]
+        
+    st.write(df_conversation_crisp)
 
     elif categorie == "Région SUD":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "06") | (df_users_pro_roles.territories == "13")].dropna()
@@ -2264,10 +2272,10 @@ if categorie_2 == 'Tous':
         main()
         
     st.markdown("### **Nombre de conversation CRISP par territoire**")
-    st.markdown("**Attention :** Les données viennent de Airtable - MEIS - Extractions Crisp, pour filtrer et voir les données uniquement sur votre territoire veuillez l'indique dans le filtre, à coté de *contains*")
+    st.markdown("**Attention :** Les données viennent de Airtable - MEIS - Extractions Crisp")
        
-    components.iframe("https://airtable.com/appMVGoOWMbshVit6/pagdt9eRBXDINjZzW", height = 1000)
-
+    
+    
 ###################
 ## Ile-de-France ##
 ###################
