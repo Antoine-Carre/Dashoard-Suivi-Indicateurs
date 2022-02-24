@@ -2317,7 +2317,7 @@ if categorie_2 == 'Tous':
     df_conversation_crisp = pd.DataFrame(df_crisp['Département de la demande'].value_counts()).reset_index()
     df_conversation_crisp.rename(columns={"index":"Territoire","Département de la demande":"Nombre de conversations"}, inplace=True)
     
-    figCrisp = px.bar(df_conversation_crisp_vf, x= "Territoire", y="Nombre de conversations")
+    figCrisp = px.bar(df_conversation_crisp, x= "Territoire", y="Nombre de conversations")
     st.plotly_chart(figCrisp, use_container_width=True)
     
     st.markdown("### **Répartition es conversations Crisp**")
