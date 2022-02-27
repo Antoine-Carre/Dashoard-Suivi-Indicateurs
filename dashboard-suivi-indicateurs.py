@@ -2171,6 +2171,7 @@ if categorie_2 == 'Tous':
 
 
     st.markdown("### **Nombre de fiches et de services en ligne et en brouillon**")
+    st.markdown('**Attention :** Le nombre de fiches indiquées ne prends pas en compte les fiches "Toilettes", "fontaines", "wifi", ni les structures "hors ligne", ou les fiches fermée définitivement')
 
     #df_fiche_serv_on_off = df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0]
     
@@ -3794,6 +3795,8 @@ if categorie_2 == 'Lancement':
     
 
     st.markdown("### **Nombre de fiches et de services en ligne et en brouillon**")
+    st.markdown('**Attention :** Le nombre de fiches indiquées ne prends pas en compte les fiches "Toilettes", "fontaines", "wifi", ni les structures "hors ligne", ou les fiches fermée définitivement')
+
 
     #df_fiche_serv_on_off = df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0]
     
