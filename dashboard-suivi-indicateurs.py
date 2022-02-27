@@ -3794,11 +3794,8 @@ if categorie_2 == 'Lancement':
 
     
 
-    st.markdown("### **Nombre de fiches et de services en ligne et en brouillon**")
+    st.markdown("### **Nombre de fiches en ligne et en brouillon**")
     st.markdown('**Attention :** Le nombre de fiches indiquées ne prends pas en compte les fiches "Toilettes", "fontaines", "wifi", ni les structures "hors ligne", ou les fiches fermée définitivement.  De plus, "En ligne" inclus les fiches "réservées aux professionnels')
-
-
-    #df_fiche_serv_on_off = df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0]
     
     col1, col2 = st.columns(2)
 
@@ -3815,6 +3812,66 @@ if categorie_2 == 'Lancement':
     """
 
     col2.markdown(html_string_m, unsafe_allow_html=True)
+
+    
+    if not "OWNER" in pd.DataFrame(df_users_pro_roles_test.role_x.value_counts()).T.columns.to_list():
+        pass
+
+    elif not "EDITOR" in pd.DataFrame(df_users_pro_roles_test.role_x.value_counts()).T.columns.to_list() and len(pd.DataFrame(df_users_pro_roles_test.role_x.value_counts()).T.columns.to_list()) > 1:
+
+        st.markdown("### **Nombre de comptes professionnels *actifs* par mois (administrateur, éditeur, lecteur)**")
+        st.markdown("( compte actif = compte ayant fait au moins une recherche / une mise à jour dans le mois)")
+
+        fig = go.Figure(data=[
+        go.Bar(name="Owners", x=df_users_pro_roles_final['createdAt'], y=df_users_pro_roles_final["OWNER"], marker_color='#7201a8'),
+        go.Bar(name="Lecteurs", x=df_users_pro_roles_final['createdAt'], y=df_users_pro_roles_final["READER"],)
+        ])
+
+    elif not "READER" in pd.DataFrame(df_users_pro_roles_test.role_x.value_counts()).T.columns.to_list() and len(pd.DataFrame(df_users_pro_roles_test.role_x.value_counts()).T.columns.to_list()) > 1:
+
+        st.markdown("## **Nombre de comptes professionnels *actifs* par mois (administrateur, éditeur, lecteur)**")
+        st.markdown("( compte actif = compte ayant fait au moins une recherche / une mise à jour dans le mois)")
+
+        fig = go.Figure(data=[
+        go.Bar(name="Owners", x=df_users_pro_roles_final['createdAt'], y=df_users_pro_roles_final["OWNER"], marker_color='#7201a8'),
+        go.Bar(name="Editeurs", x=df_users_pro_roles_final['createdAt'], y=df_users_pro_roles_final["EDITOR"],)
+        ])
+    
+    elif len(pd.DataFrame(df_users_pro_roles_test.role_x.value_counts()).T.columns.to_list()) == 1:
+
+        st.markdown("## **Nombre de comptes professionnels *actifs* par mois (administrateur, éditeur, lecteur)**")
+        st.markdown("( compte actif = compte ayant fait au moins une recherche / une mise à jour dans le mois)")
+
+        fig = go.Figure(data=[
+            go.Bar(name="Owners", x=df_users_pro_roles_final['createdAt'], y=df_users_pro_roles_final["OWNER"], marker_color='#7201a8'),
+        ])
+
+    else:
+        st.markdown("## **Nombre de comptes professionnels *actifs* par mois (administrateur, éditeur, lecteur)**")
+        st.markdown("( compte actif = compte ayant fait au moins une recherche / une mise à jour dans le mois)")
+
+        fig = go.Figure(data=[
+        go.Bar(name="Owners", x=df_users_pro_roles_final['createdAt'], y=df_users_pro_roles_final["OWNER"], marker_color='#7201a8',),
+        go.Bar(name="Editeurs", x=df_users_pro_roles_final['createdAt'], y=df_users_pro_roles_final["EDITOR"], marker_color='#d8576b',),
+        go.Bar(name="Lecteurs", x=df_users_pro_roles_final['createdAt'], y=df_users_pro_roles_final["READER"],)
+        ])
+
+    if not df_users_pro_roles_final.empty:
+        # Change the bar mode
+        fig.update_layout(barmode='stack')
+
+        fig.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de comptes professionnefig6ls",)
+        fig.update_traces(hovertemplate = "Date de la création du compte pro : %{x}<br>Nbre de comptes professionnels: %{value}")
+
+        dt_all = pd.date_range(start=df_users_pro_roles['createdAt'].iloc[0],end=df_users_pro_roles['createdAt'].iloc[-1])
+        dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_users_pro_roles['createdAt'])]
+        dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+        fig.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+        fig.update_layout(legend=dict(orientation="h"))
+
+        st.plotly_chart(fig, use_container_width=True)
+
 
     
     expander = st.expander("Définition et calcul")
