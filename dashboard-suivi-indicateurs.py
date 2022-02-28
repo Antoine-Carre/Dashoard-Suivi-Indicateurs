@@ -4125,18 +4125,18 @@ if categorie_2 == 'Lancement':
 
 
 
-      st.markdown("### **Taux d'exhaustivité des territoires en lancement**")
+        st.markdown("### **Taux d'exhaustivité des territoires en lancement**")
 
-      expander = st.expander("Tableau des données pour chaque type de service")
+        expander = st.expander("Tableau des données pour chaque type de service")
 
-      df_exhaustivity = df_exhaustivity.loc[:,"Département":]
+        df_exhaustivity = df_exhaustivity.loc[:,"Département":]
 
-      m = 2
-      while m < 57:
-          df_exhaustivity.iloc[:,m] = df_exhaustivity.iloc[:,m].astype(str) + ' %'
-          m += 1
+        m = 2
+        while m < 57:
+            df_exhaustivity.iloc[:,m] = df_exhaustivity.iloc[:,m].astype(str) + ' %'
+            m += 1
 
-      expander.write(df_exhaustivity)
+        expander.write(df_exhaustivity)
 
 if categorie_2 == 'Admin/Finance':
 
