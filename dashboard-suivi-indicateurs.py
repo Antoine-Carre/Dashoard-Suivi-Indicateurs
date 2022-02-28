@@ -4579,7 +4579,7 @@ if categorie_2 == 'Pérennisation':
     st.write(df_fiches_liees_pérennisation)
     
     html_string_1 = f"""<br>
-    <center><font face='Helvetica' size='6'>{df_fiches_liees_pérennisation.LOC[0,"Pourcentage de fiches liées"]} %</font>
+    <center><font face='Helvetica' size='6'>{df_fiches_liees_pérennisation.loc[0,"Pourcentage de fiches liées"]} %</font>
     <br/><font size='3'>comptes "des fiches sont liées à un compte organisation"<br></font></center>"""
     
     st.markdown(html_string_1, unsafe_allow_html=True)
