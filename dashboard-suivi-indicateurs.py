@@ -2308,7 +2308,7 @@ if categorie_2 == 'Tous':
         main()
         
     st.markdown("### **Nombre de conversation CRISP par territoire**")
-    st.markdown("**Attention :** Les données viennent de Airtable - MEIS - Extractions Crisp")
+    st.markdown("**Attention :** Les données viennent de Airtable - MEIS - Extractions Crisp et ne concerne que les territoires ayant eu plus de 2 discussions.")
     
     df_conversation_crisp = pd.DataFrame(df_crisp['Département de la demande'].value_counts()).reset_index()
     df_conversation_crisp.rename(columns={"index":"Territoire","Département de la demande":"Nombre de conversations"}, inplace=True)
