@@ -4001,31 +4001,7 @@ if categorie_2 == 'Lancement':
     figActionCum.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
 
     expander.plotly_chart(figActionCum, use_container_width=True)
-        
-    
-    expander = st.expander("Définition et calcul")
-    expander.write("""Le pourcentage d'exhaustivité des territoires est basé sur le nombre de types de services référencés sur chaque territoire.  
-    En utilisant le nombre de services référencé dans les territoire les plus ancien (33 - 44 - 75 - 92 - 93), et en prenant en compte d'autre variable 
-    comme le taux de pauvreté, le nombre d'habitant ou la superficie, nous avons déterminé le nombre de strucutures par type de services que nous devrions atteindre""")
-
-    if categorie.startswith("-"):
-
-        html_string_p = f"""<br>
-        <center><font face='Helvetica' size='7'>{df_exhaustivity.loc[0,'Moyenne']}%</font>
-        <br/><font size='3'>Pourcentage d'exhaustivité du territoire<br></font></center><br>
-        """
-
-        st.markdown(html_string_p, unsafe_allow_html=True)
-
-    else:
-
-        html_string_q = f"""<br>
-        <center><font face='Helvetica' size='7'>{round(df_exhaustivity.Moyenne.mean(),2)}%</font>
-        <br/><font size='3'>Moyenne des pourcentages d'exhaustivité des territoires<br><br>
-        """
-
-        st.markdown(html_string_q, unsafe_allow_html=True)
-
+  
 
     st.markdown("### **Nombre de professionnels et bénévoles de l’action sociale touchés par une action de diffusion**")
 
@@ -4126,6 +4102,30 @@ if categorie_2 == 'Lancement':
 
 
         st.markdown("### **Taux d'exhaustivité des territoires en lancement**")
+              
+    expander = st.expander("Définition et calcul")
+    expander.write("""Le pourcentage d'exhaustivité des territoires est basé sur le nombre de types de services référencés sur chaque territoire.  
+    En utilisant le nombre de services référencé dans les territoire les plus ancien (33 - 44 - 75 - 92 - 93), et en prenant en compte d'autre variable 
+    comme le taux de pauvreté, le nombre d'habitant ou la superficie, nous avons déterminé le nombre de strucutures par type de services que nous devrions atteindre""")
+
+    if categorie.startswith("-"):
+
+        html_string_p = f"""<br>
+        <center><font face='Helvetica' size='7'>{df_exhaustivity.loc[0,'Moyenne']}%</font>
+        <br/><font size='3'>Pourcentage d'exhaustivité du territoire<br></font></center><br>
+        """
+
+        st.markdown(html_string_p, unsafe_allow_html=True)
+
+    else:
+
+        html_string_q = f"""<br>
+        <center><font face='Helvetica' size='7'>{round(df_exhaustivity.Moyenne.mean(),2)}%</font>
+        <br/><font size='3'>Moyenne des pourcentages d'exhaustivité des territoires<br><br>
+        """
+
+        st.markdown(html_string_q, unsafe_allow_html=True)
+
 
         expander = st.expander("Tableau des données pour chaque type de service")
 
