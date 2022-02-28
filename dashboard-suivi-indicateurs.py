@@ -2312,7 +2312,7 @@ if categorie_2 == 'Tous':
     
     df_conversation_crisp = pd.DataFrame(df_crisp['Département de la demande'].value_counts()).reset_index()
     df_conversation_crisp.rename(columns={"index":"Territoire","Département de la demande":"Nombre de conversations"}, inplace=True)
-    st.write(df_conversation_crisp)
+    st.write(df_conversation_crisp[pd.to_numeric(df_conversation_crisp['Territoire'], errors='coerce').notnull()])
     
     figCrisp = px.bar(df_conversation_crisp, x= "Territoire", y="Nombre de conversations")
     st.plotly_chart(figCrisp, use_container_width=True)
