@@ -3854,6 +3854,7 @@ if categorie_2 == 'Lancement':
 
     col2.markdown(html_string_m, unsafe_allow_html=True)
     
+    st.markdown('')
     st.markdown('**Attention :** Les données étant issue de la table *history*, une dissemblance peu apparaitre pour certain territoire en lancement')
 
     figOnlineVsBrouillon = go.Figure(data=[
