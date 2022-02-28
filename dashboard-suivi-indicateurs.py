@@ -4050,16 +4050,16 @@ if categorie_2 == 'Lancement':
           go.Bar(name="Pro", x=df_diff_pro_cum['Date'], y=df_diff_pro_cum["Nb de pros"], marker_color='#7201a8'),
         ])
 
-      figProDifCum.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de comptes professionnels",)
-      figProDifCum.update_traces(hovertemplate = "Date de la mise à jour : le %{x}<br>Nbre de comptes professionnels: %{value}")
+        figProDifCum.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de comptes professionnels",)
+        figProDifCum.update_traces(hovertemplate = "Date de la mise à jour : le %{x}<br>Nbre de comptes professionnels: %{value}")
 
-      dt_all = pd.date_range(start=df_diff_pro_cum['Date'].iloc[0],end=df_diff_pro_cum['Date'].iloc[-1])
-      dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_pro_cum['Date'])]
-      dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+        dt_all = pd.date_range(start=df_diff_pro_cum['Date'].iloc[0],end=df_diff_pro_cum['Date'].iloc[-1])
+        dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_pro_cum['Date'])]
+        dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
 
-      figProDifCum.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+        figProDifCum.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
 
-      st.plotly_chart(figProDifCum, use_container_width=True)
+        st.plotly_chart(figProDifCum, use_container_width=True)
 
       expander = st.expander("Nombre de professionnels touchés (par mois)")
 
