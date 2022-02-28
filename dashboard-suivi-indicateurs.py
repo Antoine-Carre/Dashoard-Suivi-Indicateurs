@@ -3788,11 +3788,27 @@ if categorie_2 == 'Lancement':
                                                       | (df_fiche_serv_on_off.territory == 15) | (df_fiche_serv_on_off.territory == 63)
                                                       | (df_fiche_serv_on_off.territory == 34) | (df_fiche_serv_on_off.territory == 76)
                                                       | (df_fiche_serv_on_off.territory == 59) | (df_fiche_serv_on_off.territory == 21)]
+      
+      s1 = pd.concat([s.filter(regex="07"), s.filter(regex="13"),  s.filter(regex="15"),  s.filter(regex="63"),  s.filter(regex="34"),
+                      s.filter(regex="76"),  s.filter(regex="59"),  s.filter(regex="21")], axis=0)
+      s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+      s1 = s1.groupby(s1['datePresentation']).sum()
+      s1 = s1.T
+      s1.index = s1.iloc[:, :].index.str[:-8].tolist()
+      s1 = s1.groupby(s1.index).sum()
+      s1 = s1.T.reset_index()
+      s1.replace({0:np.nan}, inplace=True)
+
+      s1_cum = s1[['datePresentation','Recherches']]
+      s1_cum['Recherches cumulé'] = s1_cum['Recherches'].cumsum()
 
     elif categorie.startswith("-"):
       df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == int(cat_dict[categorie]))]
 
-    
+      s1 = s.filter(regex=cat_dict[categorie])
+      s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+      df1 = s1.iloc[:, 1:]
+
 
     st.markdown("### **Nombre de fiches en ligne et en brouillon**")
     st.markdown('**Attention :** Le nombre de fiches indiquées ne prends pas en compte les fiches "Toilettes", "fontaines", "wifi", ni les structures "hors ligne", ou les fiches fermée définitivement.  De plus, "En ligne" inclus les fiches "réservées aux professionnels')
@@ -3877,6 +3893,28 @@ if categorie_2 == 'Lancement':
 
         st.plotly_chart(fig, use_container_width=True)
 
+
+    st.markdown('### **Nombre de recherches**')
+    st.markdown('La ligne *Recherche* indique les nombre de rcherches totales effectuées sur le territoire (y compris les trecherches par mots clés)')
+
+    figSearch = px.line(s1,x='datePresentation', y=s1.columns.values.tolist()[1:])
+    figSearch.update_xaxes(title_text="Date des recherches", title_standoff=0.6, title_font_family="Times New Roman")
+    figSearch.update_yaxes(title_text="Nombre de recherches (non cumulé)", title_font_family="Times New Roman")
+
+    annotationsSearch = dict(xref='paper', yref='paper', x=0.055, y=1,
+                                xanchor='center', yanchor='top',
+                                text='Fait le: ' + str("1 fevrier 2022"),
+                                font=dict(family='Arial',
+                                        size=12,
+                                        color='rgb(150,150,150)'),
+                                showarrow=False)
+    figSearch.update_traces( mode='lines+markers', hovertemplate=None)
+                            
+    figSearch.update_layout(xaxis=dict(tickformat="%B %Y"))
+    figSearch.update_layout(hovermode="x", title_font_family="Times New Roman", annotations=[annotationsSearch])
+
+
+    st.plotly_chart(figSearch, use_container_width=True)
 
     
     expander = st.expander("Définition et calcul")
