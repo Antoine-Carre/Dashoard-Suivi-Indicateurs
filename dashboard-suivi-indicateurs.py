@@ -4027,6 +4027,106 @@ if categorie_2 == 'Lancement':
         st.markdown(html_string_q, unsafe_allow_html=True)
 
 
+    st.markdown("### **Nombre de professionnels et bénévoles de l’action sociale touchés par une action de diffusion**")
+
+    if len(df_diff['Date']) < 1:
+        st.markdown('Aucune action de diffusion n\'a été enregistrée su rce territoire')
+    else:
+        df_diff_pro_benef = df_diff[['Date','Territoire','Nb de pros','Nb de bénéficiaires']]
+        df_diff_pro_benef['Date'] = pd.to_datetime(df_diff_pro_benef.Date)
+
+        df_diff_pro_benef = df_diff_pro_benef[df_diff_pro_benef['Date'] > "2017-01-01"]
+        df_diff_pro_benef = df_diff_pro_benef[df_diff_pro_benef['Date'] < "2022-02-01"]
+
+        df_diff_pro_benef['Date'] = df_diff_pro_benef.Date.dt.strftime('%Y-%m')
+
+        df_diff_pro = pd.DataFrame(df_diff_pro_benef.groupby('Date')['Nb de pros'].sum())
+        df_diff_pro.reset_index(inplace=True)
+
+        df_diff_pro_cum = df_diff_pro.copy()
+        df_diff_pro_cum['Nb de pros'] = df_diff_pro_cum['Nb de pros'].cumsum()
+
+        figProDifCum = go.Figure(data=[
+          go.Bar(name="Pro", x=df_diff_pro_cum['Date'], y=df_diff_pro_cum["Nb de pros"], marker_color='#7201a8'),
+        ])
+
+      figProDifCum.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de comptes professionnels",)
+      figProDifCum.update_traces(hovertemplate = "Date de la mise à jour : le %{x}<br>Nbre de comptes professionnels: %{value}")
+
+      dt_all = pd.date_range(start=df_diff_pro_cum['Date'].iloc[0],end=df_diff_pro_cum['Date'].iloc[-1])
+      dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_pro_cum['Date'])]
+      dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+      figProDifCum.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+
+      st.plotly_chart(figProDifCum, use_container_width=True)
+
+      expander = st.expander("Nombre de professionnels touchés (par mois)")
+
+      figProDif = go.Figure(data=[
+        go.Bar(name="Pro", x=df_diff_pro['Date'], y=df_diff_pro["Nb de pros"], marker_color='#7201a8'),
+      ])
+
+      figProDif.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de comptes professionnels",)
+      figProDif.update_traces(hovertemplate = "Date de la mise à jour : le %{x}<br>Nbre de comptes professionnels: %{value}")
+
+      dt_all = pd.date_range(start=df_diff_pro['Date'].iloc[0],end=df_diff_pro['Date'].iloc[-1])
+      dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_pro['Date'])]
+      dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+      figProDif.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+
+      expander.plotly_chart(figProDif, use_container_width=True)
+
+      ### Nombre de bénéficiaires
+
+      st.markdown("### **Nombre de bénéficiaires de l’action sociale touchés par une action de diffusion**")
+
+      df_diff_bénéf = pd.DataFrame(df_diff_pro_benef.groupby('Date')['Nb de bénéficiaires'].sum())
+      df_diff_bénéf.reset_index(inplace=True)
+      df_diff_bénéf = df_diff_bénéf[df_diff_bénéf['Date'] < "2022-02-01"]
+
+      df_diff_bénéf_cum = df_diff_bénéf.copy()
+      df_diff_bénéf_cum['Nb de bénéficiaires'] = df_diff_bénéf_cum['Nb de bénéficiaires'].cumsum()
+
+      figDiffBenefCum = go.Figure(data=[
+        go.Bar(name="Nb de bénéficiaires", x=df_diff_bénéf_cum['Date'], y=df_diff_bénéf_cum["Nb de bénéficiaires"], marker_color='#d8576b'),
+      ])
+
+      figDiffBenefCum.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de bénéficiaires",)
+      figDiffBenefCum.update_traces(hovertemplate = "Date de la mise à jour : le %{x}<br>Nbre de bénéficiaires: %{value}")
+
+      dt_all = pd.date_range(start=df_diff_bénéf_cum['Date'].iloc[0],end=df_diff_bénéf_cum['Date'].iloc[-1])
+      dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_bénéf_cum['Date'])]
+      dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+      figDiffBenefCum.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+
+      st.plotly_chart(figDiffBenefCum, use_container_width=True)
+
+
+      expander = st.expander("Nombre de bénéficiaires touchés (par mois)")
+
+      figDiffBenef = go.Figure(data=[
+        go.Bar(name="Pro", x=df_diff_bénéf['Date'], y=df_diff_bénéf["Nb de bénéficiaires"], marker_color='#d8576b'),
+      ])
+
+      figDiffBenef.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de bénéficiaires",)
+      figDiffBenef.update_traces(hovertemplate = "Date de la mise à jour : le %{x}<br>Nbre de bénéficiaires: %{value}")
+
+      dt_all = pd.date_range(start=df_diff_bénéf_cum['Date'].iloc[0],end=df_diff_bénéf_cum['Date'].iloc[-1])
+      dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_bénéf_cum['Date'])]
+      dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+      figDiffBenef.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+
+
+      expander.plotly_chart(figDiffBenef, use_container_width=True)
+
+    
+    
+    st.markdown("### **Taux d'exhaustivité des territoires en lancement**")
+
     expander = st.expander("Tableau des données pour chaque type de service")
 
     df_exhaustivity = df_exhaustivity.loc[:,"Département":]
