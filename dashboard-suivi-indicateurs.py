@@ -4525,46 +4525,46 @@ if categorie_2 == 'Pérennisation':
     
     if categorie.startswith("-"):
       df_orga_2 = df_orga_2[df_orga_2.territory == int(cat_dict[categorie])].dropna()
-    
-    
-    st.markdown("### **Nombre d'organisations créées par mois** (et celles ayant au moins un compte pro validé)")
 
-    df_orga_ceated_month = pd.DataFrame(df_orga_ceated.groupby('createdAt')['organization_id'].count()).reset_index()
-    
-    # Création d'une table avec le nombre d'orga avec au moins un utilisateur
-    table = pd.pivot_table(df_orga_2,index=['createdAt'],aggfunc={'COUNT':np.sum}).reset_index()
-    teble_2 = pd.merge(table,df_orga_ceated_month, on='createdAt')
 
-    if teble_2.empty :
-        st.markdown("Aucune organisation créée sur ce territoire")
-    else:
-        teble_2['Organisations sans compte pro actif'] = teble_2.organization_id - teble_2.COUNT
-        teble_2["Pourcentage"] = ((teble_2.COUNT / teble_2.organization_id)*100).round(2)
+      st.markdown("### **Nombre d'organisations créées par mois** (et celles ayant au moins un compte pro validé)")
 
-        ## pass the text to the second graph_object only
-        fig2 = go.Figure(data=[
-            go.Line(name='Organisations créées', x=teble_2.createdAt, y=teble_2.organization_id, marker_color='#7201a8'),
-            go.Line(name='Organisations avec au moins un compte pro validé', x=teble_2.createdAt, y=teble_2.COUNT, marker_color='#bd3786',
-                text=[f"<b>{percent_change:.0f}%" if percent_change > 0 else f"{percent_change:.0f}%" 
-                    for percent_change in teble_2.Pourcentage],
-                textposition='top center',
-                mode='lines+markers+text')   
-        ])
-        fig2.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre d'organisations",)
-        fig2.update_traces(hovertemplate = "Date de la création de compte organisation : %{x}<br>Nbre d'organisation: %{y}")
-        fig2.update_layout(legend=dict(orientation="h"))
+      df_orga_ceated_month = pd.DataFrame(df_orga_ceated.groupby('createdAt')['organization_id'].count()).reset_index()
 
-        st.plotly_chart(fig2, use_container_width=True)
+      # Création d'une table avec le nombre d'orga avec au moins un utilisateur
+      table = pd.pivot_table(df_orga_2,index=['createdAt'],aggfunc={'COUNT':np.sum}).reset_index()
+      teble_2 = pd.merge(table,df_orga_ceated_month, on='createdAt')
 
-        test = pd.DataFrame(teble_2.sum()).reset_index()
-        test.drop(labels=0, inplace=True)
-        test['orga_sans_compte_pro_validé'] = test.iloc[1,1] - test.iloc[0,1]
-        test.replace({'COUNT' : 'Organisations avec au moins un compte pro validé','Organisations sans compte pro actif':'Organisations sans compte pro validé'}, inplace=True)
-        test.drop(labels=[2,4], axis=0, inplace=True)
-        test.set_index("index", inplace=True)    
+      if teble_2.empty :
+          st.markdown("Aucune organisation créée sur ce territoire")
+      else:
+          teble_2['Organisations sans compte pro actif'] = teble_2.organization_id - teble_2.COUNT
+          teble_2["Pourcentage"] = ((teble_2.COUNT / teble_2.organization_id)*100).round(2)
 
-        fig3 = px.pie(values=test[0], names=test.index, color_discrete_sequence= [ '#7201a8', '#d8576b'],)
-        fig3.update_traces(hovertemplate = "%{label}: <br>Nbre d'organisations: %{value}")
+          ## pass the text to the second graph_object only
+          fig2 = go.Figure(data=[
+              go.Line(name='Organisations créées', x=teble_2.createdAt, y=teble_2.organization_id, marker_color='#7201a8'),
+              go.Line(name='Organisations avec au moins un compte pro validé', x=teble_2.createdAt, y=teble_2.COUNT, marker_color='#bd3786',
+                  text=[f"<b>{percent_change:.0f}%" if percent_change > 0 else f"{percent_change:.0f}%" 
+                      for percent_change in teble_2.Pourcentage],
+                  textposition='top center',
+                  mode='lines+markers+text')   
+          ])
+          fig2.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre d'organisations",)
+          fig2.update_traces(hovertemplate = "Date de la création de compte organisation : %{x}<br>Nbre d'organisation: %{y}")
+          fig2.update_layout(legend=dict(orientation="h"))
+
+          st.plotly_chart(fig2, use_container_width=True)
+
+          test = pd.DataFrame(teble_2.sum()).reset_index()
+          test.drop(labels=0, inplace=True)
+          test['orga_sans_compte_pro_validé'] = test.iloc[1,1] - test.iloc[0,1]
+          test.replace({'COUNT' : 'Organisations avec au moins un compte pro validé','Organisations sans compte pro actif':'Organisations sans compte pro validé'}, inplace=True)
+          test.drop(labels=[2,4], axis=0, inplace=True)
+          test.set_index("index", inplace=True)    
+
+          fig3 = px.pie(values=test[0], names=test.index, color_discrete_sequence= [ '#7201a8', '#d8576b'],)
+          fig3.update_traces(hovertemplate = "%{label}: <br>Nbre d'organisations: %{value}")
 
 
         st.plotly_chart(fig3, use_container_width=True)
