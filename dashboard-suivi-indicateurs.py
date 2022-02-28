@@ -173,6 +173,8 @@ HtmlFile = open("./ressource/MPLI_hebergeurs.html", 'r', encoding='utf-8')
 
 df_crisp = pd.read_csv('./ressource/Extractions Crisp-Complete view.csv')
 
+df_brouillon_fiches_final = pd.read_csv('./ressource/fiches_brouillon_vs_online.csv')
+
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
             "- Bouches-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
             "- Loire-Atlantique (44)" : "44","- Nord (59)":"59" , "- Puy-de-Dôme (63)":"63","- Haute-Vienne (87)":"87",
@@ -3806,14 +3808,19 @@ if categorie_2 == 'Lancement':
                 | (df4['territoire'].str.contains("63")) | (df4['territoire'].str.contains("34")) | (df4['territoire'].str.contains("76"))
                 | (df4['territoire'].str.contains("59")) | (df4['territoire'].str.contains("21"))]
       df4 = df4.groupby('Unnamed: 0').sum().reset_index()
-
-      
+  
       df_diff = df_diff[(df_diff.Territoire.str.contains('07')) | (df_diff.Territoire.str.contains('13')) | (df_diff.Territoire.str.contains('15'))
                         | (df_diff.Territoire.str.contains('63')) | (df_diff.Territoire.str.contains('34')) | (df_diff.Territoire.str.contains('76'))
                         | (df_diff.Territoire.str.contains('59')) | (df_diff.Territoire.str.contains('21'))]
+    
+      df_brouillon_fiches_final = df_brouillon_fiches_final[(df_brouillon_fiches_final.departement == "Ardèche") | (df_brouillon_fiches_final.departement == "Bouches-du-Rhône")
+                                                            | (df_brouillon_fiches_final.departement == "Cantal") | (df_brouillon_fiches_final.departement == "Puy-de-Dôme")
+                                                            | (df_brouillon_fiches_final.departement == "Hérault") | (df_brouillon_fiches_final.departement == "Seine-Maritime")
+                                                            | (df_brouillon_fiches_final.departement == "Nord") | (df_brouillon_fiches_final.departement == "Côte-d'Or")]
 
-      
-      
+      df_brouillon_fiches_final = df_brouillon_fiches_final.groupby('created_at').sum().reset_index()
+
+           
     elif categorie.startswith("-"):
       
       df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == int(cat_dict[categorie]))]
@@ -3825,6 +3832,8 @@ if categorie_2 == 'Lancement':
       df4 = df4[(df4['territoire'].str.contains(cat_dict[categorie]))]
       
       df_diff = df_diff[(df_diff.Territoire.str.contains(cat_dict[categorie], na=False))]
+      
+      df_brouillon_fiches_final = df_brouillon_fiches_final[(df_brouillon_fiches_final.departement == cat2_dict[categorie])]
 
     st.markdown("### **Nombre de fiches en ligne et en brouillon**")
     st.markdown('**Attention :** Le nombre de fiches indiquées ne prends pas en compte les fiches "Toilettes", "fontaines", "wifi", ni les structures "hors ligne", ou les fiches fermée définitivement.  De plus, "En ligne" inclus les fiches "réservées aux professionnels')
@@ -3844,6 +3853,32 @@ if categorie_2 == 'Lancement':
     """
 
     col2.markdown(html_string_m, unsafe_allow_html=True)
+    
+    figOnlineVsBrouillon = go.Figure(data=[
+      go.Line(name='Fiches brouillon', x=df_brouillon_fiches_final.created_at, y=df_brouillon_fiches_final.brouillon, marker_color='#7201a8'),
+      go.Line(name='Fiches en ligne', x=df_brouillon_fiches_final.created_at, y=df_brouillon_fiches_final['en ligne'], marker_color='#bd3786',)])
+    
+    figOnlineVsBrouillon = go.Figure(data=[
+      go.Line(name='Fiches brouillon', x=df_brouillon_fiches_final.created_at, y=df_brouillon_fiches_final.brouillon, marker_color='#7201a8'),
+      go.Line(name='Fiches en ligne', x=df_brouillon_fiches_final.created_at, y=df_brouillon_fiches_final['en ligne'], marker_color='#bd3786',)])
+
+
+    figOnlineVsBrouillon.update_xaxes(title_text="Mois de création (de la fiche) ou mois de mise en ligne de la fiche", title_standoff=0.6, title_font_family="Times New Roman")
+    figOnlineVsBrouillon.update_yaxes(title_text="Nombre de fiches", title_font_family="Times New Roman")
+
+    annotations = dict(xref='paper', yref='paper', x=0.055, y=1,
+                                 xanchor='center', yanchor='top',
+                                 text='Fait le: ' + str("1 février 2022"),
+                                 font=dict(family='Arial',
+                                           size=12,
+                                           color='rgb(150,150,150)'),
+                                 showarrow=False)
+
+    figOnlineVsBrouillon.update_traces( mode='lines+markers', hovertemplate=None)
+    figOnlineVsBrouillon.update_layout(xaxis=dict(tickformat="%B %Y"))
+    figOnlineVsBrouillon.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotations])
+
+    st.plotly_chart(figOnlineVsBrouillon, use_container_width=True)
 
     
     df_users_pro_roles_final = df_users_pro_roles_test.join(pd.get_dummies(df_users_pro_roles_test['role_x']))
@@ -4137,6 +4172,7 @@ if categorie_2 == 'Lancement':
             m += 1
 
         expander.write(df_exhaustivity)
+        
 
 if categorie_2 == 'Admin/Finance':
 
