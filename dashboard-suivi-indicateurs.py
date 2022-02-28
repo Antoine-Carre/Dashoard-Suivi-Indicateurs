@@ -4523,6 +4523,8 @@ if categorie_2 == 'Admin/Finance':
 
 
 if categorie_2 == 'Pérennisation':
+  
+    st.write(df_fiches_liees_pérennisation)
    
     categorie = st.selectbox("Choisissez votre territoire :", ("- Alpes-Maritimes (06)", "- Gironde (33)", "- Loire-Atlantique (44)", "- Bas-Rhin (67)"))
     
@@ -4531,8 +4533,6 @@ if categorie_2 == 'Pérennisation':
       df_orga_ceated = df_orga_ceated[df_orga_ceated.territories == cat_dict[categorie]].dropna()
       df_orga_2 = df_orga_2[df_orga_2.territory == int(cat_dict[categorie])].dropna()
       df_fiches_liees_pérennisation = df_fiches_liees_pérennisation[df_fiches_liees_pérennisation.departement == "cat2_dict[categorie]"]
-
-    st.write(df_fiches_liees_pérennisation)
 
     st.markdown("### **Nombre d'organisations créées par mois** (et celles ayant au moins un compte pro validé)")
     
