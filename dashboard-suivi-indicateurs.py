@@ -4530,7 +4530,7 @@ if categorie_2 == 'Pérennisation':
       
       df_orga_ceated = df_orga_ceated[df_orga_ceated.territories == cat_dict[categorie]].dropna()
       df_orga_2 = df_orga_2[df_orga_2.territory == int(cat_dict[categorie])].dropna()
-      df_fiches_liees_pérennisation = df_fiches_liees_pérennisation[df_fiches_liees_pérennisation.departement == cat2_dict[categorie]]
+      df_fiches_liees_pérennisation = df_fiches_liees_pérennisation[df_fiches_liees_pérennisation.departement == cat2_dict[categorie]].reset_index()
 
     st.markdown("### **Nombre d'organisations créées par mois** (et celles ayant au moins un compte pro validé)")
     
@@ -4576,7 +4576,7 @@ if categorie_2 == 'Pérennisation':
     st.markdown("## Pourcentage de fiches liées à un compte organisation créé")
     
     html_string_1 = f"""<br>
-    <center><font face='Helvetica' size='6'>{df_fiches_liees_pérennisation["Pourcentage de fiches liées"]} %</font>
+    <center><font face='Helvetica' size='6'>{df_fiches_liees_pérennisation.LOC[0,"Pourcentage de fiches liées"]} %</font>
     <br/><font size='3'>comptes "des fiches sont liées à un compte organisation"<br></font></center>"""
     
     st.markdown(html_string_1, unsafe_allow_html=True)
