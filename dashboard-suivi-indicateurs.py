@@ -2314,7 +2314,7 @@ if categorie_2 == 'Tous':
     df_conversation_crisp.rename(columns={"index":"Territoire","Département de la demande":"Nombre de conversations"}, inplace=True)
     df_conversation_crisp = df_conversation_crisp[pd.to_numeric(df_conversation_crisp['Territoire'], errors='coerce').notnull()]
     df_conversation_crisp = df_conversation_crisp.groupby('Territoire')["Nombre de conversations"].sum().reset_index()
-    st.write(df_conversation_crisp)
+    df_conversation_crisp = df_conversation_crisp[df_conversation_crisp['Nombre de conversations'] > 2]
     
     figCrisp = px.bar(df_conversation_crisp, x= "Territoire", y="Nombre de conversations")
     st.plotly_chart(figCrisp, use_container_width=True)
