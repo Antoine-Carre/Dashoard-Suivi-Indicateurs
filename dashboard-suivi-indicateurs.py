@@ -3854,6 +3854,8 @@ if categorie_2 == 'Lancement':
 
     col2.markdown(html_string_m, unsafe_allow_html=True)
     
+    st.markdown('**Attention :** Les données étant issue de la table *history*, une dissemblance peu apparaitre pour certain territoire en lancement')
+
     figOnlineVsBrouillon = go.Figure(data=[
       go.Line(name='Fiches brouillon', x=df_brouillon_fiches_final.created_at, y=df_brouillon_fiches_final.brouillon, marker_color='#7201a8'),
       go.Line(name='Fiches en ligne', x=df_brouillon_fiches_final.created_at, y=df_brouillon_fiches_final['en ligne'], marker_color='#bd3786',)])
