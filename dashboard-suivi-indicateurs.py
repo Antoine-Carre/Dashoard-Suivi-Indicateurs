@@ -3814,6 +3814,11 @@ if categorie_2 == 'Lancement':
     col2.markdown(html_string_m, unsafe_allow_html=True)
 
     
+    df_users_pro_roles_final = df_users_pro_roles_test.join(pd.get_dummies(df_users_pro_roles_test['role_x']))
+    df_users_pro_roles_final = df_users_pro_roles_final.groupby('createdAt').sum()
+
+    df_users_pro_roles_final.reset_index(inplace=True)
+    
     if not "OWNER" in pd.DataFrame(df_users_pro_roles_test.role_x.value_counts()).T.columns.to_list():
         pass
 
