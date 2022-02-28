@@ -3931,7 +3931,7 @@ if categorie_2 == 'Lancement':
 
     df4 = df4.iloc[:-1,:]
 
-    fig4 = px.line(df4, x='Unnamed: 0', y=df4[['Utilisateurs','sessions']]) 
+    fig4 = px.line(df4, x='Unnamed: 0', y=['Utilisateurs','Sessions'])        
 
     fig4.update_xaxes(title_text="Intervalle de temps en mois", title_standoff=0.6, title_font_family="Times New Roman")
     fig4.update_yaxes(title_text="Nombre d'utilisateurs/sessions/pages vues", title_font_family="Times New Roman")
