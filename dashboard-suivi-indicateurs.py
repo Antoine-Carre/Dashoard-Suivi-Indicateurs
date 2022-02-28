@@ -4531,6 +4531,7 @@ if categorie_2 == 'Pérennisation':
       df_orga_ceated = df_orga_ceated[df_orga_ceated.territories == cat_dict[categorie]].dropna()
       df_orga_2 = df_orga_2[df_orga_2.territory == int(cat_dict[categorie])].dropna()
       df_fiches_liees_pérennisation = df_fiches_liees_pérennisation[df_fiches_liees_pérennisation.departement == cat2_dict[categorie]].reset_index()
+      df_fiches_liees_pérennisation = df_fiches_liees_pérennisation.iloc[:,1:]
 
     st.markdown("### **Nombre d'organisations créées par mois** (et celles ayant au moins un compte pro validé)")
     
