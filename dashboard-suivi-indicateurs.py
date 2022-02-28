@@ -3808,6 +3808,11 @@ if categorie_2 == 'Lancement':
       df4 = df4.groupby('Unnamed: 0').sum().reset_index()
 
       
+      df_diff = df_diff[(df_diff.Territoire.str.contains('07')) | (df_diff.Territoire.str.contains('13')) | (df_diff.Territoire.str.contains('15'))
+                        | (df_diff.Territoire.str.contains('63')) | (df_diff.Territoire.str.contains('34')) | (df_diff.Territoire.str.contains('76'))
+                        | (df_diff.Territoire.str.contains('59')) | (df_diff.Territoire.str.contains('21'))]
+
+      
       
     elif categorie.startswith("-"):
       
@@ -3818,6 +3823,8 @@ if categorie_2 == 'Lancement':
       df1 = s1.iloc[:, 1:]
 
       df4 = df4[(df4['territoire'].str.contains(cat_dict[categorie]))]
+      
+      df_diff = df_diff[(df_diff.Territoire.str.contains(cat_dict[categorie], na=False))]
 
     st.markdown("### **Nombre de fiches en ligne et en brouillon**")
     st.markdown('**Attention :** Le nombre de fiches indiquées ne prends pas en compte les fiches "Toilettes", "fontaines", "wifi", ni les structures "hors ligne", ou les fiches fermée définitivement.  De plus, "En ligne" inclus les fiches "réservées aux professionnels')
@@ -3951,6 +3958,50 @@ if categorie_2 == 'Lancement':
 
 
     st.plotly_chart(fig4, use_container_width=True)
+    
+    
+    st.markdown("### **Nombre d'actions de diffusion**")
+
+    df_diff_action = df_diff[['Diffusion_name','Territoire','Type','Date']]
+    df_diff_action['Date'] = pd.to_datetime(df_diff_action['Date'])
+    df_diff_action['Date'] = df_diff_action.Date.dt.strftime('%Y-%m')
+    df_diff_action = df_diff_action[df_diff_action['Date'] > "2017-01-01"]
+    df_diff_action = df_diff_action[df_diff_action['Date'] < "2022-02-01"]
+
+    df_diff_action = df_diff_action.groupby(by=[pd.Grouper(key="Date"), "Type"])["Diffusion_name"]
+    df_diff_action = df_diff_action.count().reset_index()
+
+    df_diff_action_cum=df_diff_action.sort_values(['Date']).reset_index(drop=True)
+    df_diff_action_cum["cum_sale"]=df_diff_action_cum.groupby(['Type'])['Diffusion_name'].cumsum(axis=0)
+        
+    figAction = px.bar(df_diff_action, x="Date", y="Diffusion_name", color="Type", color_discrete_sequence= px.colors.qualitative.Dark24)
+
+    figAction.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre d'actions réalisées",)
+    figAction.update_traces(hovertemplate = "Mois de la réalisation de l'action : en %{x}<br>Nbre d'actions réalisées: %{value}")
+
+    dt_all = pd.date_range(start=df_diff_action['Date'].iloc[0],end=df_diff_action['Date'].iloc[-1])
+    dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_action['Date'])]
+    dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+    figAction.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+
+    st.plotly_chart(figAction, use_container_width=True)
+
+    expander = st.expander("Nombre d'actions de diffusion (en cumulé)")
+
+    figActionCum = px.bar(df_diff_action_cum, x="Date", y="cum_sale", color="Type", color_discrete_sequence= px.colors.qualitative.Dark24)
+
+    figActionCum.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre d'actions réalisées",)
+    figActionCum.update_traces(hovertemplate = "Mois de la réalisation de l'action : en %{x}<br>Nbre d'actions réalisées: %{value}")
+
+    dt_all = pd.date_range(start=df_diff_action_cum['Date'].iloc[0],end=df_diff_action_cum['Date'].iloc[-1])
+    dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_action_cum['Date'])]
+    dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+    figActionCum.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+
+    expander.plotly_chart(figActionCum, use_container_width=True)
+        
     
     expander = st.expander("Définition et calcul")
     expander.write("""Le pourcentage d'exhaustivité des territoires est basé sur le nombre de types de services référencés sur chaque territoire.  
