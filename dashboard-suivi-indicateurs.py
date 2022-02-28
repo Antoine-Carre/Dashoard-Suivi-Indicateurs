@@ -4575,9 +4575,7 @@ if categorie_2 == 'Pérennisation':
     st.plotly_chart(fig3, use_container_width=True)
 
     st.markdown("## Pourcentage de fiches liées à un compte organisation créé")
-    
-    st.write(df_fiches_liees_pérennisation)
-    
+        
     html_string_1 = f"""<br>
     <center><font face='Helvetica' size='6'>{df_fiches_liees_pérennisation.loc[0,"Pourcentage de fiches liées"]} %</font>
     <br/><font size='3'>comptes "des fiches sont liées à un compte organisation"<br></font></center>"""
