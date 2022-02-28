@@ -3801,14 +3801,23 @@ if categorie_2 == 'Lancement':
 
       s1_cum = s1[['datePresentation','Recherches']]
       s1_cum['Recherches cumulé'] = s1_cum['Recherches'].cumsum()
+      
+      df4 = df4[(df4['territoire'].str.contains("07")) | (df4['territoire'].str.contains("13")) | (df4['territoire'].str.contains("15"))
+                | (df4['territoire'].str.contains("63")) | (df4['territoire'].str.contains("34")) | (df4['territoire'].str.contains("76"))
+                | (df4['territoire'].str.contains("59")) | (df4['territoire'].str.contains("21"))]
+      df4 = df4.groupby('Unnamed: 0').sum().reset_index()
 
+      
+      
     elif categorie.startswith("-"):
+      
       df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == int(cat_dict[categorie]))]
 
       s1 = s.filter(regex=cat_dict[categorie])
       s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
       df1 = s1.iloc[:, 1:]
 
+      df4 = df4[(df4['territoire'].str.contains(cat_dict[categorie]))]
 
     st.markdown("### **Nombre de fiches en ligne et en brouillon**")
     st.markdown('**Attention :** Le nombre de fiches indiquées ne prends pas en compte les fiches "Toilettes", "fontaines", "wifi", ni les structures "hors ligne", ou les fiches fermée définitivement.  De plus, "En ligne" inclus les fiches "réservées aux professionnels')
@@ -3916,6 +3925,31 @@ if categorie_2 == 'Lancement':
 
     st.plotly_chart(figSearch, use_container_width=True)
 
+    
+    st.markdown("### **Nombre d'utilisateurs** *")
+    st.markdown("\* ne sont comptabilisé ici que les utilisateurs qui ont accepté l'utilisation de cookies")
+
+    df4 = df4.iloc[:-1,:]
+
+    fig4 = px.line(df4, x='Unnamed: 0', y=['Utilisateurs','sessions']) 
+
+    fig4.update_xaxes(title_text="Intervalle de temps en mois", title_standoff=0.6, title_font_family="Times New Roman")
+    fig4.update_yaxes(title_text="Nombre d'utilisateurs/sessions/pages vues", title_font_family="Times New Roman")
+    annotations = dict(xref='paper', yref='paper', x=0.055, y=1,
+                                 xanchor='center', yanchor='top',
+                                 text='Fait le: ' + str("1 fevrier 2022"),
+                                 font=dict(family='Arial',
+                                           size=12,
+                                           color='rgb(150,150,150)'),
+                                 showarrow=False)
+    fig4.update_traces( mode='lines+markers', hovertemplate=None)
+    fig4.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotations])
+    fig4.update_layout(xaxis=dict(tickformat="%B-%Y"))
+    fig4.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotations],
+    legend={'title_text':''})
+
+
+    st.plotly_chart(fig4, use_container_width=True)
     
     expander = st.expander("Définition et calcul")
     expander.write("""Le pourcentage d'exhaustivité des territoires est basé sur le nombre de types de services référencés sur chaque territoire.  
