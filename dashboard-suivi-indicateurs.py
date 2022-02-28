@@ -3947,6 +3947,7 @@ if categorie_2 == 'Lancement':
     fig4.update_layout(xaxis=dict(tickformat="%B-%Y"))
     fig4.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotations],
     legend={'title_text':''})
+    fig4.update_xaxes(tickangle=-90)
 
 
     st.plotly_chart(fig4, use_container_width=True)
