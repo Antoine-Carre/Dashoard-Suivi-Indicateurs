@@ -4532,6 +4532,8 @@ if categorie_2 == 'Pérennisation':
       df_orga_2 = df_orga_2[df_orga_2.territory == int(cat_dict[categorie])].dropna()
       df_fiches_liees_pérennisation = df_fiches_liees_pérennisation[df_fiches_liees_pérennisation.departement == "cat2_dict[categorie]"]
 
+    st.write(df_fiches_liees_pérennisation)
+
     st.markdown("### **Nombre d'organisations créées par mois** (et celles ayant au moins un compte pro validé)")
     
     df_orga_ceated_month = pd.DataFrame(df_orga_ceated.groupby('createdAt')['organization_id'].count()).reset_index()
@@ -4574,7 +4576,6 @@ if categorie_2 == 'Pérennisation':
     st.plotly_chart(fig3, use_container_width=True)
 
     st.markdown("## Pourcentage de fiches liées à un compte organisation créé")
-    st.write(df_fiches_liees_pérennisation)
     
     html_string_1 = f"""<br>
     <center><font face='Helvetica' size='6'>{df_fiches_liees_pérennisation["Pourcentage de fiches liées"]} %</font>
