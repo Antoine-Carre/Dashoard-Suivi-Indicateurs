@@ -175,6 +175,9 @@ df_crisp = pd.read_csv('./ressource/Extractions Crisp-Complete view.csv')
 
 df_brouillon_fiches_final = pd.read_csv('./ressource/fiches_brouillon_vs_online.csv')
 
+df_fiches_liees_pérennisation = pd.read_csv('./ressource/fiches_liees_pérennisation.csv')
+
+
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
             "- Bouches-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
             "- Loire-Atlantique (44)" : "44","- Nord (59)":"59" , "- Puy-de-Dôme (63)":"63","- Haute-Vienne (87)":"87",
@@ -4527,6 +4530,7 @@ if categorie_2 == 'Pérennisation':
       
       df_orga_ceated = df_orga_ceated[df_orga_ceated.territories == cat_dict[categorie]].dropna()
       df_orga_2 = df_orga_2[df_orga_2.territory == int(cat_dict[categorie])].dropna()
+      df_fiches_liees_pérennisation = df_fiches_liees_pérennisation[df_fiches_liees_pérennisation/departement == "cat2_dict[categorie]"]
 
     st.markdown("### **Nombre d'organisations créées par mois** (et celles ayant au moins un compte pro validé)")
     
@@ -4569,6 +4573,13 @@ if categorie_2 == 'Pérennisation':
 
     st.plotly_chart(fig3, use_container_width=True)
 
+    st.markdown("## Pourcentage de fiches liées à un compte organisation créé")
+    
+    html_string_1 = f"""<br>
+    <center><font face='Helvetica' size='6'>{df_fiches_liees_pérennisation.loc[0,"Pourcentage de fiches liées"]} %</font>
+    <br/><font size
+    
+    st.markdown(html_string_1, unsafe_allow_html=True)
 
 
 
