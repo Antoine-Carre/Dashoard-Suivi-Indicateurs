@@ -4524,9 +4524,13 @@ if categorie_2 == 'Pérennisation':
     categorie = st.selectbox("Choisissez votre territoire :", ("- Alpes-Maritimes (06)", "- Gironde (33)", "- Loire-Atlantique (44)", "- Bas-Rhin (67)"))
     
     if categorie.startswith("-"):
+      
+      df_orga_ceated = df_orga_ceated[df_orga_ceated.territories == cat_dict[categorie]].dropna()
       df_orga_2 = df_orga_2[df_orga_2.territory == int(cat_dict[categorie])].dropna()
 
     st.markdown("### **Nombre d'organisations créées par mois** (et celles ayant au moins un compte pro validé)")
+    
+    df_orga_ceated_month = pd.DataFrame(df_orga_ceated.groupby('createdAt')['organization_id'].count()).reset_index()
 
     # Création d'une table avec le nombre d'orga avec au moins un utilisateur
     table = pd.pivot_table(df_orga_2,index=['createdAt'],aggfunc={'COUNT':np.sum}).reset_index()
