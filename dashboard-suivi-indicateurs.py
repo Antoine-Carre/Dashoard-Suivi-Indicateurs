@@ -4515,5 +4515,13 @@ if categorie_2 == 'Admin/Finance':
 
     #st.markdown("### **Nombre de financeurs différents, montant et durée**")
 
+
+if categorie_2 == 'Pérennisation':
+   
+    categorie = st.selectbox("Choisissez votre territoire :", ("- Alpes-Maritimes (06)", "- Gironde (33)", "- Loire-Atlantique (44)", "- Bas-Rhin (67)"))
+
+
+  
+
     
 
