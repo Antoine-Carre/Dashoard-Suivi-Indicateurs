@@ -3000,15 +3000,8 @@ if categorie_2 == 'Ile-de-France':
 
     st.plotly_chart(figSearch, use_container_width=True)
 
-    st.markdown('#### *-par type d\'utilisateur : *')
+st.markdown('#### *-par type d\'utilisateur : *')
 
-    df_search_users['createdAt'] = pd.to_datetime(df_search_users['createdAt'])
-    df_search_users = df_search_users[df_search_users.createdAt > "2022-01-01"]
-    df_search_users['createdAt'] = df_search_users.createdAt.dt.strftime('%Y-%m')
-    df_search_users.fillna('inconnu', inplace=True)
-
-    df_search_users = df_search_users.join(pd.get_dummies(df_search_users['status']))
-    df_search_users.drop(columns=['categorie','status'], inplace=True)
     df_search_users_month = df_search_users.groupby('createdAt').sum()
     df_search_users_month.reset_index(inplace=True)
 
@@ -3088,6 +3081,8 @@ if categorie_2 == 'Ile-de-France':
     figSearch_user.update_layout(hovermode="x", title_font_family="Times New Roman", annotations=[annotationsSearch_user])
 
     st.plotly_chart(figSearch_user, use_container_width=True)
+
+
 
     # ## Nombre d'organismes "relais de diffusion"
 
