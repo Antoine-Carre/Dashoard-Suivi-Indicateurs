@@ -4713,6 +4713,8 @@ if categorie_2 == 'Pérennisation':
     df_search_users_month.reset_index(inplace=True)
     df_diff = df_diff[(df_diff.Territoire.str.contains(cat_dict[categorie], na=False))]
     df_fiches_total = df_fiches_total[(df_fiches_total.territory == int(cat_dict[categorie]))]
+    df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == int(cat_dict[categorie]))]
+
 
 
     if len(df_search_users_month.columns.to_list()) > 6 or categorie == "France":
@@ -5020,44 +5022,39 @@ if categorie_2 == 'Pérennisation':
             col2.markdown(html_string_d, unsafe_allow_html=True)
 
 
-    # Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat
-    st.markdown("### **Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat**")
+      # Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat
+      st.markdown("### **Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat**")
 
-    html_string_z = f"""<br>
-    <center><font face='Helvetica' size='7'>{df_listing_count_vf.Etat.count()}</font>
-    <br/><font size='3'>acteurs partenaires réalisant d'autres guides<br></font></center>
-    """
-  
-    st.markdown(html_string_z, unsafe_allow_html=True)
+      html_string_z = f"""<br>
+      <center><font face='Helvetica' size='7'>{df_listing_count_vf.Etat.count()}</font>
+      <br/><font size='3'>acteurs partenaires réalisant d'autres guides<br></font></center>
+      """
 
-# Nb d'hébergeurs disponibles
+      st.markdown(html_string_z, unsafe_allow_html=True)
 
-    st.markdown("### **MPLI : Nombre d'hébergeurs disponibles**")
-    df_hebergeurs_dispo_final.index = df_hebergeurs_dispo_final.index.astype(str)
-    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.loc[:"2022-01"]
-    figHebDispo = go.Figure(data=[
-        go.Line(name='Nombre d\'hébrgement diponibles', x=df_hebergeurs_dispo_final.index.astype(str), y=df_hebergeurs_dispo_final.Total, marker_color='#7201a8',
-                text=df_hebergeurs_dispo_final.Total,
-                textposition='top center',
-                mode='lines+markers+text')   
-    ])
 
-    figHebDispo.update_xaxes(title_text="Mois où l'hébergement est disponible", title_font_family="Times New Roman")
-    figHebDispo.update_yaxes(title_text="Nombre d'hébergements disponibles", title_font_family="Times New Roman")
+      st.markdown("### **Nombre de fiches et de services en ligne et en brouillon**")
+      st.markdown('**Attention :** Le nombre de fiches indiquées ne prends pas en compte les fiches "Toilettes", "fontaines", "wifi", ni les structures "hors ligne", ou les fiches fermée définitivement.  De plus, "En ligne" inclus les fiches "réservées aux professionnels')
 
-    annotationsHebDispo = dict(xref='paper', yref='paper', x=0.055, y=1,
-                                xanchor='center', yanchor='top',
-                                text='Fait le: ' + str("1 janvier 2022"),
-                                font=dict(family='Arial',
-                                        size=12,
-                                        color='rgb(150,150,150)'),
-                                showarrow=False)
+      #df_fiche_serv_on_off = df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0]
 
-                           
-    figHebDispo.update_layout(xaxis=dict(tickformat="%B %Y"))
-    figHebDispo.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotationsHebDispo])
+      col1, col2 = st.columns(2)
 
-    st.plotly_chart(figHebDispo, use_container_width=True)
+      html_string_l = f"""<br>
+      <center><font face='Helvetica' size='7'>{df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0].statut.count()}</font>
+      <br/><font size='3'>Nombre de fiches en ligne<br></font></center>
+      """
+
+      col1.markdown(html_string_l, unsafe_allow_html=True)
+
+      html_string_m = f"""<br>
+      <center><font face='Helvetica' size='7'>{df_fiche_serv_on_off[df_fiche_serv_on_off.statut == 0].statut.count()}</font>
+      <br/><font size='3'>Nombre de fiches en brouillon<br></font></center>
+      """
+
+      col2.markdown(html_string_m, unsafe_allow_html=True)
+
+
 
 
 
