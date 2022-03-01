@@ -4711,6 +4711,9 @@ if categorie_2 == 'Pérennisation':
     df_search_users.drop(columns=['categorie','status'], inplace=True)
     df_search_users_month = df_search_users.groupby('createdAt').sum()
     df_search_users_month.reset_index(inplace=True)
+    df_diff = df_diff[(df_diff.Territoire.str.contains(cat_dict[categorie], na=False))]
+    df_fiches_total = df_fiches_total[(df_fiches_total.territory == int(cat_dict[categorie]))]
+
 
     if len(df_search_users_month.columns.to_list()) > 6 or categorie == "France":
 
@@ -4814,6 +4817,248 @@ if categorie_2 == 'Pérennisation':
 
 
     st.plotly_chart(fig4, use_container_width=True)
+    
+ 
+    st.markdown("### **Nombre de professionnels et bénévoles de l’action sociale touchés par une action de diffusion**")
+
+    if len(df_diff['Date']) < 1:
+        st.markdown('Aucune action de diffusion n\'a été enregistrée su rce territoire')
+    else:
+        df_diff_pro_benef = df_diff[['Date','Territoire','Nb de pros','Nb de bénéficiaires']]
+        df_diff_pro_benef['Date'] = pd.to_datetime(df_diff_pro_benef.Date)
+
+        df_diff_pro_benef = df_diff_pro_benef[df_diff_pro_benef['Date'] > "2017-01-01"]
+        df_diff_pro_benef = df_diff_pro_benef[df_diff_pro_benef['Date'] < "2022-02-01"]
+
+        df_diff_pro_benef['Date'] = df_diff_pro_benef.Date.dt.strftime('%Y-%m')
+
+        df_diff_pro = pd.DataFrame(df_diff_pro_benef.groupby('Date')['Nb de pros'].sum())
+        df_diff_pro.reset_index(inplace=True)
+
+        df_diff_pro_cum = df_diff_pro.copy()
+        df_diff_pro_cum['Nb de pros'] = df_diff_pro_cum['Nb de pros'].cumsum()
+
+        figProDifCum = go.Figure(data=[
+        go.Bar(name="Pro", x=df_diff_pro_cum['Date'], y=df_diff_pro_cum["Nb de pros"], marker_color='#7201a8'),
+        ])
+
+        figProDifCum.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de comptes professionnels",)
+        figProDifCum.update_traces(hovertemplate = "Date de la mise à jour : le %{x}<br>Nbre de comptes professionnels: %{value}")
+
+        dt_all = pd.date_range(start=df_diff_pro_cum['Date'].iloc[0],end=df_diff_pro_cum['Date'].iloc[-1])
+        dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_pro_cum['Date'])]
+        dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+        figProDifCum.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+
+        st.plotly_chart(figProDifCum, use_container_width=True)
+
+
+        expander = st.expander("Nombre de professionnels touchés (par mois)")
+
+        figProDif = go.Figure(data=[
+        go.Bar(name="Pro", x=df_diff_pro['Date'], y=df_diff_pro["Nb de pros"], marker_color='#7201a8'),
+        ])
+
+        figProDif.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de comptes professionnels",)
+        figProDif.update_traces(hovertemplate = "Date de la mise à jour : le %{x}<br>Nbre de comptes professionnels: %{value}")
+
+        dt_all = pd.date_range(start=df_diff_pro['Date'].iloc[0],end=df_diff_pro['Date'].iloc[-1])
+        dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_pro['Date'])]
+        dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+        figProDif.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+
+        expander.plotly_chart(figProDif, use_container_width=True)
+
+
+        ### Nombre de bénéficiaires
+
+        st.markdown("### **Nombre de bénéficiaires de l’action sociale touchés par une action de diffusion**")
+
+        df_diff_bénéf = pd.DataFrame(df_diff_pro_benef.groupby('Date')['Nb de bénéficiaires'].sum())
+        df_diff_bénéf.reset_index(inplace=True)
+        df_diff_bénéf = df_diff_bénéf[df_diff_bénéf['Date'] < "2022-02-01"]
+
+
+        df_diff_bénéf_cum = df_diff_bénéf.copy()
+        df_diff_bénéf_cum['Nb de bénéficiaires'] = df_diff_bénéf_cum['Nb de bénéficiaires'].cumsum()
+
+        figDiffBenefCum = go.Figure(data=[
+            go.Bar(name="Nb de bénéficiaires", x=df_diff_bénéf_cum['Date'], y=df_diff_bénéf_cum["Nb de bénéficiaires"], marker_color='#d8576b'),
+        ])
+
+        figDiffBenefCum.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de bénéficiaires",)
+        figDiffBenefCum.update_traces(hovertemplate = "Date de la mise à jour : le %{x}<br>Nbre de bénéficiaires: %{value}")
+
+        dt_all = pd.date_range(start=df_diff_bénéf_cum['Date'].iloc[0],end=df_diff_bénéf_cum['Date'].iloc[-1])
+        dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_bénéf_cum['Date'])]
+        dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+        figDiffBenefCum.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+
+        st.plotly_chart(figDiffBenefCum, use_container_width=True)
+
+
+        expander = st.expander("Nombre de bénéficiaires touchés (par mois)")
+
+        figDiffBenef = go.Figure(data=[
+            go.Bar(name="Pro", x=df_diff_bénéf['Date'], y=df_diff_bénéf["Nb de bénéficiaires"], marker_color='#d8576b'),
+        ])
+
+        figDiffBenef.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de bénéficiaires",)
+        figDiffBenef.update_traces(hovertemplate = "Date de la mise à jour : le %{x}<br>Nbre de bénéficiaires: %{value}")
+
+        dt_all = pd.date_range(start=df_diff_bénéf_cum['Date'].iloc[0],end=df_diff_bénéf_cum['Date'].iloc[-1])
+        dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_bénéf_cum['Date'])]
+        dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+        figDiffBenef.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+
+
+        expander.plotly_chart(figDiffBenef, use_container_width=True)
+
+
+
+        st.markdown("### **Nombre d'actions de diffusion**")
+
+        df_diff_action = df_diff[['Diffusion_name','Territoire','Type','Date']]
+        df_diff_action['Date'] = pd.to_datetime(df_diff_action['Date'])
+        df_diff_action['Date'] = df_diff_action.Date.dt.strftime('%Y-%m')
+        df_diff_action = df_diff_action[df_diff_action['Date'] > "2017-01-01"]
+        df_diff_action = df_diff_action[df_diff_action['Date'] < "2022-02-01"]
+
+
+        df_diff_action = df_diff_action.groupby(by=[pd.Grouper(key="Date"), "Type"])["Diffusion_name"]
+        df_diff_action = df_diff_action.count().reset_index()
+
+        df_diff_action_cum=df_diff_action.sort_values(['Date']).reset_index(drop=True)
+        df_diff_action_cum["cum_sale"]=df_diff_action_cum.groupby(['Type'])['Diffusion_name'].cumsum(axis=0)
+        
+        figAction = px.bar(df_diff_action, x="Date", y="Diffusion_name", color="Type", color_discrete_sequence= px.colors.qualitative.Dark24)
+
+        figAction.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre d'actions réalisées",)
+        figAction.update_traces(hovertemplate = "Mois de la réalisation de l'action : en %{x}<br>Nbre d'actions réalisées: %{value}")
+
+        dt_all = pd.date_range(start=df_diff_action['Date'].iloc[0],end=df_diff_action['Date'].iloc[-1])
+        dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_action['Date'])]
+        dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+        figAction.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+
+        st.plotly_chart(figAction, use_container_width=True)
+
+
+        expander = st.expander("Nombre d'actions de diffusion (en cumulé)")
+
+        figActionCum = px.bar(df_diff_action_cum, x="Date", y="cum_sale", color="Type", color_discrete_sequence= px.colors.qualitative.Dark24)
+
+
+        figActionCum.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre d'actions réalisées",)
+        figActionCum.update_traces(hovertemplate = "Mois de la réalisation de l'action : en %{x}<br>Nbre d'actions réalisées: %{value}")
+
+        dt_all = pd.date_range(start=df_diff_action_cum['Date'].iloc[0],end=df_diff_action_cum['Date'].iloc[-1])
+        dt_obs = [d.strftime("%Y-%m") for d in pd.to_datetime(df_diff_action_cum['Date'])]
+        dt_breaks = [d for d in dt_all.strftime("%Y-%m").tolist() if not d in dt_obs]
+
+        figActionCum.update_xaxes(rangebreaks=[dict(values=dt_breaks)])
+
+        expander.plotly_chart(figActionCum, use_container_width=True)
+
+    st.markdown("### **Nombre fiches sensibilisées au moins une fois**")
+
+    if categorie != "- Indre (36)" and categorie != "Centre-Val-de-Loire":
+        df_diff_fiches = df_diff[['Fiches']]
+        df_diff_fiches = df_diff_fiches["Fiches"].str.split("," , expand=True)
+
+        n = 0
+        L = []
+        for n in range(len(df_diff_fiches.columns)-1):
+            L.extend(df_diff_fiches[n].tolist())
+        L = [x for x in L if x is not None]
+            
+        df_sensi_nb = pd.DataFrame(L)
+        df_sensi_nb.dropna(inplace=True)
+        df_sensi_nb.reset_index(inplace=True)
+        if 0 in df_sensi_nb.columns.to_list():  
+            df_sensi_nb[0].drop_duplicates(inplace=True)
+        else:
+            df_sensi_nb = df_diff_fiches
+
+
+        col1, col2 = st.columns(2)
+
+        if 0 in df_sensi_nb.columns.to_list():
+
+            html_string_c = f"""<br>
+            <center><font face='Helvetica' size='7'>{df_sensi_nb[0].count()}</font>
+            <br/><font size='3'>Nombre de fiches sensibilisées au moins une fois<br></font></center>
+            """
+
+            col1.markdown(html_string_c, unsafe_allow_html=True)
+
+        else:
+
+            html_string_c = f"""<br>
+            <center><font face='Helvetica' size='7'>{round((df_sensi_nb[0].count() / df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0].statut.count())*100, 2)}%</font>
+            <br/><font size='3'>Nombre de fiches sensibilisées au moins une fois<br></font></center>
+            """
+
+            col1.markdown(html_string_c, unsafe_allow_html=True)
+
+        if not df_fiches_total.empty and 0 in df_sensi_nb.columns.to_list():
+
+            html_string_d = f"""<br>
+            """
+
+
+            html_string_d = f"""<br>
+            <center><font face='Helvetica' size='7'>{round((df_sensi_nb[0].count() / df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0].statut.count())*100, 2)}%</font>
+            <br/><font size='3'>Pourcentage de fiches sensibilisées au moins une fois<br></font></center>
+            """
+    
+            col2.markdown(html_string_d, unsafe_allow_html=True)
+
+
+    # Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat
+    st.markdown("### **Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat**")
+
+    html_string_z = f"""<br>
+    <center><font face='Helvetica' size='7'>{df_listing_count_vf.Etat.count()}</font>
+    <br/><font size='3'>acteurs partenaires réalisant d'autres guides<br></font></center>
+    """
+  
+    st.markdown(html_string_z, unsafe_allow_html=True)
+
+# Nb d'hébergeurs disponibles
+
+    st.markdown("### **MPLI : Nombre d'hébergeurs disponibles**")
+    df_hebergeurs_dispo_final.index = df_hebergeurs_dispo_final.index.astype(str)
+    df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.loc[:"2022-01"]
+    figHebDispo = go.Figure(data=[
+        go.Line(name='Nombre d\'hébrgement diponibles', x=df_hebergeurs_dispo_final.index.astype(str), y=df_hebergeurs_dispo_final.Total, marker_color='#7201a8',
+                text=df_hebergeurs_dispo_final.Total,
+                textposition='top center',
+                mode='lines+markers+text')   
+    ])
+
+    figHebDispo.update_xaxes(title_text="Mois où l'hébergement est disponible", title_font_family="Times New Roman")
+    figHebDispo.update_yaxes(title_text="Nombre d'hébergements disponibles", title_font_family="Times New Roman")
+
+    annotationsHebDispo = dict(xref='paper', yref='paper', x=0.055, y=1,
+                                xanchor='center', yanchor='top',
+                                text='Fait le: ' + str("1 janvier 2022"),
+                                font=dict(family='Arial',
+                                        size=12,
+                                        color='rgb(150,150,150)'),
+                                showarrow=False)
+
+                           
+    figHebDispo.update_layout(xaxis=dict(tickformat="%B %Y"))
+    figHebDispo.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotationsHebDispo])
+
+    st.plotly_chart(figHebDispo, use_container_width=True)
+
 
 
 
