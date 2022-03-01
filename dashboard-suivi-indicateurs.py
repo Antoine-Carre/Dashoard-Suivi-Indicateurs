@@ -179,6 +179,8 @@ df_fiches_liees_pérennisation = pd.read_csv('./ressource/fiches_liees_pérennis
 
 df_history_all = pd.read_csv('./ressource/df_history_all.csv')
 
+df_fiches_pro_creation_vf = pd.read_csv('./ressource/df_fiches_pro_creation_vf.csv')
+
 
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
             "- Bouches-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
@@ -299,6 +301,8 @@ if categorie_2 == 'Tous':
         df_categorie_vf = df_categorie_vf
         
         df_crisp = df_crisp
+        
+        df_fiches_pro_creation_vf = df_fiches_pro_creation_vf
         
 
     elif categorie == "France Relance":
@@ -438,8 +442,10 @@ if categorie_2 == 'Tous':
                                                         | (df_crisp['Département de la demande'] == "34") | (df_crisp['Département de la demande'] == "76")
                                                         |(df_crisp['Département de la demande'] == "59") | (df_crisp['Département de la demande'] == "21")]
 
-        
- 
+        df_fiches_pro_creation_vf = df_fiches_pro_creation_vf[(df_fiches_pro_creation_vf['territoire'] == "07") | (df_fiches_pro_creation_vf['territoire'] == "13")
+                                                        | (df_fiches_pro_creation_vf['territoire'] == "15") | (df_fiches_pro_creation_vf['territoire'] == "63")
+                                                        | (df_fiches_pro_creation_vf['territoire'] == "34") | (df_fiches_pro_creation_vf['territoire'] == "76")
+                                                        |(df_fiches_pro_creation_vf['territoire'] == "59") | (df_fiches_pro_creation_vf['territoire'] == "21")]
         
     elif categorie == "Région SUD":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "06") | (df_users_pro_roles.territories == "13")].dropna()
@@ -520,6 +526,8 @@ if categorie_2 == 'Tous':
         
         df_crisp = df_crisp[(df_crisp['Département de la demande'] == "06") | (df_crisp['Département de la demande'] == "13")]
         
+        df_fiches_pro_creation_vf = df_fiches_pro_creation_vf[(df_fiches_pro_creation_vf['territoire'] == "06") | (df_fiches_pro_creation_vf['territoire'] == "13")]       
+        
         
     elif categorie == "Auvergne-Rhône-Alpes":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "07") | (df_users_pro_roles.territories == "15") | (df_users_pro_roles.territories == "63")].dropna()
@@ -598,9 +606,10 @@ if categorie_2 == 'Tous':
 
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "07") | (df_categorie_vf.territory == "15") | (df_categorie_vf.territory == "63")]
         
-        
         df_crisp = df_crisp[(df_crisp['Département de la demande'] == "07") | (df_crisp['Département de la demande'] == "15") | (df_conversation_crisp.Territoire == "63")]
         
+        df_fiches_pro_creation_vf = df_fiches_pro_creation_vf[(df_fiches_pro_creation_vf['territoire'] == "07") | (df_fiches_pro_creation_vf['territoire'] == "15") | (df_fiches_pro_creation_vf['territoire'] == "63")]       
+
     elif categorie == "Occitanie":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "34")].dropna()
         df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 34)].dropna()
@@ -673,6 +682,8 @@ if categorie_2 == 'Tous':
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "34")]
         
         df_crisp = df_crisp[(df_crisp['Département de la demande'] == "34") ]
+        
+        df_fiches_pro_creation_vf = df_fiches_pro_creation_vf[(df_fiches_pro_creation_vf['territoire'] == "34")]       
 
         
     elif categorie == "Nouvelle-Aquitaine":
@@ -760,6 +771,10 @@ if categorie_2 == 'Tous':
         df_crisp = df_crisp[(df_crisp['Département de la demande'] == "33") | (df_crisp['Département de la demande'] == "87") | (df_crisp['Département de la demande'] == "16")
                                           | (df_crisp['Département de la demande'] == "24")]
         
+        df_fiches_pro_creation_vf = df_fiches_pro_creation_vf[(df_fiches_pro_creation_vf['territoire'] == "33") | (df_fiches_pro_creation_vf['territoire'] == "87") 
+                                                              | (df_fiches_pro_creation_vf['territoire'] == "16") | (df_fiches_pro_creation_vf['territoire'] == "24")]       
+
+        
     elif categorie == "Centre-Val-de-Loire":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "36")].dropna()
 
@@ -826,8 +841,10 @@ if categorie_2 == 'Tous':
 
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "36")]
         
-        
         df_crisp = df_crisp[(df_crisp['Département de la demande'] == "36")]
+        
+           
+        df_fiches_pro_creation_vf = df_fiches_pro_creation_vf[(df_fiches_pro_creation_vf['territoire'] == "36")]       
 
     elif categorie == "Pays-de-la-Loire":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "44")].dropna()
@@ -895,9 +912,12 @@ if categorie_2 == 'Tous':
 
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "44")]
         
-        
         df_crisp = df_crisp[(df_crisp['Département de la demande'] == "44")]
+        
+           
+        df_fiches_pro_creation_vf = df_fiches_pro_creation_vf[(df_fiches_pro_creation_vf['territoire'] == "44")]       
 
+        
     elif categorie == "Normandie":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "76")].dropna()
 
@@ -964,9 +984,12 @@ if categorie_2 == 'Tous':
 
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "76")]
         
-        
         df_conversation_crisp_vf = df_conversation_crisp[(df_conversation_crisp.Territoire == "76")]
-
+        
+           
+        df_fiches_pro_creation_vf = df_fiches_pro_creation_vf[(df_fiches_pro_creation_vf['territoire'] == "76")]       
+        
+        
     elif categorie == "Ile-de-France" or categorie == "Ile-de-France":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "75") | (df_users_pro_roles.territories == "77") | (df_users_pro_roles.territories == "78")
         | (df_users_pro_roles.territories == "91")| (df_users_pro_roles.territories == "92")| (df_users_pro_roles.territories == "93")| (df_users_pro_roles.territories == "94")
@@ -1085,6 +1108,14 @@ if categorie_2 == 'Tous':
         df_crisp = df_crisp[(df_crisp['Département de la demande'] == "75") | (df_crisp['Département de la demande'] == "77") | (df_crisp['Département de la demande'] == "78")
                                           | (df_crisp['Département de la demande'] == "91") | (df_crisp['Département de la demande'] == "92") | (df_crisp['Département de la demande'] == "93")
                                           | (df_crisp['Département de la demande'] == "94") | (df_crisp['Département de la demande'] == "95")]
+        
+           
+        df_fiches_pro_creation_vf = df_fiches_pro_creation_vf[(df_fiches_pro_creation_vf['territoire'] == "75") | (df_fiches_pro_creation_vf['territoire'] == "77") 
+                                                              | (df_fiches_pro_creation_vf['territoire'] == "78") | (df_fiches_pro_creation_vf['territoire'] == "91")
+                                                              | (df_fiches_pro_creation_vf['territoire'] == "92")  | (df_fiches_pro_creation_vf['territoire'] == "93")
+                                                              | (df_fiches_pro_creation_vf['territoire'] == "94")  | (df_fiches_pro_creation_vf['territoire'] == "95")]       
+
+
 
     elif categorie == "Hauts-de-France":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "59")].dropna()
@@ -1152,7 +1183,10 @@ if categorie_2 == 'Tous':
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "59")]
         
         df_crisp = df_crisp[(df_crisp['Département de la demande'] == "59")]
-
+           
+        df_fiches_pro_creation_vf = df_fiches_pro_creation_vf[(df_fiches_pro_creation_vf['territoire'] == "59")]       
+        
+        
     elif categorie == "Grand-Est":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "67")].dropna()
 
@@ -1221,6 +1255,9 @@ if categorie_2 == 'Tous':
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "67")]
         
         df_crisp = df_crisp[(df_crisp['Département de la demande'] == "67")]
+           
+        df_fiches_pro_creation_vf = df_fiches_pro_creation_vf[(df_fiches_pro_creation_vf['territoire'] == "67")]       
+
 
     elif categorie == "Bourgogne-Franche-Comté":
         df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "21")].dropna()
@@ -1289,6 +1326,9 @@ if categorie_2 == 'Tous':
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "21")]
         
         df_crisp = df_crisp[(df_crisp['Département de la demande'] == "21")]
+        
+        df_fiches_pro_creation_vf = df_fiches_pro_creation_vf[(df_fiches_pro_creation_vf['territoire'] == "21")]       
+
 
     elif categorie.startswith("-"):
         df_users_pro_roles = df_users_pro_roles[df_users_pro_roles.territories == cat_dict[categorie]].dropna()
@@ -1352,6 +1392,9 @@ if categorie_2 == 'Tous':
         df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == cat_dict[categorie])]
         
         df_crisp = df_crisp[(df_crisp['Département de la demande'] == cat_dict[categorie])]
+        
+        df_fiches_pro_creation_vf = df_fiches_pro_creation_vf[(df_fiches_pro_creation_vf['territoire'] == cat_dict[categorie])]     
+
 
 ###
 
@@ -2346,6 +2389,26 @@ if categorie_2 == 'Tous':
     fig = px.bar(df_conversation_type_crisp_vf, y= "Type de demande", x="Nombre de conversations")
     
     st.plotly_chart(fig, use_container_width=True)
+    
+    st.markdown("### **Nombre de fiches créées par les acteurs**")
+
+    if df_fiches_pro_creation_vf not empty:
+      html_string_100 = f"""<br>
+      <center><font face='Helvetica' size='7'>{df_fiches_pro_creation_vf.lieu_id.sum()}</font>
+      <br/><font size='3'>fiches créées par les acteurs"<br></font></center>
+      """
+      st.markdown(html_string_100, unsafe_allow_html=True)
+    
+    else:
+      html_string_101 = f"""<br>
+      <center><font face='Helvetica' size='7'>{0}</font>
+      <br/><font size='3'>fiche.s créées par les acteurs"<br></font></center>
+      """
+      st.markdown(html_string_101, unsafe_allow_html=True)
+    
+      
+
+     
 
     
     
