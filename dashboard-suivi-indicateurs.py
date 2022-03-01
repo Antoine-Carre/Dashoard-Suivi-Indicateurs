@@ -4803,7 +4803,7 @@ if categorie_2 == 'Pérennisation':
         
     df_hebergees = df_hebergees[(df_hebergees.Département== cat2_dict[categorie])]
     
-    df_history_all = df_history_all[df_history_all.territoire == int(cat_dict[categorie])]
+    df_history_all = df_history_all[df_history_all.territoire == (cat_dict[categorie])]
     
     
     if len(df_search_users_month.columns.to_list()) > 6 or categorie == "France":
