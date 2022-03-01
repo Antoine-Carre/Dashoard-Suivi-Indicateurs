@@ -4614,7 +4614,7 @@ if categorie_2 == 'Pérennisation':
       df1 = s1.iloc[:, 1:]
       df_search_users = df_search_users[(df_search_users.Territoire == int(cat_dict[categorie]))]
       df4 = df4[(df4['territoire'].str.contains(cat_dict[categorie]))]
-      df_history_all = df_history_all[df_history_all.territory == int(cat_dict[categorie])]
+      df_history_all = df_history_all[df_history_all.territoire == int(cat_dict[categorie])]
       
 
     st.markdown("### **Nombre d'organisations créées par mois** (et celles ayant au moins un compte pro validé)")
