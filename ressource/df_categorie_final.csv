@@ -1,76 +1,76 @@
 ,createdAt,categorie,Nombre_de_fiches,nbre_fiches_cum,Col_C
 179,2018-04,Stomatologie,1,6,6
-1214,2020-04,Allergologie,8,23,23
-1301,2020-05,Kinésithérapie,1,32,32
-1304,2020-05,Mammographie,1,8,8
-1346,2020-06,Echographie,2,22,22
-1370,2020-06,Phlébologie,2,26,26
-1374,2020-06,Radiologie,5,41,41
-1382,2020-06,Vétérinaire,1,5,5
-1627,2021-01,Pédicure,1,37,37
-1700,2021-03,Endocrinologie,1,20,20
-1747,2021-04,Gastro-entérologie,1,32,32
-1773,2021-04,Urologie,1,10,10
-1785,2021-05,Cardiologie,1,52,52
-1791,2021-05,Dermatologie,1,62,62
-1816,2021-05,Rhumatologie,1,54,54
-1827,2021-06,Accupuncture,1,4,4
-1856,2021-06,Nutrition,1,46,46
-1903,2021-07,Orthophonie,1,36,36
-1904,2021-07,Oto-rhino-laryngologie,1,47,47
-1953,2021-08,Pneumologie,1,18,18
-2085,2021-11,Numérisation de documents,1,75,75
-2146,2022-01,Animaux,1,14,14
-2148,2022-01,Bagagerie,1,62,62
-2163,2022-01,Espaces de repos,2,24,24
-2168,2022-01,Halte de nuit,1,9,9
-2171,2022-01,Infirmerie,6,294,294
-2175,2022-01,Masques,2,12,12
-2176,2022-01,Ophtalmologie,1,55,55
+1212,2020-04,Allergologie,8,22,22
+1299,2020-05,Kinésithérapie,1,31,31
+1302,2020-05,Mammographie,1,7,7
+1368,2020-06,Phlébologie,2,25,25
+1380,2020-06,Vétérinaire,1,5,5
+1625,2021-01,Pédicure,1,35,35
+1698,2021-03,Endocrinologie,1,19,19
+1745,2021-04,Gastro-entérologie,1,31,31
+1771,2021-04,Urologie,1,10,10
+1783,2021-05,Cardiologie,1,51,51
+1789,2021-05,Dermatologie,1,61,61
+1814,2021-05,Rhumatologie,1,52,52
+1825,2021-06,Accupuncture,1,4,4
+1854,2021-06,Nutrition,1,45,45
+1901,2021-07,Orthophonie,1,34,34
+1902,2021-07,Oto-rhino-laryngologie,1,46,46
+1951,2021-08,Pneumologie,1,18,18
+2145,2022-01,Animaux,1,14,14
+2147,2022-01,Bagagerie,1,63,63
+2162,2022-01,Espaces de repos,2,24,24
+2174,2022-01,Masques,2,11,11
+2175,2022-01,Numérisation de documents,1,76,76
+2176,2022-01,Ophtalmologie,1,54,54
 2178,2022-01,Osthéopathie,1,18,18
-2187,2022-01,Suivi grossesse,9,477,477
-2189,2022-01,Téléphones,2,62,62
-2193,2022-02,Accompagnement social,37,2522,2522
-2194,2022-02,Accompagnement à l'emploi,27,1424,1424
+2193,2022-02,Accompagnement social,71,2567,2567
+2194,2022-02,Accompagnement à l'emploi,54,1459,1459
 2195,2022-02,Accueil de jour,2,397,397
-2196,2022-02,Activités,13,1475,1475
-2197,2022-02,Addiction,1,399,399
-2198,2022-02,Atelier numérique,10,585,585
-2199,2022-02,Bibliothèque,8,466,466
-2200,2022-02,Bien-être,1,183,183
-2201,2022-02,Colis Alimentaire,8,831,831
-2202,2022-02,Conseil administratif,53,2086,2086
-2203,2022-02,Conseil handicap,12,607,607
-2204,2022-02,Conseil logement,11,693,693
-2205,2022-02,Conseil parents,4,167,167
-2206,2022-02,Dentaire,1,114,114
-2207,2022-02,Distribution alimentaire,1,333,333
-2208,2022-02,Domiciliation,6,686,686
+2196,2022-02,Activités,26,1508,1508
+2197,2022-02,Addiction,1,398,398
+2198,2022-02,Atelier numérique,19,606,606
+2199,2022-02,Bibliothèque,23,495,495
+2200,2022-02,Bien-être,21,203,203
+2201,2022-02,Colis Alimentaire,33,857,857
+2202,2022-02,Conseil administratif,88,2128,2128
+2203,2022-02,Conseil handicap,13,608,608
+2204,2022-02,Conseil logement,14,696,696
+2205,2022-02,Conseil parents,5,168,168
+2206,2022-02,Dentaire,1,112,112
+2207,2022-02,Distribution alimentaire,1,334,334
+2208,2022-02,Domiciliation,7,689,689
 2209,2022-02,Douche,1,235,235
-2210,2022-02,Dépistage,1,239,239
-2211,2022-02,Ecrivain public,2,404,404
-2212,2022-02,Epicerie Sociale,5,242,242
-2213,2022-02,Fontaine,39,1025,1025
-2214,2022-02,Formation français,5,858,858
-2215,2022-02,Garde d'enfants,1,53,53
-2216,2022-02,Gynécologie,1,272,272
-2217,2022-02,Généraliste,1,354,354
-2218,2022-02,Hébergement d'urgence,6,149,149
-2219,2022-02,Hébergement à long terme,1,189,189
-2220,2022-02,Insertion par l'activité économique,2,240,240
-2221,2022-02,Laverie,2,188,188
-2222,2022-02,Magasin solidaire,2,329,329
-2223,2022-02,Musée,1,38,38
-2224,2022-02,Ordinateur,39,970,970
-2225,2022-02,Permanence juridique,43,1058,1058
-2226,2022-02,Prise,1,245,245
-2227,2022-02,Protections périodiques,2,55,55
-2228,2022-02,Psychologie,5,921,921
-2229,2022-02,Restauration assise,2,323,323
-2230,2022-02,Soins enfants,1,490,490
-2231,2022-02,Soutien scolaire,6,495,495
-2232,2022-02,Sport,2,258,258
-2233,2022-02,Toilettes,3,1116,1116
-2234,2022-02,Vaccination,1,156,156
-2235,2022-02,Vêtements,5,587,587
-2236,2022-02,Wifi,2,797,797
+2210,2022-02,Dépistage,1,240,240
+2211,2022-02,Echographie,2,23,23
+2212,2022-02,Ecrivain public,3,407,407
+2213,2022-02,Epicerie Sociale,5,244,244
+2214,2022-02,Fontaine,47,1033,1033
+2215,2022-02,Formation français,13,874,874
+2216,2022-02,Garde d'enfants,1,56,56
+2217,2022-02,Gynécologie,3,273,273
+2218,2022-02,Généraliste,4,354,354
+2219,2022-02,Halte de nuit,1,10,10
+2220,2022-02,Hébergement d'urgence,12,155,155
+2221,2022-02,Hébergement à long terme,1,191,191
+2222,2022-02,Infirmerie,1,293,293
+2223,2022-02,Insertion par l'activité économique,3,242,242
+2224,2022-02,Laverie,2,188,188
+2225,2022-02,Magasin solidaire,2,333,333
+2226,2022-02,Musée,1,38,38
+2227,2022-02,Ordinateur,85,1019,1019
+2228,2022-02,Permanence juridique,68,1091,1091
+2229,2022-02,Prise,8,252,252
+2230,2022-02,Protections périodiques,2,55,55
+2231,2022-02,Psychologie,6,920,920
+2232,2022-02,Radiologie,2,42,42
+2233,2022-02,Restauration assise,2,323,323
+2234,2022-02,Soins enfants,2,490,490
+2235,2022-02,Soutien scolaire,10,502,502
+2236,2022-02,Sport,3,260,260
+2237,2022-02,Suivi grossesse,1,478,478
+2238,2022-02,Toilettes,4,1117,1117
+2239,2022-02,Téléphones,1,63,63
+2240,2022-02,Vaccination,1,154,154
+2241,2022-02,Vêtements,18,601,601
+2242,2022-02,Wifi,15,813,813
