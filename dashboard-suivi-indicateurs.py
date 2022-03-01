@@ -5022,35 +5022,34 @@ if categorie_2 == 'Pérennisation':
             col2.markdown(html_string_d, unsafe_allow_html=True)
 
 
-      # Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat
-      st.markdown("### **Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat**")
+    # Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat
+    st.markdown("### **Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat**")
 
-      html_string_z = f"""<br>
-      <center><font face='Helvetica' size='7'>{df_listing_count_vf.Etat.count()}</font>
-      <br/><font size='3'>acteurs partenaires réalisant d'autres guides<br></font></center>
-      """
+    html_string_z = f"""<br>
+    <center><font face='Helvetica' size='7'>{df_listing_count_vf.Etat.count()}</font>
+    <br/><font size='3'>acteurs partenaires réalisant d'autres guides<br></font></center>
+    """
 
-      st.markdown(html_string_z, unsafe_allow_html=True)
+    st.markdown(html_string_z, unsafe_allow_html=True)
 
+    st.markdown("### **Nombre de fiches et de services en ligne et en brouillon**")
+    st.markdown('**Attention :** Le nombre de fiches indiquées ne prends pas en compte les fiches "Toilettes", "fontaines", "wifi", ni les structures "hors ligne", ou les fiches fermée définitivement.  De plus, "En ligne" inclus les fiches "réservées aux professionnels')
 
-      st.markdown("### **Nombre de fiches et de services en ligne et en brouillon**")
-      st.markdown('**Attention :** Le nombre de fiches indiquées ne prends pas en compte les fiches "Toilettes", "fontaines", "wifi", ni les structures "hors ligne", ou les fiches fermée définitivement.  De plus, "En ligne" inclus les fiches "réservées aux professionnels')
+    col1, col2 = st.columns(2)
 
-      col1, col2 = st.columns(2)
+    html_string_l = f"""<br>
+    <center><font face='Helvetica' size='7'>{df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0].statut.count()}</font>
+    <br/><font size='3'>Nombre de fiches en ligne<br></font></center>
+    """
 
-      html_string_l = f"""<br>
-      <center><font face='Helvetica' size='7'>{df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0].statut.count()}</font>
-      <br/><font size='3'>Nombre de fiches en ligne<br></font></center>
-      """
+    col1.markdown(html_string_l, unsafe_allow_html=True)
 
-      col1.markdown(html_string_l, unsafe_allow_html=True)
+    html_string_m = f"""<br>
+    <center><font face='Helvetica' size='7'>{df_fiche_serv_on_off[df_fiche_serv_on_off.statut == 0].statut.count()}</font>
+    <br/><font size='3'>Nombre de fiches en brouillon<br></font></center>
+    """
 
-      html_string_m = f"""<br>
-      <center><font face='Helvetica' size='7'>{df_fiche_serv_on_off[df_fiche_serv_on_off.statut == 0].statut.count()}</font>
-      <br/><font size='3'>Nombre de fiches en brouillon<br></font></center>
-      """
-
-      col2.markdown(html_string_m, unsafe_allow_html=True)
+    col2.markdown(html_string_m, unsafe_allow_html=True)
 
 
 
