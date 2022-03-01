@@ -5246,7 +5246,7 @@ if categorie_2 == 'Pérennisation':
     st.markdown("Le pourcentage indique ici, le taux de fiches mise à jour par les acteurs durant le mois indiqué")
     
     df_history_all.status = df_history_all.status.str.replace('SOLI_BOT','ADMIN_SOLIGUIDE')
-    df_history_all.status = df_history_all.status.str.replace('SIMPLE_USER','ADMIN_SOLIGUIDE')
+    df_history_all.status = df_history_all.status.str.replace('SIMPLE_USER','PRO')
     df_history_all = df_history_all.sort_values(by='status', ascending=False)
 
     test = df_history_all.drop_duplicates(['lieu_id', 'monthly'])
@@ -5277,23 +5277,3 @@ if categorie_2 == 'Pérennisation':
     #fig.update_traces(texttemplate=test_6['percentage_Acteurs'], textposition='outside')
 
     st.plotly_chart(fig, use_container_width=True)
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-  
-
-    
-
