@@ -4714,7 +4714,7 @@ if categorie_2 == 'Pérennisation':
     df_search_users_month.reset_index(inplace=True)
     st.write(df_search_users_month)
 
-    if len(df_search_users_month.columns.to_list()) == 9 or categorie == "France":
+    if len(df_search_users_month.columns.to_list()) > 6 or categorie == "France":
 
         figSearch_user = go.Figure(data=[
             go.Line(name='Equipe Soliguide', x=df_search_users_month.createdAt, y=df_search_users_month.ADMIN_SOLIGUIDE, marker_color='#7201a8'),
