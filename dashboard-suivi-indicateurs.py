@@ -4544,6 +4544,12 @@ if categorie_2 == 'Pérennisation':
       df_fiches_liees_pérennisation = df_fiches_liees_pérennisation.iloc[:,1:]
       df_users_pro_roles_test = df_users_pro_roles_test[df_users_pro_roles_test.territory == int(cat_dict[categorie])].dropna()
       df_history_data = df_history_data[df_history_data.territoire == int(cat_dict[categorie])].dropna()
+      s1 = s.filter(regex=cat_dict[categorie])
+      s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+      df1 = s1.iloc[:, 1:]
+      df_search_users = df_search_users[(df_search_users.Territoire == int(cat_dict[categorie]))]
+
+
 
 
     st.markdown("### **Nombre d'organisations créées par mois** (et celles ayant au moins un compte pro validé)")
@@ -4671,6 +4677,119 @@ if categorie_2 == 'Pérennisation':
         fig6.update_layout(legend={'title_text':''})
 
         st.plotly_chart(fig6, use_container_width=True)
+        
+        
+    st.markdown('### **Nombre de recherches**')
+    st.markdown('#### *-par catégorie : *')
+
+    figSearch = px.line(s1,x='datePresentation', y=s1.columns.values.tolist()[1:])
+    figSearch.update_xaxes(title_text="Date des recherches", title_standoff=0.6, title_font_family="Times New Roman")
+    figSearch.update_yaxes(title_text="Nombre de recherches (non cumulé)", title_font_family="Times New Roman")
+
+    annotationsSearch = dict(xref='paper', yref='paper', x=0.055, y=1,
+                                xanchor='center', yanchor='top',
+                                text='Fait le: ' + str("1 janvier 2022"),
+                                font=dict(family='Arial',
+                                        size=12,
+                                        color='rgb(150,150,150)'),
+                                showarrow=False)
+    figSearch.update_traces( mode='lines+markers', hovertemplate=None)
+                            
+    figSearch.update_layout(xaxis=dict(tickformat="%B %Y"))
+    figSearch.update_layout(hovermode="x", title_font_family="Times New Roman", annotations=[annotationsSearch])
+
+
+    st.plotly_chart(figSearch, use_container_width=True)
+
+    st.markdown('#### *-par type d\'utilisateur : *')
+
+    df_search_users['createdAt'] = pd.to_datetime(df_search_users['createdAt'])
+    df_search_users = df_search_users[df_search_users.createdAt < "2022-01-01"]
+    df_search_users['createdAt'] = df_search_users.createdAt.dt.strftime('%Y-%m')
+    df_search_users.fillna('inconnu', inplace=True)
+
+    df_search_users = df_search_users.join(pd.get_dummies(df_search_users['status']))
+    df_search_users.drop(columns=['categorie','status'], inplace=True)
+    df_search_users_month = df_search_users.groupby('createdAt').sum()
+    df_search_users_month.reset_index(inplace=True)
+
+    if len(df_search_users_month.columns.to_list()) == 9 or categorie == "France":
+
+        figSearch_user = go.Figure(data=[
+            go.Line(name='Equipe Soliguide', x=df_search_users_month.createdAt, y=df_search_users_month.ADMIN_SOLIGUIDE, marker_color='#7201a8'),
+            go.Line(name='Equipe Territoriale', x=df_search_users_month.createdAt, y=df_search_users_month.ADMIN_TERRITORY, marker_color='#bd3786'),
+            go.Line(name='Utilisateurs API', x=df_search_users_month.createdAt, y=df_search_users_month.API_USER, marker_color='#bd3786'),
+            go.Line(name='Acteurs', x=df_search_users_month.createdAt, y=df_search_users_month.PRO,),
+            go.Line(name='Inconnu', x=df_search_users_month.createdAt, y=df_search_users_month.inconnu,
+
+                mode='lines+markers')   
+        ])
+
+    if len(df_search_users_month.columns.to_list()) == 4:
+
+        figSearch_user = go.Figure(data=[
+            go.Line(name='Inconnu', x=df_search_users_month.createdAt, y=df_search_users_month.inconnu,
+
+                mode='lines+markers')   
+        ])
+    elif "PRO" not in df_search_users_month.columns.to_list() and "API_USER" not in df_search_users_month.columns.to_list():
+
+        figSearch_user = go.Figure(data=[
+            go.Line(name='Equipe Soliguide', x=df_search_users_month.createdAt, y=df_search_users_month.ADMIN_SOLIGUIDE, marker_color='#7201a8'),
+            go.Line(name='Inconnu', x=df_search_users_month.createdAt, y=df_search_users_month.inconnu,
+
+                mode='lines+markers')   
+        ])
+
+    elif "API_USER" not in df_search_users_month.columns.to_list() and "ADMIN_TERRITORY" in df_search_users_month.columns.to_list():
+
+        figSearch_user = go.Figure(data=[
+            go.Line(name='Equipe Soliguide', x=df_search_users_month.createdAt, y=df_search_users_month.ADMIN_SOLIGUIDE, marker_color='#7201a8'),
+            go.Line(name='Equipe Territoriale', x=df_search_users_month.createdAt, y=df_search_users_month.ADMIN_TERRITORY, marker_color='#bd3786'),
+            go.Line(name='Acteurs', x=df_search_users_month.createdAt, y=df_search_users_month.PRO,),
+            go.Line(name='Inconnu', x=df_search_users_month.createdAt, y=df_search_users_month.inconnu,
+
+                mode='lines+markers')   
+        ])
+
+    elif "ADMIN_TERRITORY" not in df_search_users_month.columns.to_list() and "API_USER" not in df_search_users_month.columns.to_list():
+
+        figSearch_user = go.Figure(data=[
+            go.Line(name='Equipe Soliguide', x=df_search_users_month.createdAt, y=df_search_users_month.ADMIN_SOLIGUIDE, marker_color='#7201a8'),
+            go.Line(name='Acteurs', x=df_search_users_month.createdAt, y=df_search_users_month.PRO,),
+            go.Line(name='Inconnu', x=df_search_users_month.createdAt, y=df_search_users_month.inconnu,
+
+                mode='lines+markers')   
+        ])
+
+    elif "ADMIN_TERRITORY" not in df_search_users_month.columns.to_list():
+
+        figSearch_user = go.Figure(data=[
+            go.Line(name='Equipe Soliguide', x=df_search_users_month.createdAt, y=df_search_users_month.ADMIN_SOLIGUIDE, marker_color='#7201a8'),
+            go.Line(name='Utilisateurs API', x=df_search_users_month.createdAt, y=df_search_users_month.API_USER, marker_color='#bd3786'),
+            go.Line(name='Acteurs', x=df_search_users_month.createdAt, y=df_search_users_month.PRO,),
+            go.Line(name='Inconnu', x=df_search_users_month.createdAt, y=df_search_users_month.inconnu,
+
+                mode='lines+markers')   
+        ])
+
+    figSearch_user.update_xaxes(title_text="Date des recherches", title_standoff=0.6, title_font_family="Times New Roman")
+    figSearch_user.update_yaxes(title_text="Nombre de recherches (non cumulé)", title_font_family="Times New Roman")
+
+    annotationsSearch_user = dict(xref='paper', yref='paper', x=0.055, y=1,
+                                xanchor='center', yanchor='top',
+                                text='Fait le: ' + str("1 janvier 2022"),
+                                font=dict(family='Arial',
+                                        size=12,
+                                        color='rgb(150,150,150)'),
+                                showarrow=False)
+    figSearch_user.update_traces( mode='lines+markers', hovertemplate=None)
+                            
+    figSearch_user.update_layout(xaxis=dict(tickformat="%B %Y"))
+    figSearch_user.update_layout(hovermode="x", title_font_family="Times New Roman", annotations=[annotationsSearch_user])
+
+    st.plotly_chart(figSearch_user, use_container_width=True)
+
 
 
 
