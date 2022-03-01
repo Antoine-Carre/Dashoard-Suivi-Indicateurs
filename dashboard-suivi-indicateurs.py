@@ -4548,9 +4548,8 @@ if categorie_2 == 'Pérennisation':
       s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
       df1 = s1.iloc[:, 1:]
       df_search_users = df_search_users[(df_search_users.Territoire == int(cat_dict[categorie]))]
-
-
-
+      df4 = df4[(df4['territoire'].str.contains(cat_dict[categorie]))]
+      
 
     st.markdown("### **Nombre d'organisations créées par mois** (et celles ayant au moins un compte pro validé)")
     
@@ -4789,6 +4788,34 @@ if categorie_2 == 'Pérennisation':
     figSearch_user.update_layout(hovermode="x", title_font_family="Times New Roman", annotations=[annotationsSearch_user])
 
     st.plotly_chart(figSearch_user, use_container_width=True)
+    
+      
+    st.markdown("### **Nombre d'utilisateurs* **")
+    st.markdown("\* ne sont comptabilisé ici que les utilisateurs qui ont accepter l'utilisation de cookies")
+
+    df4 = df4.iloc[:-1,:]
+
+    fig4 = px.line(df4, x='Unnamed: 0', y=['Utilisateurs']) 
+
+    fig4.update_xaxes(title_text="Intervalle de temps en mois", title_standoff=0.6, title_font_family="Times New Roman")
+    fig4.update_yaxes(title_text="Nombre d'utilisateurs/sessions/pages vues", title_font_family="Times New Roman")
+    annotations = dict(xref='paper', yref='paper', x=0.055, y=1,
+                                 xanchor='center', yanchor='top',
+                                 text='Fait le: ' + str("1 mars 2022"),
+                                 font=dict(family='Arial',
+                                           size=12,
+                                           color='rgb(150,150,150)'),
+                                 showarrow=False)
+    fig4.update_traces( mode='lines+markers', hovertemplate=None)
+    fig4.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotations])
+    fig4.update_layout(xaxis=dict(tickformat="%B-%Y"))
+    fig4.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotations],
+    legend={'title_text':''})
+
+
+    st.plotly_chart(fig4, use_container_width=True)
+
+
 
 
 
