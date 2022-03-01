@@ -3855,34 +3855,34 @@ if categorie_2 == 'Lancement':
 
     col2.markdown(html_string_m, unsafe_allow_html=True)
     
-    st.markdown('')
-    st.markdown('**Attention :** Les données étant issue de la table *history*, une dissemblance peu apparaitre pour certain territoire en lancement')
+    #st.markdown('')
+    #st.markdown('**Attention :** Les données étant issue de la table *history*, une dissemblance peu apparaitre pour certain territoire en lancement')
 
-    figOnlineVsBrouillon = go.Figure(data=[
-      go.Line(name='Fiches brouillon', x=df_brouillon_fiches_final.created_at, y=df_brouillon_fiches_final.brouillon, marker_color='#7201a8'),
-      go.Line(name='Fiches en ligne', x=df_brouillon_fiches_final.created_at, y=df_brouillon_fiches_final['en ligne'], marker_color='#bd3786',)])
+    #figOnlineVsBrouillon = go.Figure(data=[
+    #  go.Line(name='Fiches brouillon', x=df_brouillon_fiches_final.created_at, y=df_brouillon_fiches_final.brouillon, marker_color='#7201a8'),
+    #  go.Line(name='Fiches en ligne', x=df_brouillon_fiches_final.created_at, y=df_brouillon_fiches_final['en ligne'], marker_color='#bd3786',)])
     
-    figOnlineVsBrouillon = go.Figure(data=[
-      go.Line(name='Fiches brouillon', x=df_brouillon_fiches_final.created_at, y=df_brouillon_fiches_final.brouillon, marker_color='#7201a8'),
-      go.Line(name='Fiches en ligne', x=df_brouillon_fiches_final.created_at, y=df_brouillon_fiches_final['en ligne'], marker_color='#bd3786',)])
+    #figOnlineVsBrouillon = go.Figure(data=[
+    #  go.Line(name='Fiches brouillon', x=df_brouillon_fiches_final.created_at, y=df_brouillon_fiches_final.brouillon, marker_color='#7201a8'),
+    #  go.Line(name='Fiches en ligne', x=df_brouillon_fiches_final.created_at, y=df_brouillon_fiches_final['en ligne'], marker_color='#bd3786',)])
 
 
-    figOnlineVsBrouillon.update_xaxes(title_text="Mois de création (de la fiche) ou mois de mise en ligne de la fiche", title_standoff=0.6, title_font_family="Times New Roman")
-    figOnlineVsBrouillon.update_yaxes(title_text="Nombre de fiches", title_font_family="Times New Roman")
+    #figOnlineVsBrouillon.update_xaxes(title_text="Mois de création (de la fiche) ou mois de mise en ligne de la fiche", title_standoff=0.6, title_font_family="Times New Roman")
+    #figOnlineVsBrouillon.update_yaxes(title_text="Nombre de fiches", title_font_family="Times New Roman")
 
-    annotations = dict(xref='paper', yref='paper', x=0.055, y=1,
-                                 xanchor='center', yanchor='top',
-                                 text='Fait le: ' + str("1 mars 2022"),
-                                 font=dict(family='Arial',
-                                           size=12,
-                                           color='rgb(150,150,150)'),
-                                 showarrow=False)
+    #annotations = dict(xref='paper', yref='paper', x=0.055, y=1,
+    #                             xanchor='center', yanchor='top',
+    #                             text='Fait le: ' + str("1 mars 2022"),
+    #                             font=dict(family='Arial',
+    #                                       size=12,
+    #                                       color='rgb(150,150,150)'),
+    #                             showarrow=False)
 
-    figOnlineVsBrouillon.update_traces( mode='lines+markers', hovertemplate=None)
-    figOnlineVsBrouillon.update_layout(xaxis=dict(tickformat="%B %Y"))
-    figOnlineVsBrouillon.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotations])
+    #figOnlineVsBrouillon.update_traces( mode='lines+markers', hovertemplate=None)
+    #figOnlineVsBrouillon.update_layout(xaxis=dict(tickformat="%B %Y"))
+    #figOnlineVsBrouillon.update_layout(hovermode="x unified", title_font_family="Times New Roman", annotations=[annotations])
 
-    st.plotly_chart(figOnlineVsBrouillon, use_container_width=True)
+    #st.plotly_chart(figOnlineVsBrouillon, use_container_width=True)
 
     
     df_users_pro_roles_final = df_users_pro_roles_test.join(pd.get_dummies(df_users_pro_roles_test['role_x']))
