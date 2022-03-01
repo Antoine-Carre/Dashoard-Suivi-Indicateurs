@@ -3000,7 +3000,7 @@ if categorie_2 == 'Ile-de-France':
 
     st.plotly_chart(figSearch, use_container_width=True)
 
-st.markdown('#### *-par type d\'utilisateur : *')
+    st.markdown('#### *-par type d\'utilisateur : *')
 
     df_search_users_month = df_search_users.groupby('createdAt').sum()
     df_search_users_month.reset_index(inplace=True)
