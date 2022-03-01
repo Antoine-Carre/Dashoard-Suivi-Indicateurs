@@ -1643,6 +1643,7 @@ if categorie_2 == 'Tous':
 
     df_search_users_month = df_search_users.groupby('createdAt').sum()
     df_search_users_month.reset_index(inplace=True)
+    df_search_users_month = df_search_users_month.iloc[:-1,:]
 
     if len(df_search_users_month.columns.to_list()) == 9 or categorie == "France":
 
@@ -3004,6 +3005,7 @@ if categorie_2 == 'Ile-de-France':
 
     df_search_users_month = df_search_users.groupby('createdAt').sum()
     df_search_users_month.reset_index(inplace=True)
+    df_search_users_month = df_search_users_month.iloc[:-1,:]
 
     if len(df_search_users_month.columns.to_list()) == 9 or categorie == "France":
 
