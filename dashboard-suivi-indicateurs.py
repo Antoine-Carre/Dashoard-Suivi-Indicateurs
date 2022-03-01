@@ -1645,6 +1645,7 @@ if categorie_2 == 'Tous':
 
     df_search_users_month.reset_index(inplace=True)
     
+    df_search_users_month['createdAt'] = pd.to_datetime(df_search_users_month['createdAt'], errors='coerce')
     df_search_users_month['createdAt'] = df_search_users_month.createdAt.dt.strftime('%Y-%m')
     df_search_users = df_search_users.join(pd.get_dummies(df_search_users['status']))
     df_search_users.drop(columns=['categorie','status'], inplace=True)
