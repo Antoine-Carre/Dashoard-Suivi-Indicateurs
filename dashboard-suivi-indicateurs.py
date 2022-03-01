@@ -1626,7 +1626,7 @@ if categorie_2 == 'Tous':
 
     annotationsSearch = dict(xref='paper', yref='paper', x=0.055, y=1,
                                 xanchor='center', yanchor='top',
-                                text='Fait le: ' + str("1 fevrier 2022"),
+                                text='Fait le: ' + str("1 mars 2022"),
                                 font=dict(family='Arial',
                                         size=12,
                                         color='rgb(150,150,150)'),
@@ -1709,7 +1709,7 @@ if categorie_2 == 'Tous':
 
     annotationsSearch_user = dict(xref='paper', yref='paper', x=0.055, y=1,
                                 xanchor='center', yanchor='top',
-                                text='Fait le: ' + str("1 fevrier 2022"),
+                                text='Fait le: ' + str("1 mars 2022"),
                                 font=dict(family='Arial',
                                         size=12,
                                         color='rgb(150,150,150)'),
@@ -1762,7 +1762,7 @@ if categorie_2 == 'Tous':
     fig4.update_yaxes(title_text="Nombre d'utilisateurs/sessions/pages vues", title_font_family="Times New Roman")
     annotations = dict(xref='paper', yref='paper', x=0.055, y=1,
                                  xanchor='center', yanchor='top',
-                                 text='Fait le: ' + str("1 fevrier 2022"),
+                                 text='Fait le: ' + str("1 mars 2022"),
                                  font=dict(family='Arial',
                                            size=12,
                                            color='rgb(150,150,150)'),
@@ -2004,7 +2004,7 @@ if categorie_2 == 'Tous':
 
     annotationsHebDispo = dict(xref='paper', yref='paper', x=0.055, y=1,
                                 xanchor='center', yanchor='top',
-                                text='Fait le: ' + str("1 janvier 2022"),
+                                text='Fait le: ' + str("1 mars 2022"),
                                 font=dict(family='Arial',
                                         size=12,
                                         color='rgb(150,150,150)'),
@@ -2042,7 +2042,7 @@ if categorie_2 == 'Tous':
     
     annotationsHeb = dict(xref='paper', yref='paper', x=0.055, y=1,
                                 xanchor='center', yanchor='top',
-                                text='Fait le: ' + str("1 fevrier 2022"),
+                                text='Fait le: ' + str("1 mars 2022"),
                                 font=dict(family='Arial',
                                         size=12,
                                         color='rgb(150,150,150)'),
@@ -2107,7 +2107,7 @@ if categorie_2 == 'Tous':
 
         annotationsHeb = dict(xref='paper', yref='paper', x=0.055, y=1,
                                     xanchor='center', yanchor='top',
-                                    text='Fait le: ' + str("1 fevrier 2022"),
+                                    text='Fait le: ' + str("1 mars 2022"),
                                     font=dict(family='Arial',
                                             size=12,
                                             color='rgb(150,150,150)'),
@@ -2242,7 +2242,7 @@ if categorie_2 == 'Tous':
 
     annotationsServFiches = dict(xref='paper', yref='paper', x=0.055, y=1,
                                     xanchor='center', yanchor='top',
-                                    text='Fait le: ' + str("1 fevrier 2022"),
+                                    text='Fait le: ' + str("1 mars 2022"),
                                     font=dict(family='Arial',
                                             size=12,
                                             color='rgb(150,150,150)'),
@@ -2987,7 +2987,7 @@ if categorie_2 == 'Ile-de-France':
 
     annotationsSearch = dict(xref='paper', yref='paper', x=0.055, y=1,
                                 xanchor='center', yanchor='top',
-                                text='Fait le: ' + str("1 janvier 2022"),
+                                text='Fait le: ' + str("1 mars 2022"),
                                 font=dict(family='Arial',
                                         size=12,
                                         color='rgb(150,150,150)'),
@@ -3003,7 +3003,7 @@ if categorie_2 == 'Ile-de-France':
     st.markdown('#### *-par type d\'utilisateur : *')
 
     df_search_users['createdAt'] = pd.to_datetime(df_search_users['createdAt'])
-    df_search_users = df_search_users[df_search_users.createdAt < "2022-01-01"]
+    df_search_users = df_search_users[df_search_users.createdAt > "2022-01-01"]
     df_search_users['createdAt'] = df_search_users.createdAt.dt.strftime('%Y-%m')
     df_search_users.fillna('inconnu', inplace=True)
 
@@ -3077,7 +3077,7 @@ if categorie_2 == 'Ile-de-France':
 
     annotationsSearch_user = dict(xref='paper', yref='paper', x=0.055, y=1,
                                 xanchor='center', yanchor='top',
-                                text='Fait le: ' + str("1 janvier 2022"),
+                                text='Fait le: ' + str("1 mars 2022"),
                                 font=dict(family='Arial',
                                         size=12,
                                         color='rgb(150,150,150)'),
@@ -3130,7 +3130,7 @@ if categorie_2 == 'Ile-de-France':
     fig4.update_yaxes(title_text="Nombre d'utilisateurs/sessions/pages vues", title_font_family="Times New Roman")
     annotations = dict(xref='paper', yref='paper', x=0.055, y=1,
                                  xanchor='center', yanchor='top',
-                                 text='Fait le: ' + str("1 janvier 2022"),
+                                 text='Fait le: ' + str("1 mars 2022"),
                                  font=dict(family='Arial',
                                            size=12,
                                            color='rgb(150,150,150)'),
@@ -3366,7 +3366,7 @@ if categorie_2 == 'Ile-de-France':
 
     annotationsHebDispo = dict(xref='paper', yref='paper', x=0.055, y=1,
                                 xanchor='center', yanchor='top',
-                                text='Fait le: ' + str("1 février 2022"),
+                                text='Fait le: ' + str("1 mars 2022"),
                                 font=dict(family='Arial',
                                         size=12,
                                         color='rgb(150,150,150)'),
@@ -3402,7 +3402,7 @@ if categorie_2 == 'Ile-de-France':
 
     annotationsHeb = dict(xref='paper', yref='paper', x=0.055, y=1,
                                 xanchor='center', yanchor='top',
-                                text='Fait le: ' + str("1 février 2022"),
+                                text='Fait le: ' + str("1 mars 2022"),
                                 font=dict(family='Arial',
                                         size=12,
                                         color='rgb(150,150,150)'),
@@ -3463,7 +3463,7 @@ if categorie_2 == 'Ile-de-France':
 
         annotationsHeb = dict(xref='paper', yref='paper', x=0.055, y=1,
                                     xanchor='center', yanchor='top',
-                                    text='Fait le: ' + str("1 janvier 2022"),
+                                    text='Fait le: ' + str("1 mars 2022"),
                                     font=dict(family='Arial',
                                             size=12,
                                             color='rgb(150,150,150)'),
@@ -3574,7 +3574,7 @@ if categorie_2 == 'Ile-de-France':
 
     annotationsServFiches = dict(xref='paper', yref='paper', x=0.055, y=1,
                                     xanchor='center', yanchor='top',
-                                    text='Fait le: ' + str("1 janvier 2022"),
+                                    text='Fait le: ' + str("1 mars 2022"),
                                     font=dict(family='Arial',
                                             size=12,
                                             color='rgb(150,150,150)'),
@@ -3598,7 +3598,7 @@ if categorie_2 == 'Ile-de-France':
     figServiceFichesCum.update_xaxes(title_text="Mois de création de la fiche", title_font_family="Times New Roman")
     annotationsServFichesCum = dict(xref='paper', yref='paper', x=0.055, y=1,
                                     xanchor='center', yanchor='top',
-                                    text='Fait le: ' + str("1 janvier 2022"),
+                                    text='Fait le: ' + str("1 mars 2022"),
                                     font=dict(family='Arial',
                                             size=12,
                                             color='rgb(150,150,150)'),
@@ -3877,7 +3877,7 @@ if categorie_2 == 'Lancement':
 
     annotations = dict(xref='paper', yref='paper', x=0.055, y=1,
                                  xanchor='center', yanchor='top',
-                                 text='Fait le: ' + str("1 février 2022"),
+                                 text='Fait le: ' + str("1 mars 2022"),
                                  font=dict(family='Arial',
                                            size=12,
                                            color='rgb(150,150,150)'),
@@ -3963,7 +3963,7 @@ if categorie_2 == 'Lancement':
 
     annotationsSearch = dict(xref='paper', yref='paper', x=0.055, y=1,
                                 xanchor='center', yanchor='top',
-                                text='Fait le: ' + str("1 fevrier 2022"),
+                                text='Fait le: ' + str("1 mars 2022"),
                                 font=dict(family='Arial',
                                         size=12,
                                         color='rgb(150,150,150)'),
@@ -3988,7 +3988,7 @@ if categorie_2 == 'Lancement':
     fig4.update_yaxes(title_text="Nombre d'utilisateurs/sessions/pages vues", title_font_family="Times New Roman")
     annotations = dict(xref='paper', yref='paper', x=0.055, y=1,
                                  xanchor='center', yanchor='top',
-                                 text='Fait le: ' + str("1 fevrier 2022"),
+                                 text='Fait le: ' + str("1 mars 2022"),
                                  font=dict(family='Arial',
                                            size=12,
                                            color='rgb(150,150,150)'),
@@ -4056,7 +4056,7 @@ if categorie_2 == 'Lancement':
         df_diff_pro_benef['Date'] = pd.to_datetime(df_diff_pro_benef.Date)
 
         df_diff_pro_benef = df_diff_pro_benef[df_diff_pro_benef['Date'] > "2017-01-01"]
-        df_diff_pro_benef = df_diff_pro_benef[df_diff_pro_benef['Date'] < "2022-02-01"]
+        df_diff_pro_benef = df_diff_pro_benef[df_diff_pro_benef['Date'] < "2022-03-01"]
 
         df_diff_pro_benef['Date'] = df_diff_pro_benef.Date.dt.strftime('%Y-%m')
 
