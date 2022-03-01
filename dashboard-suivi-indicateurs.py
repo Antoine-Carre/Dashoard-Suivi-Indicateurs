@@ -4712,6 +4712,7 @@ if categorie_2 == 'Pérennisation':
     df_search_users.drop(columns=['categorie','status'], inplace=True)
     df_search_users_month = df_search_users.groupby('createdAt').sum()
     df_search_users_month.reset_index(inplace=True)
+    st.write(df_search_users_month)
 
     if len(df_search_users_month.columns.to_list()) == 9 or categorie == "France":
 
