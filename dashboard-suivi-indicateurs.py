@@ -1643,13 +1643,14 @@ if categorie_2 == 'Tous':
     
     df_search_users['createdAt'] = pd.to_datetime(df_search_users['createdAt'], errors='coerce')
     df_search_users['createdAt'] = df_search_users.createdAt.dt.strftime('%Y-%m')
+    st.write(df_search_users)
+
     df_search_users = df_search_users.join(pd.get_dummies(df_search_users['status']))
     df_search_users.drop(columns=['categorie','status'], inplace=True)
     df_search_users_month = df_search_users.groupby('createdAt').sum()
     df_search_users_month.reset_index(inplace=True)
     df_search_users_month = df_search_users_month.iloc[:-1,:]
 
-    st.write(df_search_users_month)
 
     if len(df_search_users_month.columns.to_list()) == 9 or categorie == "France":
 
