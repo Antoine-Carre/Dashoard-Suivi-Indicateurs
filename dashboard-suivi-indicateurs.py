@@ -5241,39 +5241,5 @@ if categorie_2 == 'Pérennisation':
       <br/><font size='3'>de sorties dynamiques<br></font></center>"
       """
       col2.markdown(html_string_X, unsafe_allow_html=True)
-    
-    st.markdown("### **Nombre de fiches mises à jour /mois**")
-    st.markdown("Le pourcentage indique ici, le taux de fiches mise à jour par les acteurs durant le mois indiqué")
-    
-    df_history_all.status = df_history_all.status.str.replace('SOLI_BOT','ADMIN_SOLIGUIDE')
-    df_history_all.status = df_history_all.status.str.replace('SIMPLE_USER','PRO')
-    df_history_all = df_history_all.sort_values(by='status', ascending=False)
 
-    test = df_history_all.drop_duplicates(['lieu_id', 'monthly'])
-    test = test[['territory','monthly','status']]
-    test = test.join(pd.get_dummies(test.status))
-    test.drop(columns='status', inplace=True)
-    
-    test.rename(columns={'ADMIN_SOLIGUIDE':'Equipe Solinum',
-                                   'ADMIN_TERRITORY':'Equipe territoriale',
-                                   'PRO':'Les acteurs'}, inplace=True)
-    
-    st.write(test)
-    
-    test_6 = test.groupby(['monthly'], as_index=False).agg({'Equipe Solinum':'sum','Les acteurs':'sum'})
-    test_6["percentage_Acteurs"] = round((test_6["Les acteurs"] / (test_6['Equipe Solinum'] + test_6['Les acteurs']))*100, 2)
-    test_6['percentage_Acteurs'] = test_6['percentage_Acteurs'].astype(str) + " " + "%"
-
-    fig = go.Figure(data=[
-    go.Bar(name="Equipe Solinum", x=test_6['monthly'], y=test_6["Equipe Solinum"], marker_color='#7201a8'),
-    go.Bar(name="Les acteurs", x=test_6['monthly'], y=test_6["Les acteurs"], marker_color='#2896A0',
-          text=test_6.percentage_Acteurs,
-            textposition='outside',),
-    ])
-    # Change the bar mode
-    fig.update_layout(barmode='stack', legend=dict(orientation="h"))
-
-    fig.update_layout(xaxis_title="", yaxis_title="Nombre de fiches mises à jour", legend_title="Qui à fait la màj",)
-    #fig.update_traces(texttemplate=test_6['percentage_Acteurs'], textposition='outside')
-
-    st.plotly_chart(fig, use_container_width=True)
+ 
