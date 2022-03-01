@@ -5258,8 +5258,9 @@ if categorie_2 == 'Pérennisation':
                                    'ADMIN_TERRITORY':'Equipe territoriale',
                                    'PRO':'Les acteurs'}, inplace=True)
     
-    test_6 = test.groupby(['monthly'], as_index=False).agg({'Equipe Solinum':'sum',
-                                                          'Equipe territoriale':'sum','Les acteurs':'sum'})
+    st.write(test)
+    
+    test_6 = test.groupby(['monthly'], as_index=False).agg({'Equipe Solinum':'sum','Les acteurs':'sum'})
     test_6["percentage_Acteurs"] = round((test_6["Les acteurs"] / (test_6['Equipe Solinum'] + test_6['Les acteurs']))*100, 2)
     test_6['percentage_Acteurs'] = test_6['percentage_Acteurs'].astype(str) + " " + "%"
 
