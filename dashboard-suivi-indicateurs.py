@@ -177,6 +177,8 @@ df_brouillon_fiches_final = pd.read_csv('./ressource/fiches_brouillon_vs_online.
 
 df_fiches_liees_pérennisation = pd.read_csv('./ressource/fiches_liees_pérennisation.csv')
 
+df_history_all = pd.read_csv('./ressource/df_history_all.csv')
+
 
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
             "- Bouches-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
