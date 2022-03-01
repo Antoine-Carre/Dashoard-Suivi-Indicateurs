@@ -4543,6 +4543,8 @@ if categorie_2 == 'Pérennisation':
       df_fiches_liees_pérennisation = df_fiches_liees_pérennisation[df_fiches_liees_pérennisation.departement == cat2_dict[categorie]].reset_index()
       df_fiches_liees_pérennisation = df_fiches_liees_pérennisation.iloc[:,1:]
       df_users_pro_roles_test = df_users_pro_roles_test[df_users_pro_roles_test.territory == int(cat_dict[categorie])].dropna()
+      df_history_data = df_history_data[df_history_data.territoire == int(cat_dict[categorie])].dropna()
+
 
     st.markdown("### **Nombre d'organisations créées par mois** (et celles ayant au moins un compte pro validé)")
     
@@ -4656,6 +4658,20 @@ if categorie_2 == 'Pérennisation':
         fig.update_layout(legend=dict(orientation="h"))
 
         st.plotly_chart(fig, use_container_width=True)
+        
+        st.markdown('### **Nombre de fiches mises à jour en autonomie par les comptes professionnels**')
+
+        df_history_data_grp = df_history_data.groupby(['monthly'], as_index=False).agg({'status_PRO':'sum'})
+
+        df_history_data_grp.rename(columns={"status_PRO":'Nbre de fiches'}, inplace=True)
+
+        fig6 = px.line(df_history_data_grp, x="monthly", y=["Nbre de fiches"], custom_data=['variable'], color_discrete_sequence= [ '#7201a8', '#bd3786', '#2896A0']) 
+        fig6.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre de fiches mises à jour par les pro",)
+        fig6.update_traces(hovertemplate = "Date de la création du compte pro : %{x}<br>Nbre de fiches mises à jour par les pro: %{y}")
+        fig6.update_layout(legend={'title_text':''})
+
+        st.plotly_chart(fig6, use_container_width=True)
+
 
 
 
