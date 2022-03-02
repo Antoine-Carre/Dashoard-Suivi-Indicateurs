@@ -1911,7 +1911,7 @@ if categorie_2 == 'Tous':
         df_diff_pro_benef['Date'] = pd.to_datetime(df_diff_pro_benef.Date)
 
         df_diff_pro_benef = df_diff_pro_benef[df_diff_pro_benef['Date'] > "2017-01-01"]
-        df_diff_pro_benef = df_diff_pro_benef[df_diff_pro_benef['Date'] < "2022-02-01"]
+        df_diff_pro_benef = df_diff_pro_benef[df_diff_pro_benef['Date'] < "2022-03-01"]
 
         df_diff_pro_benef['Date'] = df_diff_pro_benef.Date.dt.strftime('%Y-%m')
 
@@ -2078,7 +2078,6 @@ if categorie_2 == 'Tous':
         """
     
         col2.markdown(html_string_d, unsafe_allow_html=True)
-
 
     # Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat
     st.markdown("### **Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat**")
@@ -3084,6 +3083,8 @@ if categorie_2 == 'Ile-de-France':
         df_diff_pro_benef['Date'] = pd.to_datetime(df_diff_pro_benef.Date)
 
         df_diff_pro_benef = df_diff_pro_benef[df_diff_pro_benef['Date'] > "2017-01-01"]
+        df_diff_pro_benef = df_diff_pro_benef[df_diff_pro_benef['Date'] < "2022-03-01"]
+
 
         df_diff_pro_benef['Date'] = df_diff_pro_benef.Date.dt.strftime('%Y-%m')
 
@@ -3219,58 +3220,35 @@ if categorie_2 == 'Ile-de-France':
     st.markdown("### **Nombre fiches sensibilisées au moins une fois**")
 
     if categorie != "- Indre (36)" and categorie != "Centre-Val-de-Loire":
-        df_diff_fiches = df_diff[['Fiches']]
-        df_diff_fiches = df_diff_fiches["Fiches"].str.split("," , expand=True)
-
-        n = 0
-        L = []
-        for n in range(len(df_diff_fiches.columns)-1):
-            L.extend(df_diff_fiches[n].tolist())
-        L = [x for x in L if x is not None]
-            
-        df_sensi_nb = pd.DataFrame(L)
-        df_sensi_nb.dropna(inplace=True)
-        df_sensi_nb.reset_index(inplace=True)
-        if 0 in df_sensi_nb.columns.to_list():  
-            df_sensi_nb[0].drop_duplicates(inplace=True)
-        else:
-            df_sensi_nb = df_diff_fiches
-
+        df_diff_fiches = df_diff[['Territoire','Fiches']]
+        df_diff_fiches["Fiches"] = df_diff_fiches["Fiches"].str.split(',').tolist()
+        df_diff_fiches = df_diff_fiches.explode('Fiches')
+        
+        df_diff_fiches.dropna(inplace=True)
+        df_diff_fiches.reset_index(inplace=True)
+        
+        df_sensi_nb = df_diff_fiches
 
         col1, col2 = st.columns(2)
 
-        if 0 in df_sensi_nb.columns.to_list():
+        html_string_c = f"""<br>
+        <center><font face='Helvetica' size='7'>{df_sensi_nb["Fiches"].count()}</font>
+        <br/><font size='3'>Nombre de fiches sensibilisées au moins une fois<br></font></center>
+        """
 
-            html_string_c = f"""<br>
-            <center><font face='Helvetica' size='7'>{df_sensi_nb[0].count()}</font>
-            <br/><font size='3'>Nombre de fiches sensibilisées au moins une fois<br></font></center>
-            """
-
-            col1.markdown(html_string_c, unsafe_allow_html=True)
-
-        else:
-
-            html_string_c = f"""<br>
-            <center><font face='Helvetica' size='7'>{round((df_sensi_nb[0].count() / df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0].statut.count())*100, 2)}%</font>
-            <br/><font size='3'>Nombre de fiches sensibilisées au moins une fois<br></font></center>
-            """
-
-            col1.markdown(html_string_c, unsafe_allow_html=True)
-
-        if not df_fiches_total.empty and 0 in df_sensi_nb.columns.to_list():
-
-            html_string_d = f"""<br>
-            """
+        col1.markdown(html_string_c, unsafe_allow_html=True)
 
 
-            html_string_d = f"""<br>
-            <center><font face='Helvetica' size='7'>{round((df_sensi_nb[0].count() / df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0].statut.count())*100, 2)}%</font>
-            <br/><font size='3'>Pourcentage de fiches sensibilisées au moins une fois<br></font></center>
-            """
+    if not df_fiches_total.empty:
+
+        html_string_d = f"""<br>
+        <center><font face='Helvetica' size='7'>{round((df_sensi_nb["Fiches"].count() / df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0].statut.count())*100, 2)}%</font>
+        <br/><font size='3'>Pourcentage de fiches sensibilisées au moins une fois<br></font></center>
+        """
     
-            col2.markdown(html_string_d, unsafe_allow_html=True)
-
-
+        col2.markdown(html_string_d, unsafe_allow_html=True)
+      
+     
     # Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat
     st.markdown("### **Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat**")
 
@@ -4775,7 +4753,7 @@ if categorie_2 == 'Pérennisation':
         df_diff_pro_benef['Date'] = pd.to_datetime(df_diff_pro_benef.Date)
 
         df_diff_pro_benef = df_diff_pro_benef[df_diff_pro_benef['Date'] > "2017-01-01"]
-        df_diff_pro_benef = df_diff_pro_benef[df_diff_pro_benef['Date'] < "2022-02-01"]
+        df_diff_pro_benef = df_diff_pro_benef[df_diff_pro_benef['Date'] < "2022-03-01"]
 
         df_diff_pro_benef['Date'] = df_diff_pro_benef.Date.dt.strftime('%Y-%m')
 
@@ -4915,56 +4893,33 @@ if categorie_2 == 'Pérennisation':
     st.markdown("### **Nombre fiches sensibilisées au moins une fois**")
 
     if categorie != "- Indre (36)" and categorie != "Centre-Val-de-Loire":
-        df_diff_fiches = df_diff[['Fiches']]
-        df_diff_fiches = df_diff_fiches["Fiches"].str.split("," , expand=True)
-
-        n = 0
-        L = []
-        for n in range(len(df_diff_fiches.columns)-1):
-            L.extend(df_diff_fiches[n].tolist())
-        L = [x for x in L if x is not None]
-            
-        df_sensi_nb = pd.DataFrame(L)
-        df_sensi_nb.dropna(inplace=True)
-        df_sensi_nb.reset_index(inplace=True)
-        if 0 in df_sensi_nb.columns.to_list():  
-            df_sensi_nb[0].drop_duplicates(inplace=True)
-        else:
-            df_sensi_nb = df_diff_fiches
-
+        df_diff_fiches = df_diff[['Territoire','Fiches']]
+        df_diff_fiches["Fiches"] = df_diff_fiches["Fiches"].str.split(',').tolist()
+        df_diff_fiches = df_diff_fiches.explode('Fiches')
+        
+        df_diff_fiches.dropna(inplace=True)
+        df_diff_fiches.reset_index(inplace=True)
+        
+        df_sensi_nb = df_diff_fiches
 
         col1, col2 = st.columns(2)
 
-        if 0 in df_sensi_nb.columns.to_list():
+        html_string_c = f"""<br>
+        <center><font face='Helvetica' size='7'>{df_sensi_nb["Fiches"].count()}</font>
+        <br/><font size='3'>Nombre de fiches sensibilisées au moins une fois<br></font></center>
+        """
 
-            html_string_c = f"""<br>
-            <center><font face='Helvetica' size='7'>{df_sensi_nb[0].count()}</font>
-            <br/><font size='3'>Nombre de fiches sensibilisées au moins une fois<br></font></center>
-            """
-
-            col1.markdown(html_string_c, unsafe_allow_html=True)
-
-        else:
-
-            html_string_c = f"""<br>
-            <center><font face='Helvetica' size='7'>{round((df_sensi_nb[0].count() / df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0].statut.count())*100, 2)}%</font>
-            <br/><font size='3'>Nombre de fiches sensibilisées au moins une fois<br></font></center>
-            """
-
-            col1.markdown(html_string_c, unsafe_allow_html=True)
-
-        if not df_fiches_total.empty and 0 in df_sensi_nb.columns.to_list():
-
-            html_string_d = f"""<br>
-            """
+        col1.markdown(html_string_c, unsafe_allow_html=True)
 
 
-            html_string_d = f"""<br>
-            <center><font face='Helvetica' size='7'>{round((df_sensi_nb[0].count() / df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0].statut.count())*100, 2)}%</font>
-            <br/><font size='3'>Pourcentage de fiches sensibilisées au moins une fois<br></font></center>
-            """
+    if not df_fiches_total.empty:
+
+        html_string_d = f"""<br>
+        <center><font face='Helvetica' size='7'>{round((df_sensi_nb["Fiches"].count() / df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0].statut.count())*100, 2)}%</font>
+        <br/><font size='3'>Pourcentage de fiches sensibilisées au moins une fois<br></font></center>
+        """
     
-            col2.markdown(html_string_d, unsafe_allow_html=True)
+        col2.markdown(html_string_d, unsafe_allow_html=True)
 
 
     # Nombre d'acteurs réalisant d'autres guides qui sont connectés à nos données ou avec lesquels il y a un partenariat
