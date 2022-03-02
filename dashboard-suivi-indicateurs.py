@@ -2051,30 +2051,21 @@ if categorie_2 == 'Tous':
     st.markdown("### **Nombre fiches sensibilisées au moins une fois**")
 
     if categorie != "- Indre (36)" and categorie != "Centre-Val-de-Loire":
-        df_diff_fiches = df_diff[['Fiches']]
-        df_diff_fiches = df_diff_fiches["Fiches"].str.split("," , expand=True)
-
-        n = 0
-        L = []
-        for n in range(len(df_diff_fiches.columns)-1):
-            L.extend(df_diff_fiches[n].tolist())
-        L = [x for x in L if x is not None]
-            
-        df_sensi_nb = pd.DataFrame(L)
-        df_sensi_nb.dropna(inplace=True)
-        df_sensi_nb.reset_index(inplace=True)
-        if 0 in df_sensi_nb.columns.to_list():  
-            df_sensi_nb[0].drop_duplicates(inplace=True)
-        else:
-            df_sensi_nb = df_diff_fiches
-
+         df_diff_fiches = df_diff[['Territoire','Fiches']]
+        df_diff_fiches["Fiches"] = df_diff_fiches["Fiches"].str.split(',').tolist()
+        df_diff_fiches = df_diff_fiches.explode('Fiches')
+        
+        df_diff_fiches.dropna(inplace=True)
+        df_diff_fiches.reset_index(inplace=True)
+        
+        df_sensi_nb = df_diff_fiches
 
         col1, col2 = st.columns(2)
 
-        if 0 in df_sensi_nb.columns.to_list():
+        if not df_sensi_nb.empty():
 
             html_string_c = f"""<br>
-            <center><font face='Helvetica' size='7'>{df_sensi_nb[0].count()}</font>
+            <center><font face='Helvetica' size='7'>{df_sensi_nb["Fiches"].count()}</font>
             <br/><font size='3'>Nombre de fiches sensibilisées au moins une fois<br></font></center>
             """
 
@@ -2083,7 +2074,7 @@ if categorie_2 == 'Tous':
         else:
 
             html_string_c = f"""<br>
-            <center><font face='Helvetica' size='7'>{round((df_sensi_nb[0].count() / df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0].statut.count())*100, 2)}%</font>
+            <center><font face='Helvetica' size='7'>{0}</font>
             <br/><font size='3'>Nombre de fiches sensibilisées au moins une fois<br></font></center>
             """
 
