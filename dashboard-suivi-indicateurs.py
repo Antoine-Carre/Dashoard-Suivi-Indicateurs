@@ -1696,8 +1696,6 @@ if categorie_2 == 'Tous':
     df_search_users_month.reset_index(inplace=True)
     df_search_users_month = df_search_users_month.iloc[:-1,:]
 
-    st.write(df_search_users_month)
-
     if len(df_search_users_month.columns.to_list()) == 7 or categorie == "France":
 
         figSearch_user = go.Figure(data=[
