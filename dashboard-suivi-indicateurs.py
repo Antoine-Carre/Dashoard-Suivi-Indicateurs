@@ -2062,23 +2062,13 @@ if categorie_2 == 'Tous':
 
         col1, col2 = st.columns(2)
 
-        if not df_sensi_nb.empty():
+        html_string_c = f"""<br>
+        <center><font face='Helvetica' size='7'>{df_sensi_nb["Fiches"].count()}</font>
+        <br/><font size='3'>Nombre de fiches sensibilisées au moins une fois<br></font></center>
+        """
 
-            html_string_c = f"""<br>
-            <center><font face='Helvetica' size='7'>{df_sensi_nb["Fiches"].count()}</font>
-            <br/><font size='3'>Nombre de fiches sensibilisées au moins une fois<br></font></center>
-            """
+        col1.markdown(html_string_c, unsafe_allow_html=True)
 
-            col1.markdown(html_string_c, unsafe_allow_html=True)
-
-        else:
-
-            html_string_c = f"""<br>
-            <center><font face='Helvetica' size='7'>{0}</font>
-            <br/><font size='3'>Nombre de fiches sensibilisées au moins une fois<br></font></center>
-            """
-
-            col1.markdown(html_string_c, unsafe_allow_html=True)
 
         if not df_fiches_total.empty and 0 in df_sensi_nb.columns.to_list():
 
