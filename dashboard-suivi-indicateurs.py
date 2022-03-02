@@ -40,7 +40,7 @@ st.sidebar.write("[Lien vers les chiffres](https://airtable.com/appfuLygVTjBO0qk
 
 Dep_to_num = {"Alpes-Maritimes" :"06", "Ardèche":"07",
             "Bouche-du-Rhône": "13","Cantal":"15","Charente":"16","Côte-d'Or" : "21", "Dordogne":"24","Gironde":"33","Hérault":"34","Indre":"36",
-            "Loire-Atlantique" : "44","Nord":"59" , "Puy-de-Dôme":"63","Haute-Vienne":"87",
+            "Loire-Atlantique" : "44","Morbihan":"56" , "Nord":"59" , "Puy-de-Dôme":"63","Haute-Vienne":"87",
             "Bas-Rhin":"67", "Paris" : "75", "- Seine-Maritime":"76",
             "Seine-et-Marne":'77', "Yvelines":"78", "- Essonne" :"91", 
             "Hauts-de-Seine":"92","Seine-Saint-Denis": "93","Val-de-Marne": "94", 
@@ -184,7 +184,7 @@ df_fiches_pro_creation_vf = pd.read_csv('./ressource/df_fiches_pro_creation_vf.c
 
 cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":"07",
             "- Bouches-du-Rhône (13)": "13","- Cantal (15)":"15","- Charente (16)":"16","- Côte-d'Or (21)" : "21", "- Dordogne (24)":"24","- Gironde (33)":"33","- Hérault (34)":"34","- Indre (36)":"36",
-            "- Loire-Atlantique (44)" : "44","- Nord (59)":"59" , "- Puy-de-Dôme (63)":"63","- Haute-Vienne (87)":"87",
+            "- Loire-Atlantique (44)" : "44", "- Morbihan (56)":"56", "- Nord (59)":"59" , "- Puy-de-Dôme (63)":"63","- Haute-Vienne (87)":"87",
             "- Bas-Rhin (67)":"67", "- Paris (75)" : "75", "- Seine-Maritime (76)":"76",
             "- Seine-et-Marne (77)":'77', "- Yvelines (78)":"78", "- Essonne (91)" :"91", 
             "- Hauts-de-Seine (92)":"92","- Seine-Saint-Denis (93)": "93","- Val-de-Marne (94)": "94", 
@@ -193,7 +193,7 @@ cat_dict = {"France":'Total', "- Alpes-Maritimes (06)" :"06", "- Ardèche (07)":
 cat2_dict = {"- Alpes-Maritimes (06)" :"Alpes-Maritimes", "- Ardèche (07)":"Ardèche",
             "- Bouches-du-Rhône (13)": "Bouches-du-Rhône","- Cantal (15)":"Cantal","- Charente (16)":"Charente","- Côte-d'Or (21)" : "Côte-d'Or", 
              "- Dordogne (24)":"Dordogne","- Gironde (33)":"Gironde","- Hérault (34)":"Hérault","- Indre (36)":"Indre",
-            "- Loire-Atlantique (44)" : "Loire-Atlantique","- Nord (59)":"Nord" , "- Puy-de-Dôme (63)":"Puy-de-Dôme","- Haute-Vienne (87)":"Haute-Vienne",
+            "- Loire-Atlantique (44)" : "Loire-Atlantique", "- Morbihan (56)":"Morbihan", "- Nord (59)":"Nord" , "- Puy-de-Dôme (63)":"Puy-de-Dôme","- Haute-Vienne (87)":"Haute-Vienne",
             "- Bas-Rhin (67)":"Bas-Rhin", "- Paris (75)" : "Paris", "- Seine-Maritime (76)":"Seine-Maritime",
             "- Seine-et-Marne (77)":'Seine-et-Marne', "- Yvelines (78)":"Yvelines", "- Essonne (91)" :"Essonne", 
             "- Hauts-de-Seine (92)":"Hauts-de-Seine","- Seine-Saint-Denis (93)": "Seine-Saint-Denis","- Val-de-Marne (94)": "Val-de-Marne", 
@@ -205,7 +205,7 @@ dict_region = {"33" : "Nouvelle-Aquitaine","87" : "Nouvelle-Aquitaine", "16" : "
               "92" : "Ile-de-France", "93" : "Ile-de-France", "94" : "Ile-de-France", "95" : "Ile-de-France",
               "06" : "Région-Sud", "13" : "Région-Sud", "36" : "Centre-Val-de-Loire", "34" : "Occitanie",
               "63" : "Auvergne-Rhône-Alpes","07" : "Auvergne-Rhône-Alpes", "15" : "Auvergne-Rhône-Alpes",
-              "76" : "Normandie", "21" : "Bourgogne-Franche-Comté"}
+              "76" : "Normandie", "21" : "Bourgogne-Franche-Comté", "56":"Bretagne", "59":"Nord"}
 
  
 
@@ -230,6 +230,8 @@ if categorie_2 == 'Tous':
                                                 "- Indre (36)", 
                                                 "Pays-de-la-Loire",
                                                 "- Loire-Atlantique (44)", 
+                                                "Bretagne",
+                                                "- Morbihan (56)",
                                                 "Normandie",
                                                 "- Seine-Maritime (76)",
                                                 "Ile-de-France",
@@ -916,6 +918,82 @@ if categorie_2 == 'Tous':
         
            
         df_fiches_pro_creation_vf = df_fiches_pro_creation_vf[(df_fiches_pro_creation_vf['territoire'] == 44)]       
+
+
+    elif categorie == "Bretagne":
+        df_users_pro_roles = df_users_pro_roles[(df_users_pro_roles.territories == "56")].dropna()
+        df_users_pro_roles_test = df_users_pro_roles_test[(df_users_pro_roles_test.territory == 56)].dropna()
+        df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "56")].dropna()
+        df_orga_2 = df_orga_2[(df_orga_2.territory == 56)].dropna()
+        df_orga_auto = df_orga_auto[(df_orga_auto.territory == 56)].dropna()
+        df_history_data = df_history_data[(df_history_data.territoire == 56)].dropna()
+
+        s1 = s.filter(regex="56")
+        s1 = pd.merge(s['datePresentation'],s1, how='left', left_index=True, right_index=True)
+        df1 = s1.iloc[:, 1:]
+
+        df_search_users = df_search_users[(df_search_users.Territoire == 56)]
+
+        df_relais_clean = df_relais_clean[(df_relais_clean['Territoire'].str.contains('56'))]
+
+        df_users_API = df_users_API[(df_users_API['territories'] == "56")]
+
+        df4 = df4[(df4['territoire'].str.contains("56"))]
+
+        df_diff = df_diff[(df_diff.Territoire.str.contains('56', na=False))]
+
+        df_fiches_total = df_fiches_total[(df_fiches_total.territory == 56)]
+
+        df_newsletter = df_newsletter[(df_newsletter.Territoire == "56")]
+        df_newsletter_2 = df_newsletter.sum()
+
+        df_hebergeurs_dispo_final = df_hebergeurs_dispo_final[(df_hebergeurs_dispo_final.territory == "56")]
+        df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.groupby('territory').sum()
+
+        df_hebergeurs_dispo_final.loc['Total'] = df_hebergeurs_dispo_final.sum()
+        df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.iloc[-1:]
+        df_hebergeurs_dispo_final.columns = df_hebergeurs_dispo_final.columns.astype('datetime64[ns]')
+
+        df_hebergeurs_dispo_final = df_hebergeurs_dispo_final.T
+
+        df_hebergement_final = df_hebergement_final[(df_hebergement_final.territory == "56")]
+        df_hebergement_final = df_hebergement_final.iloc[:,5:]
+        df_hebergement_final.index = df_hebergement_final.index.astype(str)
+        df_hebergement_final.loc['Total'] = df_hebergement_final.sum()
+        df_hebergement_final = df_hebergement_final.iloc[-1:]
+        df_hebergement_final = df_hebergement_final.astype(str)
+        df_hebergement_final.columns = df_hebergement_final.columns.astype('datetime64[ns]')
+        df_hebergement_final = df_hebergement_final.T
+        
+        df_hebergement = df_hebergement[(df_hebergement.territory == "56")]
+
+        df_hebergees = df_hebergees[(df_hebergees.Département== "Morbihan")]
+
+        df_maj_6_months = df_maj_6_months[(df_maj_6_months.index == "56")]
+        df_maj_6_months.loc['Total'] = df_maj_6_months.sum()
+        df_maj_6_months.loc['Total','pourcentage'] = round((df_maj_6_months.loc['Total','status'] / df_maj_6_months.loc['Total','lieu_id'])*100, 2)
+
+        df_fiche_serv_on_off = df_fiche_serv_on_off[(df_fiche_serv_on_off.territory == 56)]
+
+        df_ville.dropna(inplace=True)
+        df_ville = df_ville[(df_ville['territory'].str.startswith('56'))]
+
+        df_ville_vf = df_ville.groupby(['codePostal','ville']).sum().reset_index()
+        df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
+
+        df_ville.dropna(inplace=True)
+        df_ville = df_ville[(df_ville['territory'].str.startswith('56'))]
+
+        df_ville_vf = df_ville.groupby(['codePostal','ville']).sum().reset_index()
+        df_ville_vf = df_ville_vf.drop(columns='Unnamed: 0')
+
+        df_exhaustivity = df_exhaustivity[(df_exhaustivity.Département == 56)]
+
+        df_categorie_vf = df_categorie_vf[(df_categorie_vf.territory == "56")]
+        
+        df_crisp = df_crisp[(df_crisp['Département de la demande'] == "56") ]
+        
+        df_fiches_pro_creation_vf = df_fiches_pro_creation_vf[(df_fiches_pro_creation_vf['territoire'] == 56)]       
 
         
     elif categorie == "Normandie":
