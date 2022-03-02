@@ -2469,8 +2469,7 @@ if categorie_2 == 'Tous':
     
     st.markdown("### **Nombre de fiches créées par les acteurs**")
 
-    st.write(df_fiches_pro_creation_vf)
-    
+   
     if not df_fiches_pro_creation_vf.empty:
       html_string_100 = f"""<br>
       <center><font face='Helvetica' size='7'>{df_fiches_pro_creation_vf.lieu_id.sum()}</font>
