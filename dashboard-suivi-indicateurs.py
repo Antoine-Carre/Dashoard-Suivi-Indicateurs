@@ -1393,7 +1393,7 @@ if categorie_2 == 'Tous':
         
         df_crisp = df_crisp[(df_crisp['Département de la demande'] == cat_dict[categorie])]
         
-        df_fiches_pro_creation_vf = df_fiches_pro_creation_vf[(df_fiches_pro_creation_vf['territoire'] == cat_dict[categorie])]     
+        df_fiches_pro_creation_vf = df_fiches_pro_creation_vf[(df_fiches_pro_creation_vf['territoire'] == int(cat_dict[categorie]))]     
 
 
 ###
