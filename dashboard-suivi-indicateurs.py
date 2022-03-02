@@ -317,7 +317,7 @@ if categorie_2 == 'Tous':
         df_orga_ceated = df_orga_ceated[(df_orga_ceated.territories == "07") | (df_orga_ceated.territories == "13")
                                        | (df_orga_ceated.territories == "15")| (df_orga_ceated.territories == "63")
                                        | (df_orga_ceated.territories == "34")| (df_orga_ceated.territories == "76")
-                                       | (df_orga_ceated.territories == "59")| (df_orga_ceated.territories == "21")].dropna()
+                                       | (df_orga_ceated.territories == "59")| (df_orga_ceated.territories == "21")]
         df_orga_2 = df_orga_2[(df_orga_2.territory == 7) | (df_orga_2.territory == 13)| (df_orga_2.territory == 15)|  (df_orga_2.territory == 63)
                              | (df_orga_2.territory == 34)| (df_orga_2.territory == 76)| (df_orga_2.territory == 59)| (df_orga_2.territory == 21)].dropna()
         df_orga_auto = df_orga_auto[(df_orga_auto.territory == 7) | (df_orga_auto.territory == 13) | (df_orga_auto.territory == 15)
