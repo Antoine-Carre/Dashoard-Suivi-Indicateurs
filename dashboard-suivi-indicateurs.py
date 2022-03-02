@@ -2074,8 +2074,7 @@ if categorie_2 == 'Tous':
 
         html_string_d = f"""<br>
         <center><font face='Helvetica' size='7'>{round((df_sensi_nb[0].count() / df_fiche_serv_on_off[df_fiche_serv_on_off.statut != 0].statut.count())*100, 2)}%</font>
-        <br/><font size='3'>Pourcentage de fiches sensibilisées au moins une fois<br></font></center>
-        """
+        <br/><font size='3'>Pourcentage de fiches sensibilisées au moins une fois<br></font></center>"""
     
         col2.markdown(html_string_d, unsafe_allow_html=True)
 
