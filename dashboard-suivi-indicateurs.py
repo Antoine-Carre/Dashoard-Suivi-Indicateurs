@@ -2051,7 +2051,7 @@ if categorie_2 == 'Tous':
     st.markdown("### **Nombre fiches sensibilisées au moins une fois**")
 
     if categorie != "- Indre (36)" and categorie != "Centre-Val-de-Loire":
-         df_diff_fiches = df_diff[['Territoire','Fiches']]
+        df_diff_fiches = df_diff[['Territoire','Fiches']]
         df_diff_fiches["Fiches"] = df_diff_fiches["Fiches"].str.split(',').tolist()
         df_diff_fiches = df_diff_fiches.explode('Fiches')
         
