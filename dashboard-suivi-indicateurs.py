@@ -1632,7 +1632,7 @@ if categorie_2 == 'Tous':
     st.markdown("### **Nombre d'organisations créées par mois** (et celles ayant au moins un compte pro validé)")
 
     df_orga_ceated_month = pd.DataFrame(df_orga_ceated.groupby('createdAt')['organization_id'].count()).reset_index()
-
+    st.write(df_orga_ceated_month)
 
     # Création d'une table avec le nombre d'orga avec au moins un utilisateur
     table = pd.pivot_table(df_orga_2,index=['createdAt'],aggfunc={'COUNT':np.sum}).reset_index()
