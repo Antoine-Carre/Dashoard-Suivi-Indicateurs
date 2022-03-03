@@ -1638,8 +1638,18 @@ if categorie_2 == 'Tous':
     st.write(table)
     teble_2 = pd.merge(table,df_orga_ceated_month, on='createdAt')
 
-    if teble_2.empty :
+    if teble_2.empty and df_orga_ceated_month.empty:
         st.markdown("Aucune organisation créée sur ce territoire")
+    elif teble_2.empty and not df_orga_ceated_month.empty:
+        fig2 = go.Figure(data=[
+            go.Line(name='Organisations créées', x=df_orga_ceated_month.createdAt, y=df_orga_ceated_month.organization_id, marker_color='#7201a8'),   
+        ])
+        fig2.update_layout(xaxis=dict(tickformat="%B %Y"), xaxis_title="", yaxis_title="Nombre d'organisations",)
+        fig2.update_traces(hovertemplate = "Date de la création de compte organisation : %{x}<br>Nbre d'organisation: %{y}")
+        fig2.update_layout(legend=dict(orientation="h"))
+
+        st.plotly_chart(fig2, use_container_width=True)
+
     else:
         teble_2['Organisations sans compte pro actif'] = teble_2.organization_id - teble_2.COUNT
         teble_2["Pourcentage"] = ((teble_2.COUNT / teble_2.organization_id)*100).round(2)
